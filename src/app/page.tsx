@@ -1,3 +1,6 @@
+//src/app/page.tsx
+//The entire landing page
+
 "use client"
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -6,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ArrowRight, Brain, Database, Lock, Server, Shield, UserPlus } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Index() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -132,10 +136,11 @@ export default function Index() {
                 hoverable
               >
                 <div className="absolute inset-0 bg-noise opacity-10" />
-                <img 
-                  src="https://images.unsplash.com/photo-1576671413497-287a5b9e7901?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="Medical AI Visualization" 
-                  className="w-full h-full object-cover rounded-xl"
+                <Image 
+                  src="/Hero.png"
+                  alt="Medical AI Visualization"
+                  fill
+                  className="object:cover"
                 />
                 
                 <div className="absolute bottom-0 left-0 right-0 p-6">
