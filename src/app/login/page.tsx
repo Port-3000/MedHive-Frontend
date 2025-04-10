@@ -1,5 +1,5 @@
 "use client"
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { Eye, EyeOff, ArrowLeft } from 'lucide-react';
@@ -50,7 +50,24 @@ export default function AuthPage() {
     if (result.error) {
       alert(result.error.message);
     } else {
-        router.push('/SetUp');
+      // Check if user has a complete profile
+      if (form.isSignUp) {
+        router.push('/setup');
+      } else {
+        // For existing users, check if profile is complete
+        const { data: profile } = await supabase
+          .from('user_profiles')
+          .select('full_name, role')
+          .eq('id', result.data.user?.id)
+          .single();
+        
+        // Redirect to setup if profile isn't complete, otherwise to home
+        if (!profile?.full_name || !profile?.role) {
+          router.push('/setup');
+        } else {
+          router.push('/');
+        }
+      }
     }
   };
 
