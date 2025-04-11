@@ -1,28 +1,55 @@
 import { type EmailOtpType } from '@supabase/supabase-js'
-import { type NextRequest } from 'next/server'
-
+import { type NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
 
+// Creating a handler for a GET request to route /auth/confirm
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
+  const code = searchParams.get('code')
   const token_hash = searchParams.get('token_hash')
   const type = searchParams.get('type') as EmailOtpType | null
-  const next = searchParams.get('next') ?? '/'
+  const next = '/setup'
 
+  // Create redirect link without the secret token
+  const redirectTo = new URL(next, request.url)
+  redirectTo.searchParams.delete('token_hash')
+  redirectTo.searchParams.delete('type')
+  redirectTo.searchParams.delete('code')
   if (token_hash && type) {
     const supabase = await createClient()
-
     const { error } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     })
     if (!error) {
-      // redirect user to specified redirect URL or root of app
-      redirect(next)
+      redirectTo.searchParams.delete('next')
+      return NextResponse.redirect(redirectTo)
     }
   }
 
-  // redirect the user to an error page with some instructions
-  redirect('/error')
+  if (code) {
+    const supabase = await createClient()
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+
+    if (!error) {
+      const userId = data?.user.id
+      const profileResponse = await supabase.from('user_profiles').select('*').eq('id', userId).single()
+      if (profileResponse.error) {
+        redirectTo.searchParams.delete('next')
+        return NextResponse.redirect(redirectTo)
+      } else {
+        const next = '/'
+        const redirectTo = new URL(next, request.url)
+        redirectTo.searchParams.delete('token_hash')
+        redirectTo.searchParams.delete('type')
+        redirectTo.searchParams.delete('code')
+        redirectTo.searchParams.delete('next')
+        return NextResponse.redirect(redirectTo)
+      }
+    }
+  }
+
+  // On error, return the user to an error page
+  redirectTo.pathname = '/error'
+  return NextResponse.redirect(redirectTo)
 }
