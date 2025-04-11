@@ -1,10 +1,12 @@
-//src/app/page.tsx
+// src/app/page.tsx
 
 "use client";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { Typewriter } from "react-simple-typewriter";
 import Link from "next/link";
 import { BlurContainer } from "@/components/ui/BlurContainer";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -19,6 +21,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
+
+import {
+  RiShieldCheckLine,
+  RiLock2Line,
+  RiGroupLine,
+  RiBarChart2Line,
+} from "@remixicon/react";
 
 export default function Index() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -105,69 +114,94 @@ export default function Index() {
         isLoaded ? "opacity-100" : "opacity-0"
       } transition-opacity duration-500 bg-black`}
     >
-      {/* Full-page Geometric Background */}
       <div className="fixed inset-0 z-0">
         <HeroGeometric />
       </div>
 
-      {/* Content Container */}
       <div className="relative z-10">
         <Navbar />
 
         {/* Hero Section */}
-        <section className="pt-28 pb-20 md:pt-32 md:pb-24 overflow-hidden">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12 text-white">
-              {/* Left Text */}
+        <section className="md:pt-16 md:pb-28 lg:pt-20 lg:pb-28 overflow-hidden">
+          <div className="container mx-auto px-6">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12 xl:gap-20 text-white">
               <div
-                className="lg:w-1/2 animate-fade-up"
+                className="lg:w-7/12 animate-fade-up"
                 style={{ animationDelay: "100ms" }}
               >
-                <span className="inline-block px-3 py-1 bg-white/10 text-white rounded-full text-sm font-medium mb-6">
-                  Rethinking Medical AI Collaboration
-                </span>
-                <h1 className="font-['Kagitingan'] text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                  Advancing Healthcare{" "}
-                  <span className="text-white">Together</span>, Preserving{" "}
-                  <span className="text-white">Always</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+                  <StatusBadge
+                    leftIcon={RiShieldCheckLine}
+                    rightIcon={RiLock2Line}
+                    leftLabel="Privacy"
+                    rightLabel="On‑Premise"
+                    status="success"
+                  />
+
+                  <StatusBadge
+                    leftIcon={RiLock2Line}
+                    rightIcon={RiGroupLine}
+                    leftLabel="Secure"
+                    rightLabel="Federated AI"
+                    status="success"
+                  />
+
+                  <StatusBadge
+                    leftIcon={RiShieldCheckLine}
+                    rightIcon={RiLock2Line}
+                    leftLabel="End‑to‑End"
+                    rightLabel="Encryption"
+                    status="success"
+                  />
+                </div>
+
+                <h1 className="font-['Kagitingan'] text-4xl md:text-5xl lg:text-8xl font-bold tracking-tight mb-4 bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text leading-tight max-w-3xl">
+                  Building Medical AI That’s
+                  <br />
+                  <span className="text-white inline-block w-[240px] sm:w-[270px] mt-1">
+                    <Typewriter
+                      words={["Private", "Secure", "Collaborative", "Ethical"]}
+                      loop
+                      cursor
+                      cursorStyle="|"
+                      typeSpeed={80}
+                      deleteSpeed={50}
+                      delaySpeed={2000}
+                    />
+                  </span>
                 </h1>
-                <p className="text-lg text-gray-200 mb-8 max-w-xl">
+
+                <p className="text-base md:text-lg text-gray-200 mb-10 max-w-2xl pt-2 font-['Poppins']">
                   MedHive enables hospitals to collaboratively train machine
                   learning models without sharing sensitive patient data. Join
                   the revolution in privacy-preserving federated learning for
                   healthcare.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 mb-10 pt-2">
                   <Link href="/login?new=true">
-                    <Button
-                      size="lg"
-                      className="bg-medhive-500 hover:bg-medhive-600 text-white"
-                    >
-                      Get Started
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+                  <InteractiveHoverButton/>
                   </Link>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-medhive-500 text-black hover:bg-medhive-600/70"
-                  >
-                    Watch Demo
-                  </Button>
+                    <Button
+                      
+                      variant="outline"
+                      className="h-12 font-['Lilita_One'] text-lg border-medhive-500 text-white bg-gradient-to-r from-medhive-500/20 to-medhive-500/10 backdrop-blur-lg hover:from-medhive-500/30 hover:to-medhive-500/20 transition-all duration-300"
+                    >
+                      Watch Demo
+                    </Button>
                 </div>
 
-                <div className="flex items-center mt-8 text-sm text-gray-300">
+                <div className="flex flex-wrap items-center gap-5 text-sm text-gray-300">
                   <span className="flex items-center">
                     <Shield className="h-4 w-4 mr-1 text-medhive-400" />
-                    HIPAA Compliant
-                  </span>
-                  <span className="mx-3">•</span>
+                    HIPAA Certified
+                    </span>
+                  <span className="hidden sm:inline">•</span>
                   <span className="flex items-center">
                     <Lock className="h-4 w-4 mr-1 text-medhive-400" />
-                    End-to-End Encrypted
-                  </span>
-                  <span className="mx-3">•</span>
+                    Fully Encrypted
+                    </span>
+                  <span className="hidden sm:inline">•</span>
                   <span className="flex items-center">
                     <Database className="h-4 w-4 mr-1 text-medhive-400" />
                     25+ Hospital Networks
@@ -175,20 +209,26 @@ export default function Index() {
                 </div>
               </div>
 
-              {/* Right Image Card */}
               <div
-                className="lg:w-1/2 animate-fade-in"
+                className="lg:w-5/12 animate-fade-in"
                 style={{ animationDelay: "300ms" }}
               >
-                <div className="relative max-w-md mx-auto overflow-hidden rounded-2xl shadow-2xl transform transition-transform duration-500 hover:-translate-y-2 hover:scale-105">
-                  <Image
-                    src="/Hero.png"
-                    alt="Medical AI Visualization"
-                    width={600}
-                    height={600}
-                    className="object-cover w-full h-full"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-6">
+                <div className="relative max-w-lg mx-auto overflow-hidden rounded-2xl shadow-xl transform transition-transform duration-500 hover:scale-[1.02]">
+                  <div className="w-full h-auto">
+                    <Image
+                      src="/Hero.png"
+                      alt="Medical AI Visualization"
+                      width={800}
+                      height={600}
+                      className="object-cover w-full h-full"
+                      priority
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                      }}
+                    />
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                     <h3 className="text-lg font-semibold text-white mb-1">
                       MedHive Federated Learning
                     </h3>
@@ -203,7 +243,6 @@ export default function Index() {
           </div>
         </section>
 
-        {/* Features Section */}
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center mb-16">
@@ -239,7 +278,6 @@ export default function Index() {
           </div>
         </section>
 
-        {/* Model Showcase Section */}
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
@@ -297,7 +335,6 @@ export default function Index() {
           </div>
         </section>
 
-        {/* CTA Section */}
         <section className="py-20 bg-gradient-to-r from-medhive-900 to-medhive-700 text-white">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">

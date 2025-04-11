@@ -84,7 +84,10 @@ export default {
     		borderRadius: {
     			lg: 'var(--radius)',
     			md: 'calc(var(--radius) - 2px)',
-    			sm: 'calc(var(--radius) - 4px)'
+    			sm: 'calc(var(--radius) - 4px)',
+    			'tremor-default': '0.5rem',
+    			'tremor-small': '0.375rem',
+    			'tremor-full': '9999px'
     		},
     		keyframes: {
     			'accordion-down': {
@@ -138,9 +141,12 @@ export default {
     				}
     			}
     		},
-			fontFamily: {
-				kagitingan: ['Kagitingan', 'sans-serif']
-			  },
+    		fontFamily: {
+    			kagitingan: [
+    				'Kagitingan',
+    				'sans-serif'
+    			]
+    		},
     		animation: {
     			'accordion-down': 'accordion-down 0.2s ease-out',
     			'accordion-up': 'accordion-up 0.2s ease-out',
@@ -160,6 +166,9 @@ export default {
     		},
     		backdropBlur: {
     			xl: '20px'
+    		},
+    		fontSize: {
+				'tremor-label': ['0.75rem', '1rem']
     		}
     	}
     },
