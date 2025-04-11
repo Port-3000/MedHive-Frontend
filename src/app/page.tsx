@@ -5,12 +5,12 @@ import { useState, useEffect } from "react";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { Typewriter } from "react-simple-typewriter";
 import Link from "next/link";
-import { BlurContainer } from "@/components/ui/BlurContainer";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/Navbar";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Footer } from "@/components/layout/Footer";
+import { ArrowUpRight, Cpu } from "lucide-react";
 import {
   ArrowRight,
   Brain,
@@ -243,6 +243,8 @@ export default function Index() {
           </div>
         </section>
 
+        {/* Second Section */}
+
         <section className="min-h-screen flex flex-col justify-center items-center px-4 py-12 sm:py-16">
           <div className="max-w-4xl w-full text-center mb-8 sm:mb-12">
             <span className="inline-block px-4 py-2 bg-medhive-400/10 text-medhive-400 rounded-full text-sm font-semibold mb-4 backdrop-blur-sm">
@@ -263,101 +265,195 @@ export default function Index() {
           </div>
         </section>
 
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+        {/* Third Section */}
+        <section className="relative z-10 py-20">
+          <div className="absolute inset-0 pointer-events-none z-0">
+            <div className="w-full h-full bg-[url('/patterns/grid.svg')] opacity-5 mix-blend-overlay"></div>
+            <div className="w-full h-full animate-[move-streams_15s_linear_infinite] bg-[url('/patterns/lines.svg')] opacity-10 mix-blend-screen"></div>
+            <div className="absolute inset-0 bg-[url('/patterns/noise.png')] opacity-5 backdrop-blur-md"></div>
+            <div className="absolute top-0 left-1/2 w-[150%] h-full bg-gradient-to-tr from-cyan-500/10 via-blue-400/5 to-transparent transform -translate-x-1/2 rotate-12 animate-pulse-slow blur-2xl" />
+          </div>
+
+          <div className="container mx-auto px-4 relative">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
               <div>
-                <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4">
-                  Our Models
+                <span className="inline-block px-4 py-1 bg-gradient-to-r from-[#6d28d9] via-[#9333ea] to-[#ec4899] text-white rounded-full text-xs font-bold tracking-wider mb-4 drop-shadow-lg">
+                  Our AI Models
                 </span>
-                <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                  Cutting-Edge Healthcare AI
+
+                <h2 className="text-5xl md:text-6xl font-['Lilita_One'] bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-cyan-300 to-blue-500 animate-text-glow">
+                  MED-AI IN ACTION{" "}
                 </h2>
               </div>
               <Link
                 href="/model-hub"
-                className="inline-flex items-center text-white font-medium mt-4 md:mt-0 hover:text-gray-200 transition-colors"
+                className="inline-flex items-center mt-6 md:mt-0 text-cyan-400 hover:text-white transition-colors duration-300 font-semibold"
               >
                 Explore All Models
-                <ArrowRight className="ml-1 h-4 w-4" />
+                <ArrowRight className="ml-2 h-5 w-5 stroke-current transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {modelShowcase.map((model, index) => (
-                <Link
-                  href={model.path}
-                  key={index}
-                  className="group animate-fade-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <BlurContainer
-                    className="h-full overflow-hidden bg-black/50"
-                    intensity="low"
-                    hoverable
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {modelShowcase.map((model, idx) => {
+                const imageSrc =
+                  idx === 0
+                    ? "/feature1.jpg"
+                    : idx === 2
+                    ? "/feature2.jpg"
+                    : model.image;
+
+                const paths = [
+                  "/model-hub/symptom-analysis",
+                  "/model-hub/ecg-analysis",
+                  "/model-hub/pneumonia-xray",
+                ];
+                const modelPath = paths[idx] || model.path;
+
+                return (
+                  <Link
+                    key={idx}
+                    href={modelPath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative overflow-hidden rounded-3xl border border-transparent bg-gradient-to-br from-gray-900 via-black to-gray-800 shadow-[0_10px_30px_rgba(0,255,255,0.2)] hover:shadow-[0_20px_40px_rgba(0,255,255,0.4)] transition-shadow duration-500 animate-fade-up cursor-pointer"
+                    style={{ animationDelay: `${idx * 150}ms` }}
                   >
-                    <div className="h-48 overflow-hidden">
+                    <div className="absolute inset-0 pointer-events-none rounded-3xl border-2 border-transparent group-hover:border-cyan-400 transition-colors duration-300 animate-[flicker_3s_linear_infinite]"></div>
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-500 mix-blend-screen"></div>
+
+                    <div className="h-56 overflow-hidden rounded-t-3xl">
                       <img
-                        src={model.image}
+                        src={imageSrc}
                         alt={model.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold mb-2 group-hover:text-white transition-colors text-white">
-                        {model.title}
-                      </h3>
-                      <p className="text-gray-300 mb-4">{model.description}</p>
-                      <span className="inline-flex items-center text-sm font-medium text-medhive-400">
-                        Learn more
-                        <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
-                      </span>
+
+                    <div className="p-6 flex flex-col justify-between min-h-[200px]">
+                      <div>
+                        <h3 className="text-2xl font-bold text-white mb-2 transition-colors group-hover:text-cyan-300">
+                          {model.title}
+                        </h3>
+                        <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                          {model.description}
+                        </p>
+                      </div>
+
+                      <div className="mt-4">
+                        <span className="inline-flex items-center justify-center gap-2 text-sm font-medium text-cyan-300 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(0,255,255,0.4)] transition-colors duration-300">
+                          Learn more
+                          <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500/10 group-hover:bg-cyan-400/20 transition-colors duration-300">
+                            <ArrowRight className="h-4 w-4 stroke-current group-hover:translate-x-1 transition-transform duration-300" />
+                          </span>
+                        </span>
+                      </div>
                     </div>
-                  </BlurContainer>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
+
+          {/* Tailwind customised */}
+          <style jsx>{`
+            @keyframes move-streams {
+              from {
+                background-position: 0 0;
+              }
+              to {
+                background-position: 0 100%;
+              }
+            }
+            @keyframes flicker {
+              0%,
+              100% {
+                opacity: 1;
+              }
+              50% {
+                opacity: 0.85;
+              }
+            }
+          `}</style>
         </section>
 
-        <section className="py-20 bg-gradient-to-r from-medhive-900 to-medhive-700 text-white">
-          <div className="container mx-auto px-4">
+        {/* Fourth Section - Futuristic AI Theme */}
+        <section className="relative py-28 overflow-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900">
+          {/* Enhanced background elements */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 bg-[url('/patterns/hexagon-grid.svg')] opacity-15 animate-pulse-slow" />
+            <div className="absolute inset-0 bg-[url('/patterns/circuit-pattern.svg')] opacity-10 mix-blend-overlay animate-pan" />
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/15 via-transparent to-purple-500/15" />
+          </div>
+
+          {/* Particle system */}
+          <div className="absolute inset-0">
+            {typeof window !== "undefined" &&
+              [...Array(45)].map((_, i) => (
+                <div
+                  key={`particle-${i}`}
+                  className="absolute w-0.5 h-0.5 bg-cyan-400 rounded-full blur-[1px] animate-float"
+                  style={{
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${i * 0.3}s`,
+                    boxShadow: "0 0 15px rgba(34,211,238,0.7)",
+                  }}
+                />
+              ))}
+          </div>
+
+          <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 animate-fade-up">
-                Join the Future of Medical AI Research
+              <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-300 to-purple-400 animate-text-glow font-kagitingan">
+                <span>Join the Neural Nexus</span>
               </h2>
-              <p
-                className="text-xl opacity-80 mb-8 animate-fade-up"
-                style={{ animationDelay: "100ms" }}
-              >
-                Whether you're a hospital, research institution, or healthcare
-                provider, MedHive provides the infrastructure to collaborate
-                securely and advance medical AI.
+
+              <p className="text-xl md:text-2xl text-gray-300/90 mb-12 leading-relaxed font-lilita-one">
+                <span className="border-b-2 border-cyan-400/40 pb-1 text-white/95 font-kagitingan">
+                  Hospital • Research Institution • Healthcare Provider
+                </span>
+                <br className="mt-4" />
+                <span className="inline-block mt-4 text-gray-300/80 font-['Lilita_One']">
+                  MedHive's quantum-secure infrastructure enables collaborative
+                  AI evolution
+                </span>
               </p>
-              <div
-                className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-up"
-                style={{ animationDelay: "200ms" }}
-              >
-                <Link href="/login?new=true">
+
+              <div className="flex flex-col sm:flex-row justify-center gap-8">
+                <Link
+                  href="/login?new=true"
+                  className="relative group transform hover:scale-[1.02] transition-transform duration-300"
+                >
+                  <div className="absolute -inset-1 bg-cyan-500/20 blur-2xl group-hover:bg-cyan-500/30 transition-all duration-500 rounded-2xl" />
                   <Button
                     size="lg"
-                    className="bg-white text-medhive-800 hover:bg-gray-100"
+                    className="relative bg-black/80 backdrop-blur-xl border-2 border-cyan-400/40 hover:border-cyan-300 text-cyan-300 hover:text-white px-10 py-7 rounded-xl text-lg font-semibold transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
                   >
+                    <span className="mr-3">⚡</span>
                     Register as Hospital
+                    <ArrowUpRight className="ml-3 h-6 w-6 stroke-current transform group-hover:rotate-45 transition-transform" />
                   </Button>
                 </Link>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white text-black hover:bg-white/10"
-                >
-                  Learn About Contribution
-                </Button>
+
+                <div className="relative group transform hover:scale-[1.02] transition-transform duration-300">
+                  <div className="absolute -inset-1 bg-purple-500/20 blur-2xl group-hover:bg-purple-500/30 transition-all duration-500 rounded-2xl" />
+                  <Button
+                    variant="outline"
+                    className="relative bg-black/80 backdrop-blur-xl border-2 border-purple-400/40 hover:border-purple-300 text-purple-300 hover:text-black px-10 py-7 rounded-xl text-lg font-semibold transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
+                  >
+                    <Cpu className="mr-3 h-6 w-6 stroke-current transform group-hover:scale-110 transition-transform" />
+                    Learn About Contribution
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </section>
 
+          {/* Enhanced scan line */}
+          <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/80 to-transparent animate-scanline-fast" />
+        </section>
         <Footer />
       </div>
     </main>

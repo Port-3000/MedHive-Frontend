@@ -1,36 +1,36 @@
-import Link from 'next/link';
-import { BlurContainer } from '../ui/BlurContainer';
-import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import Link from "next/link";
+import { BlurContainer } from "../ui/BlurContainer";
+import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const linkGroups = [
     {
-      title: 'Platform',
+      title: "Platform",
       links: [
-        { name: 'Model Hub', path: '/model-hub' },
-        { name: 'Contribute', path: '/contribute' },
-        { name: 'Pricing', path: '/pricing' },
-        { name: 'Documentation', path: '/docs' },
+        { name: "Model Hub", path: "/model-hub" },
+        { name: "Contribute", path: "/contribute" },
+        { name: "Pricing", path: "/pricing" },
+        { name: "Documentation", path: "/docs" },
       ],
     },
     {
-      title: 'Company',
+      title: "Company",
       links: [
-        { name: 'About Us', path: '/about' },
-        { name: 'Blog', path: '/blog' },
-        { name: 'Careers', path: '/careers' },
-        { name: 'Contact', path: '/contact' },
+        { name: "About Us", path: "/about" },
+        { name: "Blog", path: "/blog" },
+        { name: "Careers", path: "/careers" },
+        { name: "Contact", path: "/contact" },
       ],
     },
     {
-      title: 'Legal',
+      title: "Legal",
       links: [
-        { name: 'Privacy Policy', path: '/privacy' },
-        { name: 'Terms of Service', path: '/terms' },
-        { name: 'Data Protection', path: '/data-protection' },
-        { name: 'Security', path: '/security' },
+        { name: "Privacy Policy", path: "/privacy" },
+        { name: "Terms of Service", path: "/terms" },
+        { name: "Data Protection", path: "/data-protection" },
+        { name: "Security", path: "/security" },
       ],
     },
   ];
@@ -41,35 +41,39 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <span className="bg-medhive-500 text-white font-bold p-2 rounded-md">MH</span>
-              <span className="font-bold text-xl text-white">MedHive</span>
+              <span className="bg-medhive-500 text-white font-['Lilita_One'] p-2 rounded-md">
+                MH
+              </span>
+              <span className="font-['Lilita_One'] text-xl text-white">MedHive</span>
             </Link>
             <p className="text-white mb-6 max-w-md">
-              A secure federated learning platform that enables hospitals to collaboratively train ML models without compromising patient privacy.
+              A secure federated learning platform that enables hospitals to
+              collaboratively train ML models without compromising patient
+              privacy.
             </p>
-            
+
             <div className="flex space-x-4">
-              <a 
-                href="#" 
-                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
+              <a
+                href="#"
+                className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
               >
                 <Twitter size={20} />
               </a>
-              <a 
-                href="#" 
-                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-900 transition-colors"
+              <a
+                href="#"
+                className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-900 transition-colors"
               >
                 <Github size={20} />
               </a>
-              <a 
-                href="#" 
-                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
+              <a
+                href="#"
+                className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
               >
                 <Linkedin size={20} />
               </a>
-              <a 
-                href="#" 
-                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
+              <a
+                href="#"
+                className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
               >
                 <Mail size={20} />
               </a>
@@ -78,12 +82,12 @@ export function Footer() {
 
           {linkGroups.map((group) => (
             <div key={group.title}>
-              <h3 className="font-medium text-white mb-4">{group.title}</h3>
+              <h3 className="font-['Lilita_One'] text-white mb-4">{group.title}</h3>
               <ul className="space-y-3">
                 {group.links.map((link) => (
                   <li key={link.name}>
-                    <Link 
-                      href={link.path} 
+                    <Link
+                      href={link.path}
                       className="text-white hover:text-medhive-600 transition-colors"
                     >
                       {link.name}
