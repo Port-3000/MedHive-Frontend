@@ -138,6 +138,9 @@ export default {
     				}
     			}
     		},
+			fontFamily: {
+				kagitingan: ['Kagitingan', 'sans-serif']
+			  },
     		animation: {
     			'accordion-down': 'accordion-down 0.2s ease-out',
     			'accordion-up': 'accordion-up 0.2s ease-out',
@@ -156,7 +159,7 @@ export default {
     			'glass-dark': '0 4px 30px rgba(0, 0, 0, 0.3)'
     		},
     		backdropBlur: {
-    			xs: '2px'
+    			xl: '20px'
     		}
     	}
     },
