@@ -1,3 +1,5 @@
+//src/app/page.tsx
+
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -124,7 +126,7 @@ export default function Index() {
                 <span className="inline-block px-3 py-1 bg-white/10 text-white rounded-full text-sm font-medium mb-6">
                   Rethinking Medical AI Collaboration
                 </span>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+                <h1 className="font-['Kagitingan'] text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
                   Advancing Healthcare{" "}
                   <span className="text-white">Together</span>, Preserving{" "}
                   <span className="text-white">Always</span>
