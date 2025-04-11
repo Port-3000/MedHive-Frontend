@@ -9,6 +9,7 @@ import { BlurContainer } from "@/components/ui/BlurContainer";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/Navbar";
+import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Footer } from "@/components/layout/Footer";
 import {
   ArrowRight,
@@ -171,7 +172,7 @@ export default function Index() {
                   </span>
                 </h1>
 
-                <p className="text-base md:text-lg text-gray-200 mb-10 max-w-2xl pt-2 font-['Poppins']">
+                <p className="text-base md:text-lg text-gray-200 mb-10 max-w-2xl pt-3 font-['Poppins']">
                   MedHive enables hospitals to collaboratively train machine
                   learning models without sharing sensitive patient data. Join
                   the revolution in privacy-preserving federated learning for
@@ -180,27 +181,26 @@ export default function Index() {
 
                 <div className="flex flex-col sm:flex-row gap-4 mb-10 pt-2">
                   <Link href="/login?new=true">
-                  <InteractiveHoverButton/>
+                    <InteractiveHoverButton />
                   </Link>
-                    <Button
-                      
-                      variant="outline"
-                      className="h-12 font-['Lilita_One'] text-lg border-medhive-500 text-white bg-gradient-to-r from-medhive-500/20 to-medhive-500/10 backdrop-blur-lg hover:from-medhive-500/30 hover:to-medhive-500/20 transition-all duration-300"
-                    >
-                      Watch Demo
-                    </Button>
+                  <Button
+                    variant="outline"
+                    className="h-12 font-['Lilita_One'] text-lg border-gray-600 text-white bg-gradient-to-r from-medhive-500/20 to-medhive-500/10 backdrop-blur-lg hover:from-medhive-500/30 hover:to-medhive-500/20 transition-all duration-300"
+                  >
+                    Watch Demo
+                  </Button>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-5 text-sm text-gray-300">
                   <span className="flex items-center">
                     <Shield className="h-4 w-4 mr-1 text-medhive-400" />
                     HIPAA Certified
-                    </span>
+                  </span>
                   <span className="hidden sm:inline">•</span>
                   <span className="flex items-center">
                     <Lock className="h-4 w-4 mr-1 text-medhive-400" />
                     Fully Encrypted
-                    </span>
+                  </span>
                   <span className="hidden sm:inline">•</span>
                   <span className="flex items-center">
                     <Database className="h-4 w-4 mr-1 text-medhive-400" />
@@ -243,38 +243,23 @@ export default function Index() {
           </div>
         </section>
 
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4">
-                Why Choose MedHive
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                Revolutionizing Medical AI Through Collaboration
-              </h2>
-              <p className="text-lg text-gray-200">
-                Our platform combines privacy-preserving technology with
-                state-of-the-art machine learning to enable unprecedented
-                collaboration in healthcare.
-              </p>
-            </div>
+        <section className="min-h-screen flex flex-col justify-center items-center px-4 py-12 sm:py-16">
+          <div className="max-w-4xl w-full text-center mb-8 sm:mb-12">
+            <span className="inline-block px-4 py-2 bg-medhive-400/10 text-medhive-400 rounded-full text-sm font-semibold mb-4 backdrop-blur-sm">
+              Why Choose MedHive
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-medhive-200 to-medhive-400 bg-clip-text text-transparent">
+              Built for Trust.
+              <br className="hidden md:block" /> Powered by Collaboration.
+            </h2>
+            <p className="text-lg text-medhive-300 mx-auto max-w-2xl">
+              MedHive unites healthcare networks using secure, decentralized AI
+              to train models—without compromising data privacy.
+            </p>
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <BlurContainer
-                  key={index}
-                  className="p-6 h-full animate-fade-up bg-black/50"
-                  style={{ animationDelay: `${feature.delay}ms` }}
-                  hoverable
-                >
-                  <div className="mb-4">{feature.icon}</div>
-                  <h3 className="text-xl font-semibold text-white mb-3">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-300">{feature.description}</p>
-                </BlurContainer>
-              ))}
-            </div>
+          <div className="flex-grow flex items-center justify-center w-full max-w-7xl">
+            <AnimatedTabs className="px-4" />
           </div>
         </section>
 
