@@ -42,34 +42,34 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
               <span className="bg-medhive-500 text-white font-bold p-2 rounded-md">MH</span>
-              <span className="font-bold text-xl">MedHive</span>
+              <span className="font-bold text-xl text-white">MedHive</span>
             </Link>
-            <p className="text-gray-600 mb-6 max-w-md">
+            <p className="text-white mb-6 max-w-md">
               A secure federated learning platform that enables hospitals to collaboratively train ML models without compromising patient privacy.
             </p>
             
             <div className="flex space-x-4">
               <a 
                 href="#" 
-                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
+                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
               >
                 <Twitter size={20} />
               </a>
               <a 
                 href="#" 
-                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
+                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-900 transition-colors"
               >
                 <Github size={20} />
               </a>
               <a 
                 href="#" 
-                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
+                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
               >
                 <Linkedin size={20} />
               </a>
               <a 
                 href="#" 
-                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
+                className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
               >
                 <Mail size={20} />
               </a>
@@ -78,13 +78,13 @@ export function Footer() {
 
           {linkGroups.map((group) => (
             <div key={group.title}>
-              <h3 className="font-medium text-gray-900 mb-4">{group.title}</h3>
+              <h3 className="font-medium text-white mb-4">{group.title}</h3>
               <ul className="space-y-3">
                 {group.links.map((link) => (
                   <li key={link.name}>
                     <Link 
                       href={link.path} 
-                      className="text-gray-600 hover:text-medhive-600 transition-colors"
+                      className="text-white hover:text-medhive-600 transition-colors"
                     >
                       {link.name}
                     </Link>
@@ -101,7 +101,7 @@ export function Footer() {
               © {currentYear} MedHive. All rights reserved.
             </p>
             <div className="flex items-center mt-4 sm:mt-0">
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-400 text-sm">
                 Built with passion for medical innovation
               </p>
             </div>
