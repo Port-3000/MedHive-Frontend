@@ -27,14 +27,14 @@ export function Navbar() {
   }, [pathname]);
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Model Hub", path: "/model-hub" },
-    { name: "Contribute", path: "/contribute" },
-    { name: "About", path: "/about" },
+    { name: "HOME", path: "/" },
+    { name: "MODEL HUB", path: "/model-hub" },
+    { name: "CONTRIBUTE", path: "/contribute" },
+    { name: "ABOUT", path: "/about" },
   ];
 
   return (
-    <motion.div className="sticky inset-x-0 top-0 z-50 w-full pt-2">
+    <motion.div className="sticky inset-x-0 top-0 z-50 w-full pt-2 font-['Lilita_One']">
       {/* Desktop Navbar */}
       <motion.div
         animate={{
@@ -56,15 +56,14 @@ export function Navbar() {
         className={cn(
           "hidden lg:flex relative z-[60] mx-auto max-w-7xl items-center justify-between rounded-2xl px-6 py-3 text-white navbar-glow"
         )}
-        
       >
         <div className="flex items-center space-x-4">
           <Link href="/" className="flex items-center space-x-2">
             <span className="bg-medhive-500 text-white font-bold p-2 rounded-md">
               MH
             </span>
-            <span className="text-xl">MedHive</span>
-          </Link>
+            <span className="text-xl font-['Lilita_One']">MedHive</span>
+            </Link>
         </div>
 
         <motion.div className="flex-1 flex items-center justify-center space-x-4">
@@ -94,12 +93,12 @@ export function Navbar() {
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="border-medhive-500 text-medhive-400 hover:bg-medhive-50"
+            className="border-medhive-500 text-medhive-600 hover:bg-medhive-50"
           >
-            Sign In
+            SIGN IN
           </Button>
           <Button className="bg-medhive-500 hover:bg-medhive-600">
-            Sign Up
+            SIGN UP
           </Button>
         </div>
       </motion.div>
