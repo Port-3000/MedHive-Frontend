@@ -126,8 +126,13 @@ export default function Index() {
         <Navbar />
 
         {/* Hero Section */}
-        <section className="md:pt-16 md:pb-28 lg:pt-20 lg:pb-28 overflow-hidden">
-          <div className="container mx-auto px-6">
+        <section className="relative md:pt-16 md:pb-28 lg:pt-20 lg:pb-28 overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 bg-black/70" />
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-purple-500/10" />
+          </div>
+
+          <div className="container mx-auto px-6 relative z-10">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12 xl:gap-20 text-white">
               <div
                 className="lg:w-7/12 animate-fade-up"
@@ -247,9 +252,14 @@ export default function Index() {
         </section>
 
         {/* Second Section */}
+        <section className="relative min-h-screen flex flex-col justify-center items-center px-4 py-12 sm:py-16">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 bg-black/75" />
+            <div className="absolute inset-0 bg-gradient-to-b from-medhive-500/10 to-transparent" />
+            <div className="absolute inset-0 bg-[url('/patterns/noise.png')] opacity-5 mix-blend-overlay" />
+          </div>
 
-        <section className="min-h-screen flex flex-col justify-center items-center px-4 py-12 sm:py-16">
-          <div className="max-w-4xl w-full text-center mb-8 sm:mb-12">
+          <div className="relative z-10 max-w-4xl w-full text-center mb-8 sm:mb-12">
             <span className="inline-block px-4 py-2 bg-medhive-400/10 text-medhive-400 rounded-full text-sm font-semibold mb-4 backdrop-blur-sm">
               Why Choose MedHive
             </span>
@@ -263,7 +273,7 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="flex-grow flex items-center justify-center w-full max-w-7xl">
+          <div className="relative z-10 flex-grow flex items-center justify-center w-full max-w-7xl">
             <AnimatedTabs className="px-4" />
           </div>
         </section>
