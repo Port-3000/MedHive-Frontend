@@ -274,7 +274,6 @@ export default function Index() {
             <div className="w-full h-full bg-[url('/patterns/grid.svg')] opacity-5 mix-blend-overlay" />
             <div className="w-full h-full animate-[move-streams_15s_linear_infinite] bg-[url('/patterns/lines.svg')] opacity-10 mix-blend-screen" />
             <div className="absolute inset-0 bg-[url('/patterns/noise.png')] opacity-5 backdrop-blur-md" />
-            {/* Fixed gradient element */}
             <div className="absolute top-0 left-1/2 w-[100dvw] max-w-full h-full bg-gradient-to-tr from-cyan-500/10 via-blue-400/5 to-transparent transform -translate-x-1/2 rotate-12 animate-pulse-slow blur-2xl -translate-y-1/4" />
           </div>
 
@@ -380,14 +379,11 @@ export default function Index() {
 
         {/* Fourth Section */}
         <section className="relative py-28 overflow-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900">
-          {/* Enhanced background elements */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute inset-0 bg-[url('/patterns/hexagon-grid.svg')] opacity-15 animate-pulse-slow" />
             <div className="absolute inset-0 bg-[url('/patterns/circuit-pattern.svg')] opacity-10 mix-blend-overlay animate-pan" />
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/15 via-transparent to-purple-500/15" />
           </div>
-
-          {/* Corrected particle system */}
           {hasMounted && (
             <div className="absolute inset-0">
               {[...Array(45)].map((_, i) => (
@@ -452,7 +448,6 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Enhanced scan line */}
           <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/80 to-transparent animate-scanline-fast" />
         </section>
         <Footer />
