@@ -12,6 +12,8 @@ import { Navbar } from "@/components/layout/Navbar";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Footer } from "@/components/layout/Footer";
 import { ArrowUpRight, Cpu } from "lucide-react";
+import { SplineScene } from "@/components/ui/splite";
+import { Spotlight } from "@/components/ui/spotlight";
 
 import {
   ArrowRight,
@@ -25,18 +27,12 @@ import {
 import Image from "next/image";
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
 
-import {
-  RiShieldCheckLine,
-  RiLock2Line,
-  RiGroupLine,
-  RiBarChart2Line,
-} from "@remixicon/react";
+import { RiShieldCheckLine, RiLock2Line, RiGroupLine } from "@remixicon/react";
 
 export default function Index() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
-  // Refs for each section
   const heroSectionRef = useIntersectionObserver({ threshold: 0.2 });
   const featuresSectionRef = useIntersectionObserver({ threshold: 0.2 });
   const modelsSectionRef = useIntersectionObserver({ threshold: 0.2 });
@@ -46,7 +42,6 @@ export default function Index() {
     setIsLoaded(true);
     setHasMounted(true);
 
-    // Add smooth reveal to status badges
     const badges = document.querySelectorAll(".grid-cols-3.gap-3 > *");
     badges.forEach((badge, index) => {
       setTimeout(() => {
@@ -235,33 +230,19 @@ export default function Index() {
                 </div>
               </div>
 
+              {/* Right-side: Updated SplineScene container */}
               <div
                 className="lg:w-5/12 animate-fade-in"
                 style={{ animationDelay: "300ms" }}
               >
-                <div className="relative max-w-lg mx-auto overflow-hidden rounded-2xl shadow-xl transform transition-transform duration-500 hover:scale-[1.02]">
-                  <div className="w-full h-auto">
-                    <Image
-                      src="/Hero.png"
-                      alt="Medical AI Visualization"
-                      width={800}
-                      height={600}
-                      className="object-cover w-full h-full"
-                      priority
-                      style={{
-                        maxWidth: "100%",
-                        height: "auto",
-                      }}
+                <div className="relative w-full h-[600px] overflow-hidden rounded-2xl shadow-xl transform transition-transform duration-500 hover:scale-[1.02]">
+                  <Spotlight className="absolute top-0 left-0 z-0" size={300} />
+                  {/* SplineScene wrapped to appear above the spotlight */}
+                  <div className="relative z-10 w-full h-full">
+                    <SplineScene
+                      scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                      className="w-full h-full"
                     />
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0  p-6">
-                    <h3 className="text-lg font-semibold text-white mb-1">
-                      MedHive Federated Learning
-                    </h3>
-                    <p className="text-sm text-gray-200">
-                      Collaborative model training without exposing raw patient
-                      data
-                    </p>
                   </div>
                 </div>
               </div>
@@ -284,17 +265,17 @@ export default function Index() {
             <span className="inline-block px-4 py-2 bg-medhive-400/10 text-medhive-400 rounded-full text-sm font-semibold mb-4 backdrop-blur-sm">
               Why Choose MedHive
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-medhive-200 to-medhive-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-['Kagitingan'] mb-4 bg-gradient-to-r from-medhive-200 to-medhive-400 bg-clip-text text-transparent">
               Built for Trust.
               <br className="hidden md:block" /> Powered by Collaboration.
             </h2>
-            <p className="text-lg text-medhive-300 mx-auto max-w-2xl">
+            <p className="text-lg font-['Poppins'] text-medhive-300 mx-auto max-w-2xl">
               MedHive unites healthcare networks using secure, decentralized AI
               to train models—without compromising data privacy.
             </p>
           </div>
 
-          <div className="relative z-10 flex-grow flex items-center justify-center w-full max-w-7xl">
+          <div className="relative z-10 flex-grow font-['Poppins'] flex items-center justify-center w-full max-w-7xl">
             <AnimatedTabs className="px-4" />
           </div>
         </section>
@@ -463,7 +444,7 @@ export default function Index() {
                   <div className="absolute -inset-1 bg-cyan-500/20 blur-2xl group-hover:bg-cyan-500/30 transition-all duration-500 rounded-2xl" />
                   <Button
                     size="lg"
-                    className="relative bg-black/80 backdrop-blur-xl border-2 border-cyan-400/40 hover:border-cyan-300 text-cyan-300 hover:text-white px-10 py-7 rounded-xl text-lg font-semibold transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
+                    className="relative bg-black/80 backdrop-blur-xl border-2 border-cyan-400/40 hover:border-cyan-300 text-cyan-300 hover:text-white px-10 py-7 rounded-xl text-lg font-['Poppins'] transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
                   >
                     <span className="mr-3">⚡</span>
                     Register as Hospital
@@ -475,7 +456,7 @@ export default function Index() {
                   <div className="absolute -inset-1 bg-purple-500/20 blur-2xl group-hover:bg-purple-500/30 transition-all duration-500 rounded-2xl" />
                   <Button
                     variant="outline"
-                    className="relative bg-black/80 backdrop-blur-xl border-2 border-purple-400/40 hover:border-purple-300 text-purple-300 hover:text-black px-10 py-7 rounded-xl text-lg font-semibold transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
+                    className="relative bg-black/80 backdrop-blur-xl border-2 border-purple-400/40 hover:border-purple-300 text-purple-300 hover:text-black px-10 py-7 rounded-xl text-lg font-['Poppins'] transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
                   >
                     <Cpu className="mr-3 h-6 w-6 stroke-current transform group-hover:scale-110 transition-transform" />
                     Learn About Contribution

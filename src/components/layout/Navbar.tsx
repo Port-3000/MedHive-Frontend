@@ -40,7 +40,7 @@ export function Navbar() {
       {/* Desktop Navbar */}
       <motion.div
         animate={{
-          backdropFilter: "blur(10px) saturate(150%)",
+          backdropFilter: "blur(16px) saturate(170%)",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           border: visible
             ? "1px solid rgba(255, 255, 255, 0.15)"

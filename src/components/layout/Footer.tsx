@@ -69,7 +69,7 @@ export function Footer() {
               </span>
               <span className="font-['Lilita_One'] text-xl text-white">MedHive</span>
             </Link>
-            <p className="text-white mb-6 max-w-md">
+            <p className="text-gray-400 mb-6 max-w-md font-['Poppins']">
               A secure federated learning platform that enables hospitals to
               collaboratively train ML models without compromising patient
               privacy.
@@ -105,11 +105,11 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-gray-200">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 text-sm font-['Poppins']">
               © {currentYear} MedHive. All rights reserved.
             </p>
             <div className="flex items-center mt-4 sm:mt-0">
-              <p className="text-gray-400 text-sm">
+              <p className="text-gray-400 text-sm font-['Poppins']">
                 Built with passion for medical innovation
               </p>
             </div>

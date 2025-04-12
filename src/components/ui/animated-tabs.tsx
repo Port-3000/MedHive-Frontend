@@ -34,7 +34,7 @@ const features = [
     title: "PRIVACY-PRESERVING ML",
     description:
       "Our federated learning approach keeps patient data secure within hospital premises while enabling collaborative model training.",
-    icon: <Shield className="h-7 w-7 text-cyan-400" />,
+    icon: <Shield className="h-8 w-8 text-cyan-400" />,
     label: "Privacy",
     tooltip: "Federated training without moving data",
     image: "/feature1.jpg",
@@ -43,7 +43,7 @@ const features = [
     title: "ADVANCED ENCRYPTION",
     description:
       "Hospital contributions are encrypted with state-of-the-art methods, ensuring complete privacy of sensitive medical data.",
-    icon: <Lock className="h-7 w-7 text-cyan-400" />,
+    icon: <Lock className="h-8 w-8 text-cyan-400" />,
     label: "Encryption",
     tooltip: "End-to-end secure data flow",
     image: "/feature2.jpg",
@@ -52,7 +52,7 @@ const features = [
     title: "AI-BASED DIAGNOSIS",
     description:
       "Access cutting-edge ML models for symptom analysis, medical imaging diagnostics, and predictive healthcare insights.",
-    icon: <Brain className="h-7 w-7 text-cyan-400" />,
+    icon: <Brain className="h-8 w-8 text-cyan-400" />,
     label: "Diagnosis",
     tooltip: "AI-based predictive analysis",
     image: "/feature3.jpg",
@@ -61,7 +61,7 @@ const features = [
     title: "HOSPITAL NETWORK",
     description:
       "Join our growing community of healthcare institutions collaborating to improve medical AI for everyone.",
-    icon: <UserPlus className="h-7 w-7 text-cyan-400" />,
+    icon: <UserPlus className="h-8 w-8 text-cyan-400" />,
     label: "Network",
     tooltip: "Collaborative hospital network",
     image: "/feature4.svg",
@@ -70,7 +70,7 @@ const features = [
     title: "DISTRIBUTED INFRASTRUCTURE",
     description:
       "Our system architecture ensures resilience, reliability, and performance at scale for mission-critical healthcare applications.",
-    icon: <Server className="h-7 w-7 text-cyan-400" />,
+    icon: <Server className="h-8 w-8 text-cyan-400" />,
     label: "Infra",
     tooltip: "Distributed backend architecture",
     image: "/feature5.jpg",
@@ -86,9 +86,7 @@ const features = [
   },
 ].map((feature) => ({
   ...feature,
-  title: (
-    <span className="font-['Kagitingan'] text-2xl">{feature.title}</span>
-  ),
+  title: <span className="font-['Kagitingan'] text-3xl">{feature.title}</span>,
 }));
 
 const defaultTabs: Tab[] = features.map((feature, index) => ({
@@ -101,7 +99,7 @@ const defaultTabs: Tab[] = features.map((feature, index) => ({
       <div className="relative w-full h-52 md:h-64 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,255,255,0.1)]">
         <Image
           src={feature.image}
-          alt={feature.title}
+          alt={typeof feature.title === "string" ? feature.title : "Feature Image"}
           fill
           className="object-cover"
         />
@@ -111,7 +109,9 @@ const defaultTabs: Tab[] = features.map((feature, index) => ({
           {feature.icon}
           <h3 className="text-xl font-bold tracking-wide">{feature.title}</h3>
         </div>
-        <p className="text-sm text-gray-300">{feature.description}</p>
+        <p className="text-lg text-gray-300 text-center md:text-left">
+          {feature.description}
+        </p>
       </div>
     </div>
   ),
@@ -132,7 +132,7 @@ const AnimatedTabs = ({
       const currentIndex = tabs.findIndex((tab) => tab.id === activeTab);
       const nextIndex = (currentIndex + 1) % tabs.length;
       setActiveTab(tabs[nextIndex].id);
-    }, 5000); // 5 seconds
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [autoScroll, activeTab, tabs]);

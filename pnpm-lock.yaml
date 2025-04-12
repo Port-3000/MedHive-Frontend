@@ -23,6 +23,12 @@ importers:
       '@remixicon/react':
         specifier: ^4.6.0
         version: 4.6.0(react@19.1.0)
+      '@splinetool/react-spline':
+        specifier: ^4.0.0
+        version: 4.0.0(@splinetool/runtime@1.9.82)(next@15.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@splinetool/runtime':
+        specifier: ^1.9.82
+        version: 1.9.82
       '@supabase/ssr':
         specifier: ^0.6.1
         version: 0.6.1(@supabase/supabase-js@2.49.4)
@@ -493,6 +499,20 @@ packages:
     peerDependencies:
       react: '>=18.2.0'
 
+  '@splinetool/react-spline@4.0.0':
+    resolution: {integrity: sha512-FqrV7/K2q998Y0t83QUauQxsifKWAg9CFZoSb64qRuH7IfHkDs5/OgU1ACkg0aTgsEPtFlH+kATQ+8X6MrizHQ==}
+    peerDependencies:
+      '@splinetool/runtime': '*'
+      next: '>=14.2.0'
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      next:
+        optional: true
+
+  '@splinetool/runtime@1.9.82':
+    resolution: {integrity: sha512-qfNTnezSGuh7nPUPgRVfpH+g2FYywvYmHzOLmp8dahMxuY7HshOwLEhKVapaaWxIpq4h/WweU83pBWb48bwA8A==}
+
   '@supabase/auth-js@2.69.1':
     resolution: {integrity: sha512-FILtt5WjCNzmReeRLq5wRs3iShwmnWgBvxHfqapC/VoljJl+W8hDAyFmf1NVw3zH+ZjZ05AKxiKxVeb0HNWRMQ==}
 
@@ -630,6 +650,9 @@ packages:
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
+
+  blurhash@2.0.5:
+    resolution: {integrity: sha512-cRygWd7kGBQO3VEhPiTgq4Wc43ctsM+o46urrmPOiuAe+07fzlSB9OJVdpgDL0jPqXUVQ9ht7aq7kxOeJHRK+w==}
 
   brace-expansion@2.0.1:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
@@ -876,6 +899,9 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
+  lodash.debounce@4.0.8:
+    resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
+
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
 
@@ -982,6 +1008,10 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
 
+  on-change@4.0.2:
+    resolution: {integrity: sha512-cMtCyuJmTx/bg2HCpHo3ZLeF7FZnBOapLqZHr2AlLeJ5Ul0Zu2mUJJz051Fdwu/Et2YW04ZD+TtU+gVy0ACNCA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
 
@@ -1075,6 +1105,9 @@ packages:
     peerDependencies:
       react: '*'
 
+  react-merge-refs@2.1.1:
+    resolution: {integrity: sha512-jLQXJ/URln51zskhgppGJ2ub7b2WFKGq3cl3NYKtlHoTG+dN2q7EzWrn3hN3EgPsTMvpR9tpq5ijdp7YwFZkag==}
+
   react-reconciler@0.31.0:
     resolution: {integrity: sha512-7Ob7Z+URmesIsIVRjnLoDGwBEG/tVitidU0nMsqX/eeJaLY89RISO/10ERe0MqmzuKUUB1rmY+h1itMbUHg9BQ==}
     engines: {node: '>=0.10.0'}
@@ -1132,6 +1165,9 @@ packages:
 
   scheduler@0.26.0:
     resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
+
+  semver-compare@1.0.0:
+    resolution: {integrity: sha512-YM3/ITh2MJ5MtzaM429anh+x2jiLVjqILF4m4oyQB18W7Ggea7BfqdH/wGMK7dDiMghv/6WG7znWMwUDzJiXow==}
 
   semver@7.7.1:
     resolution: {integrity: sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==}
@@ -1249,6 +1285,9 @@ packages:
 
   three@0.175.0:
     resolution: {integrity: sha512-nNE3pnTHxXN/Phw768u0Grr7W4+rumGg/H6PgeseNJojkJtmeHJfZWi41Gp2mpXl1pg1pf1zjwR4McM1jTqkpg==}
+
+  thumbhash@0.1.1:
+    resolution: {integrity: sha512-kH5pKeIIBPQXAOni2AiY/Cu/NKdkFREdpH+TLdM0g6WA7RriCv0kPLgP731ady67MhTAqrVG/4mnEeibVuCJcg==}
 
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
@@ -1718,6 +1757,23 @@ snapshots:
     dependencies:
       react: 19.1.0
 
+  '@splinetool/react-spline@4.0.0(@splinetool/runtime@1.9.82)(next@15.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@splinetool/runtime': 1.9.82
+      blurhash: 2.0.5
+      lodash.debounce: 4.0.8
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      react-merge-refs: 2.1.1
+      thumbhash: 0.1.1
+    optionalDependencies:
+      next: 15.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+
+  '@splinetool/runtime@1.9.82':
+    dependencies:
+      on-change: 4.0.2
+      semver-compare: 1.0.0
+
   '@supabase/auth-js@2.69.1':
     dependencies:
       '@supabase/node-fetch': 2.6.15
@@ -1866,6 +1922,8 @@ snapshots:
       require-from-string: 2.0.2
 
   binary-extensions@2.3.0: {}
+
+  blurhash@2.0.5: {}
 
   brace-expansion@2.0.1:
     dependencies:
@@ -2096,6 +2154,8 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
+  lodash.debounce@4.0.8: {}
+
   lru-cache@10.4.3: {}
 
   lucide-react@0.487.0(react@19.1.0):
@@ -2183,6 +2243,8 @@ snapshots:
 
   object-hash@3.0.0: {}
 
+  on-change@4.0.2: {}
+
   package-json-from-dist@1.0.1: {}
 
   path-key@3.1.1: {}
@@ -2263,6 +2325,8 @@ snapshots:
     dependencies:
       react: 19.1.0
 
+  react-merge-refs@2.1.1: {}
+
   react-reconciler@0.31.0(react@19.1.0):
     dependencies:
       react: 19.1.0
@@ -2308,6 +2372,8 @@ snapshots:
   scheduler@0.25.0: {}
 
   scheduler@0.26.0: {}
+
+  semver-compare@1.0.0: {}
 
   semver@7.7.1:
     optional: true
@@ -2460,6 +2526,8 @@ snapshots:
       three: 0.175.0
 
   three@0.175.0: {}
+
+  thumbhash@0.1.1: {}
 
   to-regex-range@5.0.1:
     dependencies:

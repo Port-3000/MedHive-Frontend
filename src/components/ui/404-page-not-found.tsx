@@ -1,3 +1,5 @@
+//src/components/ui/404-page-not-found.tsx
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -7,7 +9,7 @@ export function NotFoundPage() {
   const router = useRouter();
 
   return (
-    <section className="bg-white font-serif min-h-screen flex items-center justify-center">
+    <section className="bg-white font-['Lilita_One'] min-h-screen flex items-center justify-center relative">
       <div className="container mx-auto">
         <div className="flex justify-center">
           <div className="w-full sm:w-10/12 md:w-8/12 text-center">
