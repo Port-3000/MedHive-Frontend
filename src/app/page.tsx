@@ -2,6 +2,7 @@
 
 "use client";
 import { useState, useEffect } from "react";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { Typewriter } from "react-simple-typewriter";
 import Link from "next/link";
@@ -35,9 +36,23 @@ export default function Index() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
+  // Refs for each section
+  const heroSectionRef = useIntersectionObserver({ threshold: 0.2 });
+  const featuresSectionRef = useIntersectionObserver({ threshold: 0.2 });
+  const modelsSectionRef = useIntersectionObserver({ threshold: 0.2 });
+  const joinSectionRef = useIntersectionObserver({ threshold: 0.2 });
+
   useEffect(() => {
     setIsLoaded(true);
     setHasMounted(true);
+
+    // Add smooth reveal to status badges
+    const badges = document.querySelectorAll(".grid-cols-3.gap-3 > *");
+    badges.forEach((badge, index) => {
+      setTimeout(() => {
+        badge.classList.add("revealed");
+      }, index * 200);
+    });
   }, []);
 
   const features = [
@@ -126,10 +141,13 @@ export default function Index() {
         <Navbar />
 
         {/* Hero Section */}
-        <section className="relative md:pt-16 md:pb-28 lg:pt-20 lg:pb-28 overflow-hidden">
+        <section
+          ref={heroSectionRef}
+          className="relative md:pt-16 md:pb-28 lg:pt-20 lg:pb-28 overflow-hidden animate-reveal"
+        >
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-0 bg-black/70" />
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-purple-500/10" />
+            <div className="absolute inset-0" />
+            <div className="absolute inset-0 " />
           </div>
 
           <div className="container mx-auto px-6 relative z-10">
@@ -236,7 +254,7 @@ export default function Index() {
                       }}
                     />
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                  <div className="absolute bottom-0 left-0 right-0  p-6">
                     <h3 className="text-lg font-semibold text-white mb-1">
                       MedHive Federated Learning
                     </h3>
@@ -252,11 +270,14 @@ export default function Index() {
         </section>
 
         {/* Second Section */}
-        <section className="relative min-h-screen flex flex-col justify-center items-center px-4 py-12 sm:py-16">
+        <section
+          ref={featuresSectionRef}
+          className="relative min-h-screen flex flex-col justify-center items-center px-4 py-12 sm:py-16 animate-reveal"
+        >
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-0 bg-black/75" />
-            <div className="absolute inset-0 bg-gradient-to-b from-medhive-500/10 to-transparent" />
-            <div className="absolute inset-0 bg-[url('/patterns/noise.png')] opacity-5 mix-blend-overlay" />
+            <div className="absolute inset-0" />
+            <div className="absolute inset-0 " />
+            <div className="absolute inset-0 opacity-5 mix-blend-overlay" />
           </div>
 
           <div className="relative z-10 max-w-4xl w-full text-center mb-8 sm:mb-12">
@@ -279,17 +300,20 @@ export default function Index() {
         </section>
 
         {/* Third Section */}
-        <section className="relative z-10 py-20">
-          <div className="absolute inset-0 pointer-events-none z-0 overflow-x-hidden">
-            <div className="w-full h-full bg-[url('/patterns/grid.svg')] opacity-5 mix-blend-overlay" />
-            <div className="w-full h-full animate-[move-streams_15s_linear_infinite] bg-[url('/patterns/lines.svg')] opacity-10 mix-blend-screen" />
-            <div className="absolute inset-0 bg-[url('/patterns/noise.png')] opacity-5 backdrop-blur-md" />
-            <div className="absolute top-0 left-1/2 w-[100dvw] max-w-full h-full bg-gradient-to-tr from-cyan-500/10 via-blue-400/5 to-transparent transform -translate-x-1/2 rotate-12 animate-pulse-slow blur-2xl -translate-y-1/4" />
+        <section ref={modelsSectionRef} className="relative z-20 py-20">
+          <div className="absolute inset-0 pointer-events-none z-10">
+            <div className="w-full h-full" />
+            <div className="w-full h-full animate-[move-streams_15s_linear_infinite]" />
+            <div className="absolute inset-0 " />
+            <div className="absolute top-0 left-1/2 w-[100dvw] max-w-full h-full " />
           </div>
 
-          <div className="container mx-auto px-4 relative max-w-[90rem]">
+          <div className="container relative z-30 mx-auto px-4 max-w-[90rem]">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
-              <div>
+              <div
+                className="animate-fade-in opacity-100"
+                style={{ animationDelay: "100ms" }}
+              >
                 <span className="inline-block px-4 py-1 bg-gradient-to-r from-[#6d28d9] via-[#9333ea] to-[#ec4899] text-white rounded-full text-xs font-bold tracking-wider mb-4 drop-shadow-lg">
                   Our AI Models
                 </span>
@@ -388,7 +412,10 @@ export default function Index() {
         </section>
 
         {/* Fourth Section */}
-        <section className="relative py-28 overflow-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900">
+        <section
+          ref={joinSectionRef}
+          className="relative py-28 overflow-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900 animate-reveal"
+        >
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute inset-0 bg-[url('/patterns/hexagon-grid.svg')] opacity-15 animate-pulse-slow" />
             <div className="absolute inset-0 bg-[url('/patterns/circuit-pattern.svg')] opacity-10 mix-blend-overlay animate-pan" />
