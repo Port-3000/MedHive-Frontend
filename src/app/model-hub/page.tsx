@@ -3,7 +3,6 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { BlurContainer } from "@/components/ui/BlurContainer";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
@@ -47,8 +46,7 @@ export default function ModelHub() {
         title: "LLM Symptom Analysis",
         description:
           "An advanced language model that analyzes patient-reported symptoms using a Retrieval Augmented Generation (RAG) approach to provide preliminary diagnostics and recommendations.",
-        image:
-          "https://images.unsplash.com/photo-1576671413497-287a5b9e7901?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        image: "/feature1.jpg",
         category: "nlp",
         icon: <Brain className="h-6 w-6 text-cyan-400" />,
         accuracy: "89%",
@@ -124,7 +122,6 @@ export default function ModelHub() {
     []
   );
 
-  // filter via useMemo to avoid unnecessary recalcs
   const filteredModels = useMemo(() => {
     return models.filter((m) => {
       const q = debouncedSearch.toLowerCase();
@@ -146,48 +143,51 @@ export default function ModelHub() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-28 pb-16">
+      <section className="pt-10 pb-16">
         <div className="container mx-auto px-4 text-center">
-          <span className="inline-block px-3 py-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full text-sm font-medium mb-4 animate-fade-up">
+          <span className="inline-block px-3 py-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full text-sm font-['Poppins'] mb-4 animate-fade-up">
             MedHive Model Hub
           </span>
           <h1
-            className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-up"
+            className="text-4xl md:text-7xl font-['Kagitingan'] text-white mb-6 animate-fade-up leading-tight"
             style={{ animationDelay: "100ms" }}
           >
-            Discover Our Healthcare AI Models
+            Discover Our <br />
+            <span className="text-cyan-400">Healthcare AI Models</span>
           </h1>
           <p
-            className="text-lg text-gray-300 mb-8 animate-fade-up"
+            className="text-lg text-gray-300 font-['Poppins'] mb-10 animate-fade-up"
             style={{ animationDelay: "200ms" }}
           >
             Explore our collection of federated learning models trained across
             hospital networks while preserving patient privacy.
           </p>
           <div
-            className="relative max-w-xl mx-auto animate-fade-up"
-            style={{ animationDelay: "300ms" }}
+            className="relative max-w-xl mx-auto animate-fade-up font-['Poppins']"
+            style={{ animationDelay: "700ms" }}
           >
             <PlaceholdersAndVanishInput
               placeholders={[
-                "Search medical AI models...",
-                "Try: Pneumonia X-Ray Detection",
-                "Try: LLM Symptom Analysis",
+                "Search our AI models…",
+                "Try “ECG Curve Analysis”",
+                "Or “Glaucoma FUNDUS”",
               ]}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onSubmit={(e) => e.preventDefault()}
-              onClear={() => {
-                setSearchQuery("");
-                setActiveCategory("all"); // Show all models again
+              onSubmit={() => {
+                if (searchQuery.trim()) {
+                } else {
+                  setSearchQuery("");
+                  setActiveCategory("all");
+                }
               }}
-              className="mb-6"
+              className="mb-2"
             />
           </div>
         </div>
       </section>
 
       {/* Category Filters */}
-      <section className="py-8">
+      <section className="py-0">
         <div
           className="container mx-auto px-4 flex flex-wrap justify-center gap-3 animate-fade-up"
           style={{ animationDelay: "400ms" }}
@@ -283,7 +283,7 @@ export default function ModelHub() {
               />
             </div>
             <div className="lg:w-1/2 flex flex-col justify-center text-white">
-              <h3 className="text-2xl font-bold mb-4">
+              <h3 className="text-5xl font-['Kagitingan'] mb-4">
                 Want to contribute your own models?
               </h3>
               <p className="text-gray-400 mb-6">
@@ -291,7 +291,7 @@ export default function ModelHub() {
                 medical AI while maintaining full control over your data
                 privacy.
               </p>
-              <Button className="self-start bg-cyan-500 hover:bg-cyan-600 text-black px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(0,255,255,0.4)]">
+              <Button className="self-start font-['Poppins'] bg-cyan-500 hover:bg-cyan-600 text-black px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(0,255,255,0.4)]">
                 Learn About Contributing
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>

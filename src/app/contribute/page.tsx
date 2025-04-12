@@ -1,15 +1,31 @@
-"use client"
-import { useState, useEffect } from 'react';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
-import { BlurContainer } from '@/components/ui/BlurContainer';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowRight, BarChart3, Building2, Database, LineChart, Lock, Server, ShieldCheck, UserPlus, Users } from 'lucide-react';
+"use client";
+import { useState, useEffect } from "react";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { BlurContainer } from "@/components/ui/BlurContainer";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  ArrowRight,
+  BarChart3,
+  Building2,
+  Database,
+  LineChart,
+  Lock,
+  Server,
+  ShieldCheck,
+  UserPlus,
+  Users,
+  Sparkles,
+  Brain,
+  Network,
+  Cpu,
+} from "lucide-react";
 
 export default function Contribute() {
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
   useEffect(() => {
     setIsLoaded(true);
   }, []);
@@ -18,22 +34,26 @@ export default function Contribute() {
     {
       icon: <LineChart className="h-6 w-6 text-medhive-500" />,
       title: "Customized Models",
-      description: "Train models that are fine-tuned to your specific patient demographics and disease patterns."
+      description:
+        "Train models that are fine-tuned to your specific patient demographics and disease patterns.",
     },
     {
       icon: <Lock className="h-6 w-6 text-medhive-500" />,
       title: "Complete Data Privacy",
-      description: "Your patient data never leaves your premises, ensuring full compliance with privacy regulations."
+      description:
+        "Your patient data never leaves your premises, ensuring full compliance with privacy regulations.",
     },
     {
       icon: <Database className="h-6 w-6 text-medhive-500" />,
       title: "Infrastructure Included",
-      description: "We provide all the hardware and software infrastructure needed for federated learning."
+      description:
+        "We provide all the hardware and software infrastructure needed for federated learning.",
     },
     {
       icon: <ShieldCheck className="h-6 w-6 text-medhive-500" />,
       title: "Regulatory Compliance",
-      description: "Built-in HIPAA, GDPR, and other regulatory compliance for worry-free implementation."
+      description:
+        "Built-in HIPAA, GDPR, and other regulatory compliance for worry-free implementation.",
     },
   ];
 
@@ -41,22 +61,26 @@ export default function Contribute() {
     {
       icon: <Users className="h-6 w-6 text-medhive-500" />,
       title: "Diverse Model Training",
-      description: "Access to models trained on diverse patient populations for better generalization."
+      description:
+        "Access to models trained on diverse patient populations for better generalization.",
     },
     {
       icon: <BarChart3 className="h-6 w-6 text-medhive-500" />,
       title: "Performance Insights",
-      description: "Track model improvements over time as the federated network grows."
+      description:
+        "Track model improvements over time as the federated network grows.",
     },
     {
       icon: <Server className="h-6 w-6 text-medhive-500" />,
       title: "Robust Architecture",
-      description: "A distributed system that ensures reliability and fault tolerance."
+      description:
+        "A distributed system that ensures reliability and fault tolerance.",
     },
     {
       icon: <UserPlus className="h-6 w-6 text-medhive-500" />,
       title: "Growing Network",
-      description: "Join a community of researchers and clinicians dedicated to advancing medical AI."
+      description:
+        "Join a community of researchers and clinicians dedicated to advancing medical AI.",
     },
   ];
 
@@ -64,303 +88,537 @@ export default function Contribute() {
     {
       metric: "Hospitals",
       value: "25+",
-      description: "Healthcare institutions contributing to our federated network."
+      description:
+        "Healthcare institutions contributing to our federated network.",
+      icon: <Building2 className="h-6 w-6 text-blue-300" />,
     },
     {
       metric: "Model Accuracy",
       value: "+18%",
-      description: "Average improvement in model accuracy compared to single-institution training."
+      description:
+        "Average improvement in model accuracy compared to single-institution training.",
+      icon: <LineChart className="h-6 w-6 text-blue-300" />,
     },
     {
       metric: "Patient Records",
       value: "1.2M+",
-      description: "Anonymized patient records used for training across the network."
+      description:
+        "Anonymized patient records used for training across the network.",
+      icon: <Database className="h-6 w-6 text-blue-300" />,
     },
     {
       metric: "Security Level",
       value: "End-to-End",
-      description: "Enterprise-grade encryption and security protocols."
+      description: "Enterprise-grade encryption and security protocols.",
+      icon: <ShieldCheck className="h-6 w-6 text-blue-300" />,
     },
   ];
 
+  const stepsData = [
+    {
+      title: "Local Training",
+      description:
+        "Models are trained locally at each hospital using their own patient data, keeping sensitive information secure.",
+      icon: <Cpu className="h-8 w-8 text-blue-400" />,
+    },
+    {
+      title: "Secure Weight Sharing",
+      description:
+        "Only encrypted model weights are shared with the central server, never the raw patient data.",
+      icon: <Network className="h-8 w-8 text-purple-400" />,
+    },
+    {
+      title: "Global Aggregation",
+      description:
+        "The central server aggregates model improvements from all participants to create a better global model.",
+      icon: <Brain className="h-8 w-8 text-cyan-400" />,
+    },
+  ];
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
+
   return (
-    <main className={`min-h-screen ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}>
+    <main
+      className={`min-h-screen ${
+        isLoaded ? "opacity-100" : "opacity-0"
+      } transition-opacity duration-500`}
+    >
+      {/* Cyber background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full opacity-20 bg-grid-pattern"></div>
+        <div className="absolute top-1/4 -left-64 w-96 h-96 rounded-full bg-blue-500 opacity-10 blur-3xl"></div>
+        <div className="absolute top-3/4 -right-64 w-96 h-96 rounded-full bg-purple-500 opacity-10 blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-radial from-cyan-900/20 to-transparent opacity-30"></div>
+      </div>
+
       <Navbar />
-      
+
       {/* Hero Section */}
-      <section className="pt-28 pb-16 md:pt-32 md:pb-20 bg-gradient-to-b from-medhive-50 to-white">
+      <section className="pt-20 pb-20 relative">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4 animate-fade-up">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-3xl mx-auto text-center relative"
+          >
+            <motion.span
+              className="inline-block px-6 py-2 bg-black/80 text-cyan-400 rounded-full 
+              text-sm font-semibold mb-6 backdrop-blur-lg border border-cyan-400/30
+              shadow-[0_0_20px_-5px_rgba(34,211,238,0.3)]"
+            >
+              <Sparkles className="inline-block w-4 h-4 mr-2" />
               Join The Network
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-up" style={{ animationDelay: '100ms' }}>
+            </motion.span>
+
+            <h1
+              className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r 
+              from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent"
+            >
               Contribute to Medical AI Innovation
             </h1>
-            <p className="text-lg text-gray-600 mb-8 animate-fade-up" style={{ animationDelay: '200ms' }}>
-              Become part of our federated learning network to help develop more accurate and diverse healthcare AI models while maintaining data privacy.
+
+            <div className="w-32 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-6"></div>
+
+            <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+              Become part of our federated learning network to help develop more
+              accurate and diverse healthcare AI models while maintaining data
+              privacy.
             </p>
-          </div>
+
+            <motion.div whileHover={{ scale: 1.05 }} className="inline-block">
+              <Button
+                className="bg-gradient-to-r from-cyan-600 to-purple-600 
+                hover:from-cyan-500/90 hover:to-purple-500/90 text-white px-8 py-6 
+                rounded-xl font-bold text-lg border border-cyan-400/30
+                shadow-[0_0_30px_-8px_rgba(34,211,238,0.4)]"
+              >
+                Get Started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
-      
+
       {/* Tabs Section */}
-      <section className="py-12">
+      <section className="py-16 relative">
         <div className="container mx-auto px-4">
-          <Tabs defaultValue="hospitals" className="animate-fade-up" style={{ animationDelay: '300ms' }}>
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-12">
-              <TabsTrigger value="hospitals" className="text-sm sm:text-base">For Hospitals</TabsTrigger>
-              <TabsTrigger value="community" className="text-sm sm:text-base">Community</TabsTrigger>
-              <TabsTrigger value="admin" className="text-sm sm:text-base">Admin Reports</TabsTrigger>
+          <Tabs defaultValue="hospitals" className="relative">
+            <TabsList
+              className="flex w-full max-w-2xl mx-auto mb-12 p-1 
+              bg-slate-900/80 backdrop-blur-sm border border-slate-800 rounded-lg
+              shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)]"
+            >
+              <TabsTrigger
+                value="hospitals"
+                className="flex-1 py-3 text-sm font-medium rounded-md 
+                  data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 
+                  data-[state=active]:to-purple-600 data-[state=active]:text-white
+                  data-[state=active]:shadow-[0_0_20px_-5px_rgba(34,211,238,0.3)]
+                  transition-all duration-300"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <Building2 className="h-4 w-4" />
+                  Hospitals
+                </div>
+              </TabsTrigger>
+
+              <TabsTrigger
+                value="community"
+                className="flex-1 py-3 text-sm font-medium rounded-md 
+                  data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 
+                  data-[state=active]:to-pink-600 data-[state=active]:text-white
+                  data-[state=active]:shadow-[0_0_20px_-5px_rgba(192,132,252,0.3)]
+                  transition-all duration-300"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <Users className="h-4 w-4" />
+                  Community
+                </div>
+              </TabsTrigger>
+
+              <TabsTrigger
+                value="admin"
+                className="flex-1 py-3 text-sm font-medium rounded-md 
+                  data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 
+                  data-[state=active]:to-cyan-600 data-[state=active]:text-white
+                  data-[state=active]:shadow-[0_0_20px_-5px_rgba(59,130,246,0.3)]
+                  transition-all duration-300"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <ShieldCheck className="h-4 w-4" />
+                  Admin
+                </div>
+              </TabsTrigger>
             </TabsList>
-            
+
+            {/* Hospitals Tab */}
             <TabsContent value="hospitals">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                  <h2 className="text-3xl font-bold mb-6">Join Our Hospital Network</h2>
-                  <p className="text-gray-600 mb-8">
-                    As a participating hospital, you can contribute to and benefit from our federated learning platform while keeping your patient data secure on your premises.
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <h2 className="text-3xl font-bold mb-4 text-white">
+                    Join Our Hospital Network
+                  </h2>
+                  <p className="mb-8 text-gray-200">
+                    As a participating hospital, you can contribute to and
+                    benefit from our federated learning platform while keeping
+                    your patient data secure.
                   </p>
-                  
-                  <div className="space-y-6 mb-8">
+                  <div className="grid grid-cols-1 gap-4 mb-8">
                     {hospitalBenefits.map((benefit, index) => (
-                      <div key={index} className="flex items-start">
-                        <div className="flex-shrink-0 mt-1 mr-4">
-                          {benefit.icon}
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-lg mb-1">{benefit.title}</h3>
-                          <p className="text-gray-600">{benefit.description}</p>
-                        </div>
-                      </div>
+                      <motion.div key={index} variants={itemVariants}>
+                        <BlurContainer
+                          className="flex items-center gap-4 p-4 bg-gray-900 bg-opacity-50 border border-cyan-500/30 hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(0,255,231,0.6)] rounded-2xl transition-all duration-300"
+                          intensity="low"
+                        >
+                          <div className="flex-shrink-0 p-3 bg-gray-800 border border-cyan-500/50 rounded-xl shadow-[0_0_6px_rgba(0,255,231,0.4)]">
+                            {benefit.icon}
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-semibold text-cyan-300 mb-1">
+                              {benefit.title}
+                            </h3>
+                            <p className="text-gray-400 text-sm">
+                              {benefit.description}
+                            </p>
+                          </div>
+                        </BlurContainer>
+                      </motion.div>
                     ))}
                   </div>
-                  
-                  <Button className="bg-medhive-500 hover:bg-medhive-600">
+
+                  <Button className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6 py-5 rounded-lg font-semibold shadow-glow-sm border border-cyan-500/30">
                     Register as Hospital
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </div>
-                
-                <BlurContainer 
-                  className="p-0 overflow-hidden" 
-                  intensity="low"
-                  hoverable
+                </motion.div>
+                <BlurContainer
+                  className="overflow-hidden border border-cyan-500/20 rounded-2xl shadow-glow"
+                  intensity="medium"
                 >
-                  <img 
-                    src="https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt="Hospital Network" 
-                    className="w-full h-80 object-cover"
-                  />
-                  <div className="p-6">
-                    <h3 className="font-medium text-lg mb-2">Secure Onboarding Process</h3>
-                    <p className="text-gray-600">
-                      Our team works directly with your IT department to set up the secure federated learning infrastructure without disrupting your existing workflows.
-                    </p>
-                    <div className="flex items-center mt-4 pt-4 border-t border-gray-100">
-                      <Building2 className="h-5 w-5 text-medhive-500 mr-2" />
-                      <span className="text-sm text-gray-500">25+ hospitals already in our network</span>
-                    </div>
-                  </div>
-                </BlurContainer>
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="community">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <BlurContainer 
-                  className="p-0 overflow-hidden order-2 md:order-1" 
-                  intensity="low"
-                  hoverable
-                >
-                  <img 
-                    src="https://images.unsplash.com/photo-1573497019418-b400bb3ab074?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt="Medical Research Community" 
-                    className="w-full h-80 object-cover"
-                  />
-                  <div className="p-6">
-                    <h3 className="font-medium text-lg mb-2">Collaborative Improvement</h3>
-                    <p className="text-gray-600">
-                      Our community dashboard shows real-time model performance improvements as new data and research facilities join the network.
-                    </p>
-                    <div className="flex items-center mt-4 pt-4 border-t border-gray-100">
-                      <Users className="h-5 w-5 text-medhive-500 mr-2" />
-                      <span className="text-sm text-gray-500">Join 500+ researchers and clinicians</span>
-                    </div>
-                  </div>
-                </BlurContainer>
-                
-                <div className="order-1 md:order-2">
-                  <h2 className="text-3xl font-bold mb-6">Community Dashboard</h2>
-                  <p className="text-gray-600 mb-8">
-                    Our community portal gives researchers, clinicians and healthcare professionals visibility into model performance and network growth.
-                  </p>
-                  
-                  <div className="space-y-6 mb-8">
-                    {communityBenefits.map((benefit, index) => (
-                      <div key={index} className="flex items-start">
-                        <div className="flex-shrink-0 mt-1 mr-4">
-                          {benefit.icon}
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-lg mb-1">{benefit.title}</h3>
-                          <p className="text-gray-600">{benefit.description}</p>
-                        </div>
+                  <div className="relative">
+                    <img
+                      src="/api/placeholder/800/600"
+                      alt="Hospital Network"
+                      className="w-full h-96 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/60 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <div className="inline-block px-3 py-1 bg-cyan-900/80 text-cyan-300 rounded-full text-sm font-medium mb-2 backdrop-blur-sm border border-cyan-500/30">
+                        Advanced Technology
                       </div>
+                      <h3 className="text-xl font-bold text-white">
+                        Secure Federated Learning Infrastructure
+                      </h3>
+                    </div>
+                  </div>
+                </BlurContainer>
+              </motion.div>
+            </TabsContent>
+
+            {/* Community Tab */}
+            <TabsContent value="community">
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Image Card */}
+                <BlurContainer
+                  className="relative overflow-hidden bg-gray-900 bg-opacity-50 border border-purple-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(198,75,255,0.6)] transition-all duration-300 order-2 md:order-1"
+                  intensity="medium"
+                >
+                  <img
+                    src="/api/placeholder/800/600"
+                    alt="Medical Research Community"
+                    className="w-full h-96 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 bg-purple-900/80 text-purple-300 rounded-full text-sm font-medium backdrop-blur-sm border border-purple-500/40 mb-2">
+                      Global Collaboration
+                    </span>
+                    <h3 className="text-xl font-bold text-white">
+                      Medical AI Community Network
+                    </h3>
+                  </div>
+                </BlurContainer>
+
+                {/* Text & Benefits */}
+                <motion.div
+                  className="order-1 md:order-2"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
+                    Community Dashboard
+                  </h2>
+                  <p className="mb-8 text-gray-300">
+                    Our community portal provides visibility into model
+                    performance and network growth for researchers, clinicians,
+                    and healthcare professionals.
+                  </p>
+
+                  <div className="grid grid-cols-1 gap-4 mb-8">
+                    {communityBenefits.map((benefit, index) => (
+                      <motion.div key={index} variants={itemVariants}>
+                        <BlurContainer
+                          className="flex items-start gap-4 p-4 bg-gray-900 bg-opacity-50 border border-purple-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(198,75,255,0.6)] transition-all duration-300"
+                          intensity="low"
+                        >
+                          <div className="flex-shrink-0 p-3 bg-gray-800 border border-purple-500/50 rounded-xl shadow-[0_0_6px_rgba(198,75,255,0.4)]">
+                            {benefit.icon}
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-semibold text-purple-300 mb-1">
+                              {benefit.title}
+                            </h3>
+                            <p className="text-gray-400 text-sm">
+                              {benefit.description}
+                            </p>
+                          </div>
+                        </BlurContainer>
+                      </motion.div>
                     ))}
                   </div>
-                  
-                  <Button className="bg-medhive-500 hover:bg-medhive-600">
+
+                  <Button className="inline-flex items-center px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-600/80 hover:to-pink-600/80 text-black font-semibold rounded-xl shadow-[0_0_6px_rgba(198,75,255,0.4)] border border-purple-500/30 transition-all duration-300">
                     View Community Dashboard
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </TabsContent>
-            
+
+            {/* Admin Tab */}
             <TabsContent value="admin">
-              <div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Header */}
                 <div className="max-w-3xl mx-auto text-center mb-12">
-                  <h2 className="text-3xl font-bold mb-6">Administrator Reports</h2>
-                  <p className="text-gray-600">
-                    Comprehensive analytics and reports for MedHive administrators to monitor system performance, security, and network growth.
+                  <div className="inline-block p-3 bg-gray-900 bg-opacity-50 border border-blue-500/30 rounded-full backdrop-blur-md mb-6 shadow-[0_0_6px_rgba(66,153,225,0.4)]">
+                    <Lock className="h-6 w-6 text-blue-300" />
+                  </div>
+                  <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                    Administrator Reports
+                  </h2>
+                  <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 rounded"></div>
+                  <p className="text-gray-300 max-w-xl mx-auto">
+                    Comprehensive analytics and reports for MedHive
+                    administrators to monitor system performance, security, and
+                    network growth.
                   </p>
                 </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+
+                {/* Stats Grid */}
+                <motion.div
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
                   {performanceStats.map((stat, index) => (
-                    <BlurContainer 
-                      key={index} 
-                      className="p-6 text-center" 
-                      hoverable
-                      style={{ animationDelay: `${index * 100}ms` }}
-                    >
-                      <h3 className="text-medhive-600 font-bold text-3xl mb-2">{stat.value}</h3>
-                      <p className="font-medium mb-1">{stat.metric}</p>
-                      <p className="text-sm text-gray-600">{stat.description}</p>
-                    </BlurContainer>
+                    <motion.div key={index} variants={itemVariants}>
+                      <BlurContainer
+                        className="p-6 text-center bg-gray-900 bg-opacity-50 border border-blue-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(66,153,225,0.6)] transition-all duration-300"
+                        intensity="low"
+                      >
+                        {/* Optional: icon circle */}
+                        {stat.icon && (
+                          <div className="mx-auto mb-4 w-16 h-16 flex items-center justify-center rounded-full bg-gray-800 bg-opacity-60 border border-blue-500/40 shadow-[0_0_6px_rgba(66,153,225,0.4)]">
+                            {stat.icon}
+                          </div>
+                        )}
+                        <h3 className="text-3xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                          {stat.value}
+                        </h3>
+                        <p className="font-medium mb-2 text-blue-300">
+                          {stat.metric}
+                        </p>
+                        <p className="text-sm text-gray-400">
+                          {stat.description}
+                        </p>
+                      </BlurContainer>
+                    </motion.div>
                   ))}
-                </div>
-                
-                <BlurContainer 
-                  className="p-8" 
+                </motion.div>
+
+                {/* Admin Access Card */}
+                <BlurContainer
+                  className="p-8 bg-gray-900 bg-opacity-50 border border-purple-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(198,75,255,0.6)] transition-all duration-300"
                   intensity="medium"
                 >
-                  <h3 className="text-xl font-bold mb-6">Administrator Access Required</h3>
-                  <p className="text-gray-600 mb-6">
-                    This section requires administrator privileges to access detailed reports, execution logs, and system configuration settings.
-                  </p>
-                  <Button variant="outline" className="border-medhive-500 text-medhive-600 hover:bg-medhive-50">
-                    Admin Login
-                    <Lock className="ml-2 h-4 w-4" />
-                  </Button>
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-gray-800 bg-opacity-60 border border-purple-500/40 shadow-[0_0_6px_rgba(198,75,255,0.4)]">
+                      <Lock className="h-6 w-6 text-purple-300" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
+                      Administrator Access Required
+                    </h3>
+                    <Button
+                      variant="outline"
+                      className="px-6 py-4 rounded-lg border-purple-400 text-purple-300 hover:bg-purple-400/10 transition-all duration-300"
+                    >
+                      <Lock className="mr-2 h-4 w-4" />
+                      Admin Login
+                    </Button>
+                  </div>
                 </BlurContainer>
-              </div>
+              </motion.div>
             </TabsContent>
           </Tabs>
         </div>
       </section>
-      
+
       {/* Process Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 relative">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4">
+            <motion.span
+              className="inline-block px-6 py-2 bg-gray-900 bg-opacity-50 border border-blue-500/30 text-cyan-300 rounded-full text-sm font-bold mb-4 backdrop-blur-md shadow-[0_0_6px_rgba(0,255,231,0.4)]"
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+            >
+              <Network className="inline-block w-4 h-4 mr-2" />
               How It Works
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            </motion.span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-cyan-200 to-blue-300 drop-shadow-text">
               The Federated Learning Process
             </h2>
-            <p className="text-lg text-gray-600">
-              Our federated learning system enables collaborative model training without sharing sensitive patient data.
-            </p>
+            <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded"></div>
           </div>
-          
-          <div className="relative max-w-4xl mx-auto">
-            {/* Connection line */}
-            <div className="absolute top-1/2 left-0 right-0 h-1 bg-medhive-100 -translate-y-1/2 z-0 hidden md:block"></div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {/* Step 1 */}
-              <div className="relative z-10 animate-fade-up" style={{ animationDelay: '100ms' }}>
-                <div className="flex justify-center mb-6 md:mb-12">
-                  <div className="h-16 w-16 rounded-full bg-medhive-100 flex items-center justify-center text-medhive-600 text-lg font-bold border-4 border-white">
-                    1
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {stepsData.map((step, index) => (
+              <motion.div key={index} variants={itemVariants}>
+                <BlurContainer
+                  className="relative p-6 text-center bg-gray-900 bg-opacity-50 border border-cyan-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(0,255,231,0.6)] transition-all duration-300"
+                  intensity="medium"
+                >
+                  {/* Step Number */}
+                  <div className="flex justify-center mb-4">
+                    <div className="h-20 w-20 flex items-center justify-center rounded-full bg-gray-800 bg-opacity-60 border border-cyan-500/40 shadow-[0_0_6px_rgba(0,255,231,0.4)]">
+                      <div className="h-16 w-16 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600/80 to-cyan-600/80 text-white text-xl font-bold border border-cyan-300/20">
+                        {index + 1}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <BlurContainer className="h-full p-6 text-center" hoverable>
-                  <h3 className="text-xl font-bold mb-3">Local Training</h3>
-                  <p className="text-gray-600">
-                    Models are trained locally at each hospital using their own patient data, keeping sensitive information secure.
-                  </p>
+
+                  {/* Icon */}
+                  <div className="mb-4 text-cyan-300">{step.icon}</div>
+
+                  {/* Title & Description */}
+                  <h3 className="text-xl font-bold mb-2 text-cyan-300">
+                    {step.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm">{step.description}</p>
+
+                  {/* Connector line */}
+                  {index < stepsData.length - 1 && (
+                    <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-1 bg-gradient-to-r from-cyan-500 to-transparent"></div>
+                  )}
                 </BlurContainer>
-              </div>
-              
-              {/* Step 2 */}
-              <div className="relative z-10 animate-fade-up" style={{ animationDelay: '200ms' }}>
-                <div className="flex justify-center mb-6 md:mb-12">
-                  <div className="h-16 w-16 rounded-full bg-medhive-100 flex items-center justify-center text-medhive-600 text-lg font-bold border-4 border-white">
-                    2
-                  </div>
-                </div>
-                <BlurContainer className="h-full p-6 text-center" hoverable>
-                  <h3 className="text-xl font-bold mb-3">Secure Weight Sharing</h3>
-                  <p className="text-gray-600">
-                    Only encrypted model weights are shared with the central server, never the raw patient data.
-                  </p>
-                </BlurContainer>
-              </div>
-              
-              {/* Step 3 */}
-              <div className="relative z-10 animate-fade-up" style={{ animationDelay: '300ms' }}>
-                <div className="flex justify-center mb-6 md:mb-12">
-                  <div className="h-16 w-16 rounded-full bg-medhive-100 flex items-center justify-center text-medhive-600 text-lg font-bold border-4 border-white">
-                    3
-                  </div>
-                </div>
-                <BlurContainer className="h-full p-6 text-center" hoverable>
-                  <h3 className="text-xl font-bold mb-3">Global Aggregation</h3>
-                  <p className="text-gray-600">
-                    The central server aggregates model improvements from all participants to create a better global model.
-                  </p>
-                </BlurContainer>
-              </div>
-            </div>
-          </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
-      
+
       {/* CTA Section */}
-      <section className="py-16">
+      <section className="py-24 relative">
         <div className="container mx-auto px-4">
-          <BlurContainer 
-            className="max-w-5xl mx-auto p-12 text-center" 
-            variant="dark"
-            intensity="medium"
+          <BlurContainer
+            className="relative max-w-5xl mx-auto p-12 text-center bg-gray-900 bg-opacity-50 border border-cyan-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(0,255,231,0.6)] transition-all duration-300 overflow-hidden"
+            intensity="high"
           >
-            <h2 className="text-3xl font-bold mb-6">Ready to Join the Medical AI Revolution?</h2>
-            <p className="text-xl opacity-80 mb-8 max-w-2xl mx-auto">
-              Whether you're a hospital, research institution, or healthcare provider, MedHive provides the infrastructure to collaborate securely.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button 
-                size="lg" 
-                className="bg-white text-medhive-800 hover:bg-gray-100"
+            {/* Decorative borders */}
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
+            <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
+            <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-transparent via-cyan-500 to-transparent"></div>
+            <div className="absolute inset-y-0 right-0 w-1 bg-gradient-to-b from-transparent via-blue-500 to-transparent"></div>
+
+            {/* Center glow */}
+            <div className="absolute top-1/2 left-1/2 w-96 h-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-radial from-cyan-900/30 to-transparent blur-3xl pointer-events-none"></div>
+
+            <div className="relative z-10">
+              <motion.div
+                className="inline-block p-3 bg-gray-800 bg-opacity-60 border border-cyan-500/30 rounded-full mb-6 backdrop-blur-md shadow-[0_0_6px_rgba(0,255,231,0.4)]"
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
               >
-                Register as Hospital
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-white text-white hover:bg-white/10"
-              >
-                Learn About Contribution
-              </Button>
+                <Sparkles className="h-8 w-8 text-cyan-300" />
+              </motion.div>
+
+              <h2 className="text-3xl md:text-5xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-cyan-100 to-blue-300 drop-shadow-text">
+                Ready to Join the Medical AI Revolution?
+              </h2>
+
+              <div className="flex flex-col sm:flex-row justify-center gap-6 max-w-xl mx-auto">
+                <Button
+                  size="lg"
+                  className="flex items-center justify-center px-8 py-6 text-lg font-bold rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-black shadow-[0_0_6px_rgba(0,255,231,0.4)] border border-cyan-500/30 transition-all duration-300"
+                >
+                  Register as Hospital
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="flex items-center justify-center px-8 py-6 text-lg font-bold rounded-xl border-2 border-cyan-500 text-cyan-900 hover:bg-cyan-500/10 transition-all duration-300"
+                >
+                  Learn About Contribution
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
             </div>
           </BlurContainer>
         </div>
       </section>
-      
+
       <Footer />
     </main>
   );
