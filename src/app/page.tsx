@@ -11,6 +11,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Footer } from "@/components/layout/Footer";
 import { ArrowUpRight, Cpu } from "lucide-react";
+
 import {
   ArrowRight,
   Brain,
@@ -32,9 +33,11 @@ import {
 
 export default function Index() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
+    setHasMounted(true);
   }, []);
 
   const features = [
@@ -267,22 +270,22 @@ export default function Index() {
 
         {/* Third Section */}
         <section className="relative z-10 py-20">
-          <div className="absolute inset-0 pointer-events-none z-0">
-            <div className="w-full h-full bg-[url('/patterns/grid.svg')] opacity-5 mix-blend-overlay"></div>
-            <div className="w-full h-full animate-[move-streams_15s_linear_infinite] bg-[url('/patterns/lines.svg')] opacity-10 mix-blend-screen"></div>
-            <div className="absolute inset-0 bg-[url('/patterns/noise.png')] opacity-5 backdrop-blur-md"></div>
-            <div className="absolute top-0 left-1/2 w-[150%] h-full bg-gradient-to-tr from-cyan-500/10 via-blue-400/5 to-transparent transform -translate-x-1/2 rotate-12 animate-pulse-slow blur-2xl" />
+          <div className="absolute inset-0 pointer-events-none z-0 overflow-x-hidden">
+            <div className="w-full h-full bg-[url('/patterns/grid.svg')] opacity-5 mix-blend-overlay" />
+            <div className="w-full h-full animate-[move-streams_15s_linear_infinite] bg-[url('/patterns/lines.svg')] opacity-10 mix-blend-screen" />
+            <div className="absolute inset-0 bg-[url('/patterns/noise.png')] opacity-5 backdrop-blur-md" />
+            {/* Fixed gradient element */}
+            <div className="absolute top-0 left-1/2 w-[100dvw] max-w-full h-full bg-gradient-to-tr from-cyan-500/10 via-blue-400/5 to-transparent transform -translate-x-1/2 rotate-12 animate-pulse-slow blur-2xl -translate-y-1/4" />
           </div>
 
-          <div className="container mx-auto px-4 relative">
+          <div className="container mx-auto px-4 relative max-w-[90rem]">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
               <div>
                 <span className="inline-block px-4 py-1 bg-gradient-to-r from-[#6d28d9] via-[#9333ea] to-[#ec4899] text-white rounded-full text-xs font-bold tracking-wider mb-4 drop-shadow-lg">
                   Our AI Models
                 </span>
-
                 <h2 className="text-5xl md:text-6xl font-['Lilita_One'] bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-cyan-300 to-blue-500 animate-text-glow">
-                  MED-AI IN ACTION{" "}
+                  MED-AI IN ACTION
                 </h2>
               </div>
               <Link
@@ -294,7 +297,7 @@ export default function Index() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 overflow-x-hidden">
               {modelShowcase.map((model, idx) => {
                 const imageSrc =
                   idx === 0
@@ -319,9 +322,8 @@ export default function Index() {
                     className="group relative overflow-hidden rounded-3xl border border-transparent bg-gradient-to-br from-gray-900 via-black to-gray-800 shadow-[0_10px_30px_rgba(0,255,255,0.2)] hover:shadow-[0_20px_40px_rgba(0,255,255,0.4)] transition-shadow duration-500 animate-fade-up cursor-pointer"
                     style={{ animationDelay: `${idx * 150}ms` }}
                   >
-                    <div className="absolute inset-0 pointer-events-none rounded-3xl border-2 border-transparent group-hover:border-cyan-400 transition-colors duration-300 animate-[flicker_3s_linear_infinite]"></div>
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-500 mix-blend-screen"></div>
+                    <div className="absolute inset-0 pointer-events-none rounded-3xl border-2 border-transparent group-hover:border-cyan-400 transition-colors duration-300 animate-[flicker_3s_linear_infinite]" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-500 mix-blend-screen" />
 
                     <div className="h-56 overflow-hidden rounded-t-3xl">
                       <img
@@ -340,7 +342,6 @@ export default function Index() {
                           {model.description}
                         </p>
                       </div>
-
                       <div className="mt-4">
                         <span className="inline-flex items-center justify-center gap-2 text-sm font-medium text-cyan-300 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(0,255,255,0.4)] transition-colors duration-300">
                           Learn more
@@ -356,7 +357,6 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Tailwind customised */}
           <style jsx>{`
             @keyframes move-streams {
               from {
@@ -378,7 +378,7 @@ export default function Index() {
           `}</style>
         </section>
 
-        {/* Fourth Section - Futuristic AI Theme */}
+        {/* Fourth Section */}
         <section className="relative py-28 overflow-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900">
           {/* Enhanced background elements */}
           <div className="absolute inset-0 pointer-events-none">
@@ -387,10 +387,10 @@ export default function Index() {
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/15 via-transparent to-purple-500/15" />
           </div>
 
-          {/* Particle system */}
-          <div className="absolute inset-0">
-            {typeof window !== "undefined" &&
-              [...Array(45)].map((_, i) => (
+          {/* Corrected particle system */}
+          {hasMounted && (
+            <div className="absolute inset-0">
+              {[...Array(45)].map((_, i) => (
                 <div
                   key={`particle-${i}`}
                   className="absolute w-0.5 h-0.5 bg-cyan-400 rounded-full blur-[1px] animate-float"
@@ -402,7 +402,8 @@ export default function Index() {
                   }}
                 />
               ))}
-          </div>
+            </div>
+          )}
 
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl mx-auto text-center">
