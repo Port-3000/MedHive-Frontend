@@ -1,9 +1,32 @@
 import Link from "next/link";
-import { BlurContainer } from "../ui/BlurContainer";
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import Dock from '../Dock';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+
+  const socialItems = [
+    { 
+      icon: <Twitter size={20} />, 
+      label: 'Twitter', 
+      onClick: () => window.open('https://twitter.com/yourhandle', '_blank')
+    },
+    { 
+      icon: <Github size={20} />, 
+      label: 'GitHub', 
+      onClick: () => window.open('https://github.com/yourrepo', '_blank')
+    },
+    { 
+      icon: <Linkedin size={20} />, 
+      label: 'LinkedIn', 
+      onClick: () => window.open('https://linkedin.com/company/yourcompany', '_blank')
+    },
+    { 
+      icon: <Mail size={20} />, 
+      label: 'Contact', 
+      onClick: () => window.open('mailto:contact@yourdomain.com')
+    },
+  ];
 
   const linkGroups = [
     {
@@ -52,32 +75,13 @@ export function Footer() {
               privacy.
             </p>
 
-            <div className="flex space-x-4">
-              <a
-                href="#"
-                className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
-              >
-                <Twitter size={20} />
-              </a>
-              <a
-                href="#"
-                className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-900 transition-colors"
-              >
-                <Github size={20} />
-              </a>
-              <a
-                href="#"
-                className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="#"
-                className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-medhive-100 hover:text-medhive-600 transition-colors"
-              >
-                <Mail size={20} />
-              </a>
-            </div>
+            <Dock 
+              items={socialItems}
+              panelHeight={64}
+              baseItemSize={40}
+              magnification={50}
+              //className="relative mx-auto"
+            />
           </div>
 
           {linkGroups.map((group) => (

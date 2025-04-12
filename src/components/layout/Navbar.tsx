@@ -40,16 +40,17 @@ export function Navbar() {
       {/* Desktop Navbar */}
       <motion.div
         animate={{
-          backdropFilter: "blur(16px) saturate(170%)",
+          backdropFilter: "blur(10px) saturate(150%)",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           border: visible
-          ? "1px solid rgba(255, 255, 255, 0.15)"
-          : "1px solid rgba(255, 255, 255, 0.1)",          boxShadow:
+            ? "1px solid rgba(255, 255, 255, 0.15)"
+            : "1px solid rgba(255, 255, 255, 0.1)",
+          boxShadow:
             "0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 32px rgba(255, 255, 255, 0.05)",
           width: visible ? "40%" : "100%",
           y: visible ? 20 : 0,
         }}
-        transition={{ type: "spring", stiffness: 200, damping: 50 }}
+        transition={{ type: "spring", stiffness: 150, damping: 25, mass: 0.5 }}
         style={{ minWidth: "800px" }}
         className={cn(
           "hidden lg:flex relative z-[60] mx-auto max-w-7xl items-center justify-between rounded-2xl px-6 py-3 text-white navbar-glow after:bg-gradient-to-b after:from-black/50 after:to-transparent after:backdrop-blur-3xl"
@@ -111,6 +112,12 @@ export function Navbar() {
             "0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 32px rgba(255, 255, 255, 0.05)",
           width: visible ? "90%" : "100%",
           y: visible ? 20 : 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 150,
+          damping: 25,
+          mass: 0.5,
         }}
         className={cn(
           "lg:hidden relative z-50 mx-auto max-w-[calc(100vw-2rem)] flex-col rounded-2xl px-4 py-3 text-white after:bg-gradient-to-b after:from-black/50 after:to-transparent after:backdrop-blur-3xl"
