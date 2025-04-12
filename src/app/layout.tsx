@@ -28,11 +28,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* Fixed geometric background for all pages */}
         <div className="fixed inset-0 z-0">
           <HeroGeometric />
         </div>
-        {children}
+        <div className="relative z-10">
+          {children}
+        </div>
       </body>
     </html>
   );
