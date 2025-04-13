@@ -22,6 +22,7 @@ import {
   Network,
   Cpu,
 } from "lucide-react";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 
 export default function Contribute() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -33,25 +34,25 @@ export default function Contribute() {
   const hospitalBenefits = [
     {
       icon: <LineChart className="h-6 w-6 text-medhive-500" />,
-      title: "Customized Models",
+      title: "CUSTOMIZED MODELS",
       description:
         "Train models that are fine-tuned to your specific patient demographics and disease patterns.",
     },
     {
       icon: <Lock className="h-6 w-6 text-medhive-500" />,
-      title: "Complete Data Privacy",
+      title: "COMPLETE DATA PRIVACY",
       description:
         "Your patient data never leaves your premises, ensuring full compliance with privacy regulations.",
     },
     {
       icon: <Database className="h-6 w-6 text-medhive-500" />,
-      title: "Infrastructure Included",
+      title: "INFRASTRUCTURE INCLUDED",
       description:
         "We provide all the hardware and software infrastructure needed for federated learning.",
     },
     {
       icon: <ShieldCheck className="h-6 w-6 text-medhive-500" />,
-      title: "Regulatory Compliance",
+      title: "REGULATORY COMPLIANCE",
       description:
         "Built-in HIPAA, GDPR, and other regulatory compliance for worry-free implementation.",
     },
@@ -66,19 +67,19 @@ export default function Contribute() {
     },
     {
       icon: <BarChart3 className="h-6 w-6 text-medhive-500" />,
-      title: "Performance Insights",
+      title: "PERFORMANCE INSIGHTS",
       description:
         "Track model improvements over time as the federated network grows.",
     },
     {
       icon: <Server className="h-6 w-6 text-medhive-500" />,
-      title: "Robust Architecture",
+      title: "ROBUST ARCHITECTURE",
       description:
         "A distributed system that ensures reliability and fault tolerance.",
     },
     {
       icon: <UserPlus className="h-6 w-6 text-medhive-500" />,
-      title: "Growing Network",
+      title: "GROWING NETWORK",
       description:
         "Join a community of researchers and clinicians dedicated to advancing medical AI.",
     },
@@ -183,7 +184,7 @@ export default function Contribute() {
           >
             <motion.span
               className="inline-block px-6 py-2 bg-black/80 text-cyan-400 rounded-full 
-              text-sm font-semibold mb-6 backdrop-blur-lg border border-cyan-400/30
+              text-sm mb-6 font-['Poppins'] backdrop-blur-lg border border-cyan-400/30
               shadow-[0_0_20px_-5px_rgba(34,211,238,0.3)]"
             >
               <Sparkles className="inline-block w-4 h-4 mr-2" />
@@ -191,7 +192,7 @@ export default function Contribute() {
             </motion.span>
 
             <h1
-              className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r 
+              className="text-4xl md:text-6xl font-['Kagitingan'] mb-6 bg-gradient-to-r 
               from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent"
             >
               Contribute to Medical AI Innovation
@@ -199,47 +200,41 @@ export default function Contribute() {
 
             <div className="w-32 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-6"></div>
 
-            <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-300 mb-10 font-['Poppins'] max-w-2xl mx-auto leading-relaxed">
               Become part of our federated learning network to help develop more
               accurate and diverse healthcare AI models while maintaining data
               privacy.
             </p>
 
             <motion.div whileHover={{ scale: 1.05 }} className="inline-block">
-              <Button
-                className="bg-gradient-to-r from-cyan-600 to-purple-600 
-                hover:from-cyan-500/90 hover:to-purple-500/90 text-white px-8 py-6 
-                rounded-xl font-bold text-lg border border-cyan-400/30
-                shadow-[0_0_30px_-8px_rgba(34,211,238,0.4)]"
-              >
-                Get Started
+              <InteractiveHoverButton className="text-lg hover:text-2xl">
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              </InteractiveHoverButton>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* Tabs Section */}
-      <section className="py-16 relative">
+      <section className="py-1 relative">
         <div className="container mx-auto px-4">
-          <Tabs defaultValue="hospitals" className="relative">
+          <Tabs defaultValue="hospitals" className="relative pb-5">
             <TabsList
               className="flex w-full max-w-2xl mx-auto mb-12 p-1 
               bg-slate-900/80 backdrop-blur-sm border border-slate-800 rounded-lg
-              shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)]"
+              shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)] items-stretch font-['Poppins']"
             >
               <TabsTrigger
                 value="hospitals"
-                className="flex-1 py-3 text-sm font-medium rounded-md 
-                  data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 
-                  data-[state=active]:to-purple-600 data-[state=active]:text-white
-                  data-[state=active]:shadow-[0_0_20px_-5px_rgba(34,211,238,0.3)]
-                  transition-all duration-300"
+                className="flex-1 flex items-center justify-center py-3 text-sm font-medium rounded-md 
+                data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-400 
+                data-[state=active]:to-purple-500 data-[state=active]:text-black
+                data-[state=active]:shadow-[0_0_20px_-5px_rgba(34,211,238,0.3)]
+                transition-all duration-300"
               >
                 <div className="flex items-center justify-center gap-2">
                   <Building2 className="h-4 w-4" />
-                  Hospitals
+                  HOSPITALS
                 </div>
               </TabsTrigger>
 
@@ -253,7 +248,7 @@ export default function Contribute() {
               >
                 <div className="flex items-center justify-center gap-2">
                   <Users className="h-4 w-4" />
-                  Community
+                  COMMUNITY
                 </div>
               </TabsTrigger>
 
@@ -267,7 +262,7 @@ export default function Contribute() {
               >
                 <div className="flex items-center justify-center gap-2">
                   <ShieldCheck className="h-4 w-4" />
-                  Admin
+                  ADMIN
                 </div>
               </TabsTrigger>
             </TabsList>
@@ -285,10 +280,10 @@ export default function Contribute() {
                   initial="hidden"
                   animate="visible"
                 >
-                  <h2 className="text-3xl font-bold mb-4 text-white">
-                    Join Our Hospital Network
+                  <h2 className="text-4xl font-['Lilita_One'] mb-4 bg-gradient-to-r from-green-500 via-purple-500 to-blue-500 bg-clip-text text-transparent uppercase tracking-wider">
+                    JOIN OUR HOSPITAL NETWORK
                   </h2>
-                  <p className="mb-8 text-gray-200">
+                  <p className="mb-8 text-gray-200 text-lg font-['Poppins']">
                     As a participating hospital, you can contribute to and
                     benefit from our federated learning platform while keeping
                     your patient data secure.
@@ -297,17 +292,23 @@ export default function Contribute() {
                     {hospitalBenefits.map((benefit, index) => (
                       <motion.div key={index} variants={itemVariants}>
                         <BlurContainer
-                          className="flex items-center gap-4 p-4 bg-gray-900 bg-opacity-50 border border-cyan-500/30 hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(0,255,231,0.6)] rounded-2xl transition-all duration-300"
+                          className="flex items-center gap-4 p-4 bg-gray-900 bg-opacity-100 border border-cyan-500/30 hover:bg-opacity-50 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,255,231,0.6)] rounded-2xl transition-all duration-300 font-['Poppins']"
                           intensity="low"
                         >
                           <div className="flex-shrink-0 p-3 bg-gray-800 border border-cyan-500/50 rounded-xl shadow-[0_0_6px_rgba(0,255,231,0.4)]">
                             {benefit.icon}
                           </div>
                           <div>
-                            <h3 className="text-lg font-semibold text-cyan-300 mb-1">
+                            <h3
+                              className={`text-lg font-['Poppins'] mb-1 ${
+                                index % 2 === 0
+                                  ? "text-cyan-300"
+                                  : "text-purple-300"
+                              }`}
+                            >
                               {benefit.title}
                             </h3>
-                            <p className="text-gray-400 text-sm">
+                            <p className="text-gray-200 text-base font-['Poppins']">
                               {benefit.description}
                             </p>
                           </div>
@@ -316,7 +317,7 @@ export default function Contribute() {
                     ))}
                   </div>
 
-                  <Button className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6 py-5 rounded-lg font-semibold shadow-glow-sm border border-cyan-500/30">
+                  <Button className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-3 py-3 rounded-lg font-semibold shadow-glow-sm border border-cyan-500/30 text-base font-['Poppins'] transition-all duration-300">
                     Register as Hospital
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -327,7 +328,7 @@ export default function Contribute() {
                 >
                   <div className="relative">
                     <img
-                      src="/api/placeholder/800/600"
+                      src="/feature3.jpg"
                       alt="Hospital Network"
                       className="w-full h-96 object-cover"
                     />
@@ -336,7 +337,7 @@ export default function Contribute() {
                       <div className="inline-block px-3 py-1 bg-cyan-900/80 text-cyan-300 rounded-full text-sm font-medium mb-2 backdrop-blur-sm border border-cyan-500/30">
                         Advanced Technology
                       </div>
-                      <h3 className="text-xl font-bold text-white">
+                      <h3 className="text-xl font-['Poppins'] text-white">
                         Secure Federated Learning Infrastructure
                       </h3>
                     </div>
@@ -359,16 +360,16 @@ export default function Contribute() {
                   intensity="medium"
                 >
                   <img
-                    src="/api/placeholder/800/600"
+                    src="/feature1.jpg"
                     alt="Medical Research Community"
                     className="w-full h-96 object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <span className="inline-block px-3 py-1 bg-purple-900/80 text-purple-300 rounded-full text-sm font-medium backdrop-blur-sm border border-purple-500/40 mb-2">
+                    <span className="inline-block px-3 py-1 bg-purple-700/80 text-white rounded-full text-sm font-medium backdrop-blur-sm border border-purple-500/40 mb-2">
                       Global Collaboration
                     </span>
-                    <h3 className="text-xl font-bold text-white">
+                    <h3 className="text-xl font-['Poppins'] text-white">
                       Medical AI Community Network
                     </h3>
                   </div>
@@ -381,10 +382,10 @@ export default function Contribute() {
                   initial="hidden"
                   animate="visible"
                 >
-                  <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
-                    Community Dashboard
+                  <h2 className="text-4xl font-['Lilita_One'] mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
+                    COMMUNITY DASHBOARD
                   </h2>
-                  <p className="mb-8 text-gray-300">
+                  <p className="mb-8 text-gray-300 font-['Poppins'] text-base">
                     Our community portal provides visibility into model
                     performance and network growth for researchers, clinicians,
                     and healthcare professionals.
@@ -401,10 +402,10 @@ export default function Contribute() {
                             {benefit.icon}
                           </div>
                           <div>
-                            <h3 className="text-lg font-semibold text-purple-300 mb-1">
+                            <h3 className="text-lg font-['Poppins'] text-purple-300 mb-1">
                               {benefit.title}
                             </h3>
-                            <p className="text-gray-400 text-sm">
+                            <p className="text-gray-200 text-base font-['Poppins']">
                               {benefit.description}
                             </p>
                           </div>
@@ -413,7 +414,7 @@ export default function Contribute() {
                     ))}
                   </div>
 
-                  <Button className="inline-flex items-center px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-600/80 hover:to-pink-600/80 text-black font-semibold rounded-xl shadow-[0_0_6px_rgba(198,75,255,0.4)] border border-purple-500/30 transition-all duration-300">
+                  <Button className="inline-flex items-center px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-600/80 hover:to-pink-600/80 text-black font-['Poppins'] rounded-xl text-base shadow-[0_0_6px_rgba(198,75,255,0.4)] border border-purple-500/30 transition-all duration-300">
                     View Community Dashboard
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -433,11 +434,11 @@ export default function Contribute() {
                   <div className="inline-block p-3 bg-gray-900 bg-opacity-50 border border-blue-500/30 rounded-full backdrop-blur-md mb-6 shadow-[0_0_6px_rgba(66,153,225,0.4)]">
                     <Lock className="h-6 w-6 text-blue-300" />
                   </div>
-                  <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                    Administrator Reports
+                  <h2 className="text-6xl font-['Kagitingan'] mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                    ADMINISTRATOR REPORTS
                   </h2>
                   <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 rounded"></div>
-                  <p className="text-gray-300 max-w-xl mx-auto">
+                  <p className="text-gray-300 max-w-xl mx-auto font-['Poppins'] text-base">
                     Comprehensive analytics and reports for MedHive
                     administrators to monitor system performance, security, and
                     network growth.
@@ -454,22 +455,28 @@ export default function Contribute() {
                   {performanceStats.map((stat, index) => (
                     <motion.div key={index} variants={itemVariants}>
                       <BlurContainer
-                        className="p-6 text-center bg-gray-900 bg-opacity-50 border border-blue-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(66,153,225,0.6)] transition-all duration-300"
+                        className="p-5 text-center bg-gray-900 bg-opacity-50 border border-blue-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(66,153,225,0.6)] transition-all hover:cursor-pointer duration-300 flex flex-col items-center h-[300px]"
                         intensity="low"
                       >
-                        {/* Optional: icon circle */}
+                        {/* Icon */}
                         {stat.icon && (
-                          <div className="mx-auto mb-4 w-16 h-16 flex items-center justify-center rounded-full bg-gray-800 bg-opacity-60 border border-blue-500/40 shadow-[0_0_6px_rgba(66,153,225,0.4)]">
+                          <div className="w-16 h-16 mb-2 flex items-center justify-center rounded-full bg-gray-800 bg-opacity-60 border border-blue-500/40 shadow-[0_0_6px_rgba(66,153,225,0.4)]">
                             {stat.icon}
                           </div>
                         )}
-                        <h3 className="text-3xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                          {stat.value}
-                        </h3>
-                        <p className="font-medium mb-2 text-blue-300">
-                          {stat.metric}
-                        </p>
-                        <p className="text-sm text-gray-400">
+
+                        {/* Value + Metric */}
+                        <div className="flex flex-col items-center justify-center mb-2">
+                          <h3 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 font-['Poppins'] leading-snug">
+                            {stat.value}
+                          </h3>
+                          <p className="text-xl text-blue-300 font-['Poppins'] leading-snug">
+                            {stat.metric}
+                          </p>
+                        </div>
+
+                        {/* Description */}
+                        <p className="text-base text-gray-400 pt-7 font-['Poppins'] text-center leading-snug">
                           {stat.description}
                         </p>
                       </BlurContainer>
@@ -486,15 +493,15 @@ export default function Contribute() {
                     <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-gray-800 bg-opacity-60 border border-purple-500/40 shadow-[0_0_6px_rgba(198,75,255,0.4)]">
                       <Lock className="h-6 w-6 text-purple-300" />
                     </div>
-                    <h3 className="text-xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
-                      Administrator Access Required
+                    <h3 className="text-3xl font-['Kagitingan'] mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
+                      ADMINISTRATOR ACCESS REQUIRED
                     </h3>
                     <Button
                       variant="outline"
-                      className="px-6 py-4 rounded-lg border-purple-400 text-purple-300 hover:bg-purple-400/10 transition-all duration-300"
+                      className="px-6 py-4 rounded-lg border-purple-400 text-purple-800 text-base font-['Lilita_One'] hover:bg-purple-400/10 hover:text-white transition-all duration-300"
                     >
-                      <Lock className="mr-2 h-4 w-4" />
-                      Admin Login
+                      <Lock className="mr-0.5 h-4 w-4" />
+                      ADMIN LOGIN
                     </Button>
                   </div>
                 </BlurContainer>
@@ -513,50 +520,79 @@ export default function Contribute() {
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
             >
-              <Network className="inline-block w-4 h-4 mr-2" />
-              How It Works
+              <Network className="inline-block w-4 h-4 mr-2 text-base font-['Poppins']" />
+              HOW IT WORKS
             </motion.span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-cyan-200 to-blue-300 drop-shadow-text">
-              The Federated Learning Process
+            <h2 className="text-5xl md:text-5xl font-['Kagitingan'] mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-cyan-200 to-blue-300 drop-shadow-text">
+              THE FEDERATED LEARNING PROCESS
             </h2>
             <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded"></div>
           </div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-3 gap-10 relative"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             {stepsData.map((step, index) => (
-              <motion.div key={index} variants={itemVariants}>
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                className="relative"
+              >
                 <BlurContainer
-                  className="relative p-6 text-center bg-gray-900 bg-opacity-50 border border-cyan-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(0,255,231,0.6)] transition-all duration-300"
+                  className="relative min-h-[340px] px-6 py-8 bg-gray-900 bg-opacity-50 border border-cyan-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_20px_rgba(0,255,231,0.6)] hover:cursor-pointer transition-all duration-300 flex flex-col items-center justify-between text-center space-y-4"
                   intensity="medium"
                 >
-                  {/* Step Number */}
-                  <div className="flex justify-center mb-4">
-                    <div className="h-20 w-20 flex items-center justify-center rounded-full bg-gray-800 bg-opacity-60 border border-cyan-500/40 shadow-[0_0_6px_rgba(0,255,231,0.4)]">
-                      <div className="h-16 w-16 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600/80 to-cyan-600/80 text-white text-xl font-bold border border-cyan-300/20">
-                        {index + 1}
-                      </div>
+                  {/* Step Number Circle */}
+                  <div className="h-20 w-20 flex items-center justify-center rounded-full bg-gray-800 bg-opacity-60 border border-cyan-500/40 shadow-[0_0_6px_rgba(0,255,231,0.4)]">
+                    <div className="h-16 w-16 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-2xl font-bold border border-cyan-300/20">
+                      {index + 1}
                     </div>
                   </div>
 
                   {/* Icon */}
-                  <div className="mb-4 text-cyan-300">{step.icon}</div>
+                  <div className="text-cyan-300 text-4xl">{step.icon}</div>
 
-                  {/* Title & Description */}
-                  <h3 className="text-xl font-bold mb-2 text-cyan-300">
+                  {/* Title */}
+                  <h3 className="text-2xl md:text-3xl font-bold text-cyan-300 font-['Poppins']">
                     {step.title}
                   </h3>
-                  <p className="text-gray-400 text-sm">{step.description}</p>
 
-                  {/* Connector line */}
-                  {index < stepsData.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-1 bg-gradient-to-r from-cyan-500 to-transparent"></div>
-                  )}
+                  {/* Description */}
+                  <p className="text-gray-400 text-sm leading-snug px-2 font-['Poppins']">
+                    {step.description}
+                  </p>
                 </BlurContainer>
+
+                {/* Arrow Connector with Animation */}
+                {index < stepsData.length - 1 && (
+                  <motion.div
+                    className="hidden md:block absolute top-1/2 right-[-32px] transform -translate-y-1/2 z-10"
+                    animate={{ x: [0, 8, 0] }} // Animation for the arrow
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="56"
+                      height="56"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#00FFF7"
+                      strokeWidth="2.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="4" y1="12" x2="20" y2="12" />
+                      <polyline points="14 6 20 12 14 18" />
+                    </svg>
+                  </motion.div>
+                )}
               </motion.div>
             ))}
           </motion.div>
@@ -593,14 +629,14 @@ export default function Contribute() {
                 <Sparkles className="h-8 w-8 text-cyan-300" />
               </motion.div>
 
-              <h2 className="text-3xl md:text-5xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-cyan-100 to-blue-300 drop-shadow-text">
+              <h2 className="text-3xl md:text-5xl font-['Kagitingan'] mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-cyan-100 to-blue-300 drop-shadow-text">
                 Ready to Join the Medical AI Revolution?
               </h2>
 
               <div className="flex flex-col sm:flex-row justify-center gap-6 max-w-xl mx-auto">
                 <Button
                   size="lg"
-                  className="flex items-center justify-center px-8 py-6 text-lg font-bold rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-black shadow-[0_0_6px_rgba(0,255,231,0.4)] border border-cyan-500/30 transition-all duration-300"
+                  className="flex items-center justify-center px-8 py-6 text-lg font-['Poppins'] rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-400 hover:to-blue-400 text-black shadow-[0_0_6px_rgba(0,255,231,0.4)] border border-cyan-500/30 transition-all duration-300"
                 >
                   Register as Hospital
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -608,7 +644,7 @@ export default function Contribute() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="flex items-center justify-center px-8 py-6 text-lg font-bold rounded-xl border-2 border-cyan-500 text-cyan-900 hover:bg-cyan-500/10 transition-all duration-300"
+                  className="flex items-center justify-center px-8 py-6 text-lg font-bold rounded-xl border-2 border-cyan-500 text-black hover:bg-cyan-500/10 hover:text-white transition-all duration-300"
                 >
                   Learn About Contribution
                   <ArrowRight className="ml-2 h-5 w-5" />
