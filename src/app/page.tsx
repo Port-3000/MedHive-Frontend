@@ -2,6 +2,7 @@
 
 "use client";
 import { useState, useEffect } from "react";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { Typewriter } from "react-simple-typewriter";
 import Link from "next/link";
@@ -11,6 +12,8 @@ import { Navbar } from "@/components/layout/Navbar";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Footer } from "@/components/layout/Footer";
 import { ArrowUpRight, Cpu } from "lucide-react";
+import { SplineScene } from "@/components/ui/splite";
+import { Spotlight } from "@/components/ui/spotlight";
 
 import {
   ArrowRight,
@@ -24,20 +27,27 @@ import {
 import Image from "next/image";
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
 
-import {
-  RiShieldCheckLine,
-  RiLock2Line,
-  RiGroupLine,
-  RiBarChart2Line,
-} from "@remixicon/react";
+import { RiShieldCheckLine, RiLock2Line, RiGroupLine } from "@remixicon/react";
 
 export default function Index() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
+  const heroSectionRef = useIntersectionObserver({ threshold: 0.2 });
+  const featuresSectionRef = useIntersectionObserver({ threshold: 0.2 });
+  const modelsSectionRef = useIntersectionObserver({ threshold: 0.2 });
+  const joinSectionRef = useIntersectionObserver({ threshold: 0.2 });
+
   useEffect(() => {
     setIsLoaded(true);
     setHasMounted(true);
+
+    const badges = document.querySelectorAll(".grid-cols-3.gap-3 > *");
+    badges.forEach((badge, index) => {
+      setTimeout(() => {
+        badge.classList.add("revealed");
+      }, index * 200);
+    });
   }, []);
 
   const features = [
@@ -126,8 +136,16 @@ export default function Index() {
         <Navbar />
 
         {/* Hero Section */}
-        <section className="md:pt-16 md:pb-28 lg:pt-20 lg:pb-28 overflow-hidden">
-          <div className="container mx-auto px-6">
+        <section
+          ref={heroSectionRef}
+          className="relative md:pt-16 md:pb-28 lg:pt-20 lg:pb-28 overflow-hidden animate-reveal"
+        >
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0" />
+            <div className="absolute inset-0 " />
+          </div>
+
+          <div className="container mx-auto px-6 relative z-10">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12 xl:gap-20 text-white">
               <div
                 className="lg:w-7/12 animate-fade-up"
@@ -212,33 +230,19 @@ export default function Index() {
                 </div>
               </div>
 
+              {/* Right-side: Updated SplineScene container */}
               <div
                 className="lg:w-5/12 animate-fade-in"
                 style={{ animationDelay: "300ms" }}
               >
-                <div className="relative max-w-lg mx-auto overflow-hidden rounded-2xl shadow-xl transform transition-transform duration-500 hover:scale-[1.02]">
-                  <div className="w-full h-auto">
-                    <Image
-                      src="/Hero.png"
-                      alt="Medical AI Visualization"
-                      width={800}
-                      height={600}
-                      className="object-cover w-full h-full"
-                      priority
-                      style={{
-                        maxWidth: "100%",
-                        height: "auto",
-                      }}
+                <div className="relative w-full h-[600px] overflow-hidden rounded-2xl shadow-xl transform transition-transform duration-500 hover:scale-[1.02]">
+                  <Spotlight className="absolute top-0 left-0 z-0" size={300} />
+                  {/* SplineScene wrapped to appear above the spotlight */}
+                  <div className="relative z-10 w-full h-full">
+                    <SplineScene
+                      scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                      className="w-full h-full"
                     />
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                    <h3 className="text-lg font-semibold text-white mb-1">
-                      MedHive Federated Learning
-                    </h3>
-                    <p className="text-sm text-gray-200">
-                      Collaborative model training without exposing raw patient
-                      data
-                    </p>
                   </div>
                 </div>
               </div>
@@ -247,39 +251,50 @@ export default function Index() {
         </section>
 
         {/* Second Section */}
+        <section
+          ref={featuresSectionRef}
+          className="relative min-h-screen flex flex-col justify-center items-center px-4 py-12 sm:py-16 animate-reveal"
+        >
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0" />
+            <div className="absolute inset-0 " />
+            <div className="absolute inset-0 opacity-5 mix-blend-overlay" />
+          </div>
 
-        <section className="min-h-screen flex flex-col justify-center items-center px-4 py-12 sm:py-16">
-          <div className="max-w-4xl w-full text-center mb-8 sm:mb-12">
+          <div className="relative z-10 max-w-4xl w-full text-center mb-8 sm:mb-12">
             <span className="inline-block px-4 py-2 bg-medhive-400/10 text-medhive-400 rounded-full text-sm font-semibold mb-4 backdrop-blur-sm">
               Why Choose MedHive
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-medhive-200 to-medhive-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-['Kagitingan'] mb-4 bg-gradient-to-r from-medhive-200 to-medhive-400 bg-clip-text text-transparent">
               Built for Trust.
               <br className="hidden md:block" /> Powered by Collaboration.
             </h2>
-            <p className="text-lg text-medhive-300 mx-auto max-w-2xl">
+            <p className="text-lg font-['Poppins'] text-medhive-300 mx-auto max-w-2xl">
               MedHive unites healthcare networks using secure, decentralized AI
               to train models—without compromising data privacy.
             </p>
           </div>
 
-          <div className="flex-grow flex items-center justify-center w-full max-w-7xl">
+          <div className="relative z-10 flex-grow font-['Poppins'] flex items-center justify-center w-full max-w-7xl">
             <AnimatedTabs className="px-4" />
           </div>
         </section>
 
         {/* Third Section */}
-        <section className="relative z-10 py-20">
-          <div className="absolute inset-0 pointer-events-none z-0 overflow-x-hidden">
-            <div className="w-full h-full bg-[url('/patterns/grid.svg')] opacity-5 mix-blend-overlay" />
-            <div className="w-full h-full animate-[move-streams_15s_linear_infinite] bg-[url('/patterns/lines.svg')] opacity-10 mix-blend-screen" />
-            <div className="absolute inset-0 bg-[url('/patterns/noise.png')] opacity-5 backdrop-blur-md" />
-            <div className="absolute top-0 left-1/2 w-[100dvw] max-w-full h-full bg-gradient-to-tr from-cyan-500/10 via-blue-400/5 to-transparent transform -translate-x-1/2 rotate-12 animate-pulse-slow blur-2xl -translate-y-1/4" />
+        <section ref={modelsSectionRef} className="relative z-20 py-20">
+          <div className="absolute inset-0 pointer-events-none z-10">
+            <div className="w-full h-full" />
+            <div className="w-full h-full animate-[move-streams_15s_linear_infinite]" />
+            <div className="absolute inset-0 " />
+            <div className="absolute top-0 left-1/2 w-[100dvw] max-w-full h-full " />
           </div>
 
-          <div className="container mx-auto px-4 relative max-w-[90rem]">
+          <div className="container relative z-30 mx-auto px-4 max-w-[90rem]">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
-              <div>
+              <div
+                className="animate-fade-in opacity-100"
+                style={{ animationDelay: "100ms" }}
+              >
                 <span className="inline-block px-4 py-1 bg-gradient-to-r from-[#6d28d9] via-[#9333ea] to-[#ec4899] text-white rounded-full text-xs font-bold tracking-wider mb-4 drop-shadow-lg">
                   Our AI Models
                 </span>
@@ -378,7 +393,10 @@ export default function Index() {
         </section>
 
         {/* Fourth Section */}
-        <section className="relative py-28 overflow-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900">
+        <section
+          ref={joinSectionRef}
+          className="relative py-28 overflow-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900 animate-reveal"
+        >
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute inset-0 bg-[url('/patterns/hexagon-grid.svg')] opacity-15 animate-pulse-slow" />
             <div className="absolute inset-0 bg-[url('/patterns/circuit-pattern.svg')] opacity-10 mix-blend-overlay animate-pan" />
@@ -426,7 +444,7 @@ export default function Index() {
                   <div className="absolute -inset-1 bg-cyan-500/20 blur-2xl group-hover:bg-cyan-500/30 transition-all duration-500 rounded-2xl" />
                   <Button
                     size="lg"
-                    className="relative bg-black/80 backdrop-blur-xl border-2 border-cyan-400/40 hover:border-cyan-300 text-cyan-300 hover:text-white px-10 py-7 rounded-xl text-lg font-semibold transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
+                    className="relative bg-black/80 backdrop-blur-xl border-2 border-cyan-400/40 hover:border-cyan-300 text-cyan-300 hover:text-white px-10 py-7 rounded-xl text-lg font-['Poppins'] transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
                   >
                     <span className="mr-3">⚡</span>
                     Register as Hospital
@@ -438,7 +456,7 @@ export default function Index() {
                   <div className="absolute -inset-1 bg-purple-500/20 blur-2xl group-hover:bg-purple-500/30 transition-all duration-500 rounded-2xl" />
                   <Button
                     variant="outline"
-                    className="relative bg-black/80 backdrop-blur-xl border-2 border-purple-400/40 hover:border-purple-300 text-purple-300 hover:text-black px-10 py-7 rounded-xl text-lg font-semibold transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
+                    className="relative bg-black/80 backdrop-blur-xl border-2 border-purple-400/40 hover:border-purple-300 text-purple-300 hover:text-black px-10 py-7 rounded-xl text-lg font-['Poppins'] transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
                   >
                     <Cpu className="mr-3 h-6 w-6 stroke-current transform group-hover:scale-110 transition-transform" />
                     Learn About Contribution
