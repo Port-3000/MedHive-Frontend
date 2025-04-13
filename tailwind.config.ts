@@ -156,6 +156,46 @@ export default {
             transform: "translateY(-20px)",
           },
         },
+        "reveal-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "reveal-down": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "reveal-left": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(-20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        "reveal-right": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
       },
       fontFamily: {
         kagitingan: ["Kagitingan", "sans-serif"],
@@ -167,12 +207,15 @@ export default {
         "fade-up": "fade-up 0.6s ease-out",
         "slide-in-right": "slide-in-right 0.4s ease-out",
         "pulse-soft": "pulse-soft 3s infinite ease-in-out",
-        // New animation utilities
         "text-glow": "text-glow 3s ease-in-out infinite",
         scanline: "scanline 4s linear infinite",
         float: "float 6s ease-in-out infinite",
         pan: "pan 30s linear infinite",
         "scanline-fast": "scanline-fast 2s linear infinite",
+        "reveal-up": "reveal-up 0.6s ease-out forwards",
+        "reveal-down": "reveal-down 0.6s ease-out forwards",
+        "reveal-left": "reveal-left 0.6s ease-out forwards",
+        "reveal-right": "reveal-right 0.6s ease-out forwards",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
