@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
+import { SessionProvider } from "../utils/supabase/usercontext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,9 @@ export default function RootLayout({
           <HeroGeometric />
         </div>
         <div className="relative z-10">
+        <SessionProvider>
           {children}
+          </SessionProvider>
         </div>
       </body>
     </html>
