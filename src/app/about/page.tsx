@@ -110,14 +110,14 @@ export default function About() {
                 researchers and medical professionals, saw an opportunity to
                 bridge this gap.
               </p>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-200 mb-4">
                 In 2020, we developed our first federated learning prototype,
                 allowing two hospitals to collaborate on a pneumonia detection
                 model without sharing patient X-rays. The results were
                 groundbreaking—a model that performed better than either
                 hospital could develop alone.
               </p>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-200 mb-6">
                 Today, MedHive connects over 25 healthcare institutions
                 worldwide, enabling secure collaboration on AI models that are
                 transforming diagnostics, treatment planning, and patient
@@ -126,10 +126,10 @@ export default function About() {
               <div className="flex items-center space-x-4">
                 <ShieldCheck className="h-10 w-10 text-medhive-500" />
                 <div>
-                  <h3 className="font-medium">
+                  <h3 className="font-medium text-white">
                     HIPAA Compliant & ISO 27001 Certified
                   </h3>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-200">
                     Enterprise-grade security for healthcare data
                   </p>
                 </div>
@@ -153,7 +153,7 @@ export default function About() {
                 />
 
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <BlurContainer className="p-4" intensity="high">
+                  <BlurContainer className="p-4 bg-opacity-30" intensity="high">
                     <h3 className="text-lg font-semibold mb-2">
                       Founded by AI & Medical Experts
                     </h3>
@@ -170,16 +170,16 @@ export default function About() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-500 bg-opacity-50">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16 animate-fade-up">
             <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4">
               Our Principles
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
               What Drives Our Innovation
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-gray-200">
               At MedHive, we're guided by a set of core principles that shape
               everything we do.
             </p>
@@ -189,15 +189,15 @@ export default function About() {
             {mission.map((item, index) => (
               <BlurContainer
                 key={index}
-                className="p-8 h-full animate-fade-up"
+                className="p-8 h-full animate-fade-up bg-zinc-800"
                 style={{ animationDelay: `${index * 100 + 600}ms` }}
                 hoverable
               >
                 <div className="h-16 w-16 rounded-full bg-medhive-100 flex items-center justify-center text-medhive-600 text-xl font-bold mb-6">
                   {index + 1}
                 </div>
-                <h3 className="text-xl font-semibold mb-4">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                <h3 className="text-xl font-semibold mb-4 text-white">{item.title}</h3>
+                <p className="text-gray-200">{item.description}</p>
               </BlurContainer>
             ))}
           </div>
@@ -211,10 +211,10 @@ export default function About() {
             <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4">
               Our Team
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
               Meet the Experts Behind MedHive
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-gray-200">
               We've assembled a team of leaders in AI, medicine, and data
               security to build the future of healthcare collaboration.
             </p>
@@ -249,19 +249,19 @@ export default function About() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-500 bg-opacity-50">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <BlurContainer
-              className="p-0 overflow-hidden animate-fade-up"
+              className="p-0 overflow-hidden animate-fade-up bg-zinc-800"
               style={{ animationDelay: `800ms` }}
             >
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="p-8 md:p-12">
-                  <h2 className="text-2xl md:text-3xl font-bold mb-6">
+                  <h2 className="text-2xl md:text-3xl text-white font-bold mb-6">
                     Get in Touch
                   </h2>
-                  <p className="text-gray-600 mb-8">
+                  <p className="text-gray-200 mb-8">
                     Have questions about MedHive or want to learn more about
                     joining our federated learning network? Our team is here to
                     help.
@@ -269,7 +269,7 @@ export default function About() {
 
                   <div className="space-y-6 mb-8">
                     <div>
-                      <h3 className="font-medium mb-2">Email Us</h3>
+                      <h3 className="font-medium mb-2 text-white">Email Us</h3>
                       <a
                         href="mailto:info@medhive.ai"
                         className="text-medhive-600 flex items-center hover:underline"
@@ -280,8 +280,8 @@ export default function About() {
                     </div>
 
                     <div>
-                      <h3 className="font-medium mb-2">Visit Our Office</h3>
-                      <p className="text-gray-600">
+                      <h3 className="font-medium mb-2 text-white">Visit Our Office</h3>
+                      <p className="text-gray-200">
                         123 Innovation Drive
                         <br />
                         Suite 400

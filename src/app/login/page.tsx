@@ -91,21 +91,21 @@ export default function AuthPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen relative z-10">
-      <div className="w-full max-w-sm p-8 space-y-6 bg-white rounded-lg shadow-2xl dark:bg-zinc-800 relative z-20">
+      <div className="w-full max-w-sm p-8 space-y-6 rounded-lg shadow-2xl bg-zinc-900 relative z-20">
         <div className="flex items-center">
           <Link
             href="/"
-            className="mr-auto text-white hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
+            className="text-zinc-400 hover:text-white"
           >
             <ArrowLeft className="h-5 w-5" />
           </Link>
-          <h1 className="text-xl font-semibold text-zinc-900 dark:text-white mx-auto">
+          <h1 className="text-xl font-semibold text-white mx-auto">
             {form.isSignUp ? "Create an Account" : "Sign in to your account"}
           </h1>
         </div>
         <form onSubmit={handleAuth} className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+            <label className="block text-sm font-semibold text-zinc-300">
               Email Address <span className="text-red-500">*</span>
             </label>
             <input
@@ -117,13 +117,13 @@ export default function AuthPage() {
               required
               className={
                 form.isSignUp
-                  ? "w-full px-4 py-1 mt-1 border rounded-2xl dark:bg-zinc-700 dark:text-white focus:ring focus:ring-teal-500"
-                  : "w-full px-4 py-2 mt-1 border rounded-2xl dark:bg-zinc-700 dark:text-white focus:ring focus:ring-teal-500"
+                  ? "w-full px-4 py-2 mt-1 border rounded-2xl bg-zinc-700 text-white focus:ring focus:ring-teal-500"
+                  : "w-full px-4 py-2 mt-1 border rounded-2xl bg-zinc-700 text-white focus:ring focus:ring-teal-500"
               }
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+            <label className="block text-sm font-semibold text-zinc-300">
               Password <span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -136,8 +136,8 @@ export default function AuthPage() {
                 required
                 className={
                   form.isSignUp
-                    ? "w-full px-4 py-1 mt-1 border rounded-2xl dark:bg-zinc-700 dark:text-white focus:ring focus:ring-teal-500"
-                    : "w-full px-4 py-2 mt-1 border rounded-2xl dark:bg-zinc-700 dark:text-white focus:ring focus:ring-teal-500"
+                    ? "w-full px-4 py-2 mt-1 border rounded-2xl bg-zinc-700 text-white focus:ring focus:ring-teal-500"
+                    : "w-full px-4 py-2 mt-1 border rounded-2xl bg-zinc-700 text-white focus:ring focus:ring-teal-500"
                 }
               />
               <button
@@ -146,9 +146,9 @@ export default function AuthPage() {
                 className="absolute inset-y-0 right-3 flex items-center"
               >
                 {isVisible ? (
-                  <EyeOff className="text-zinc-500 dark:text-zinc-300 h-5 w-5" />
+                  <EyeOff className="text-zinc-300 h-5 w-5" />
                 ) : (
-                  <Eye className="text-zinc-500 dark:text-zinc-300 h-5 w-5" />
+                  <Eye className="text-zinc-300 h-5 w-5" />
                 )}
               </button>
             </div>
@@ -160,9 +160,9 @@ export default function AuthPage() {
                 type="checkbox"
                 checked={agree}
                 onChange={() => setAgree(!agree)}
-                className="w-4 h-4"
+                className="w-4 h-4 accent-teal-500"
               />
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">
+              <span className="text-sm text-zinc-400">
                 I agree to the
                 <a href="/terms" className="text-teal-500 hover:underline">
                   {" "}
@@ -180,21 +180,21 @@ export default function AuthPage() {
           )}
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-pink-500 dark:bg-pink-600 rounded-full hover:bg-pink-600 dark:hover:bg-pink-700"
+            className="w-full py-2 font-semibold text-white bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:to-pink-600 rounded-full shadow-md"
           >
             {form.isSignUp ? "Sign Up" : "Sign In"}
           </button>
         </form>
         <div className="flex items-center justify-between">
-          <hr className="w-full border-zinc-300 dark:border-zinc-600" />
-          <span className="px-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <hr className="w-full border-zinc-600" />
+          <span className="px-2 text-sm text-zinc-400">
             OR
           </span>
-          <hr className="w-full border-zinc-300 dark:border-zinc-600" />
+          <hr className="w-full border-zinc-600" />
         </div>
         <button
           onClick={handleGoogleLogin}
-          className="flex items-center justify-center w-full px-4 py-2 border rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-700"
+          className="w-full flex items-center justify-center text-white gap-2 py-2 border border-zinc-600 rounded-full hover:bg-zinc-800 transition"
         >
           <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24">
             <path
@@ -228,7 +228,7 @@ export default function AuthPage() {
             {form.isSignUp ? "Sign In" : "Sign Up"}
           </button>
         </p>
+        </div>
       </div>
-    </div>
   );
 }
