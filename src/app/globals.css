@@ -1,8 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Bebas+Neue&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
-
-
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -211,7 +209,6 @@ html {
   width: 10px;
 }
 
-
 ::-webkit-scrollbar-track {
   @apply bg-transparent;
 }
@@ -260,8 +257,7 @@ canvas {
   pointer-events: none;
   z-index: -1;
 
-  box-shadow:
-    inset 0 0 20px rgba(255, 255, 255, 0.08),
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.08),
     inset 0 0 40px rgba(255, 255, 255, 0.05),
     inset 0 0 60px rgba(255, 255, 255, 0.03);
 }
@@ -272,9 +268,11 @@ canvas {
   border-radius: 1rem;
   pointer-events: none;
   z-index: -1;
-  box-shadow:
-    inset 0 0 8px rgba(255, 255, 255, 0.05),
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.05),
     inset 0 0 18px rgba(255, 255, 255, 0.04),
     inset 0 0 30px rgba(255, 255, 255, 0.03);
   transition: opacity 0.4s ease;
+}
+.neon-text-glow {
+  text-shadow: 0 0 8px rgba(0,255,255,0.4), 0 0 16px rgba(0,255,255,0.3);
 }

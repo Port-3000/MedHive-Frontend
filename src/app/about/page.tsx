@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/Footer";
 import { BlurContainer } from "@/components/ui/BlurContainer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
+import { Sparkles, Network } from "lucide-react";
 
 export default function About() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -71,20 +73,25 @@ export default function About() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-28 pb-16 md:pt-32 md:pb-20">
+      <section className="pt-5 pb-2 md:pt-5 md:pb-5">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4 animate-fade-up">
-              About MedHive
-            </span>
+          <div className="max-w-3xl mx-auto text-center pt-1">
+            <motion.span
+              className="inline-block px-6 py-2 bg-black/80 text-cyan-400 rounded-full 
+              text-sm mb-6 font-['Poppins'] backdrop-blur-lg border border-cyan-400/30
+              shadow-[0_0_20px_-5px_rgba(34,211,238,0.3)]"
+            >
+              <Network className="inline-block w-4 h-4 mr-2" />
+              About Medhive
+            </motion.span>
             <h1
-              className="text-4xl text-white md:text-5xl font-bold mb-6 animate-fade-up"
-              style={{ animationDelay: "100ms" }}
+              className="text-4xl md:text-6xl font-['Kagitingan'] mb-6 bg-gradient-to-r 
+              from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent"
             >
               Our Mission and Vision
             </h1>
             <p
-              className="text-lg text-white mb-8 animate-fade-up"
+              className="text-xl text-gray-300 mb-10 font-['Poppins'] max-w-2xl mx-auto leading-relaxed"
               style={{ animationDelay: "200ms" }}
             >
               We're revolutionizing how healthcare institutions collaborate on
@@ -95,47 +102,65 @@ export default function About() {
       </section>
 
       {/* Story Section */}
-      <section className="py-16">
+      <section className="py-0 md:py-2">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Story */}
             <div
               className="animate-fade-up"
               style={{ animationDelay: "300ms" }}
             >
-              <h2 className="text-3xl text-white font-bold mb-6">Our Story</h2>
-              <p className="text-white mb-4">
-                MedHive began with a simple observation: hospitals had valuable
-                patient data that could revolutionize medical AI, but privacy
-                concerns prevented collaboration. Our founders, a team of AI
-                researchers and medical professionals, saw an opportunity to
-                bridge this gap.
-              </p>
-              <p className="text-gray-600 mb-4">
-                In 2020, we developed our first federated learning prototype,
-                allowing two hospitals to collaborate on a pneumonia detection
-                model without sharing patient X-rays. The results were
-                groundbreaking—a model that performed better than either
-                hospital could develop alone.
-              </p>
-              <p className="text-gray-600 mb-6">
-                Today, MedHive connects over 25 healthcare institutions
-                worldwide, enabling secure collaboration on AI models that are
-                transforming diagnostics, treatment planning, and patient
-                care—all while keeping patient data secure and private.
-              </p>
-              <div className="flex items-center space-x-4">
-                <ShieldCheck className="h-10 w-10 text-medhive-500" />
+              <h2
+                className="text-4xl md:text-6xl font-['Kagitingan'] mb-6 bg-gradient-to-r 
+            from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent"
+              >
+                OUR STORY
+              </h2>
+
+              <ul className="space-y-6 mb-8">
+                <li className="flex items-start">
+                  <span className="mt-2 mr-4 text-cyan-400 text-3xl leading-none">
+                    •
+                  </span>
+                  <p className="text-white text-lg md:text-xl font-['Poppins'] leading-snug">
+                    Founded to bridge the gap between hospital data and medical
+                    AI.
+                  </p>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-2 mr-4 text-cyan-400 text-3xl leading-none">
+                    •
+                  </span>
+                  <p className="text-white text-lg md:text-xl font-['Poppins'] leading-snug">
+                    2020: First federated‑learning prototype—two hospitals, zero
+                    data exchange.
+                  </p>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-2 mr-4 text-cyan-400 text-3xl leading-none">
+                    •
+                  </span>
+                  <p className="text-white text-lg md:text-xl font-['Poppins'] leading-snug">
+                    Today: 25+ global institutions collaborating on secure AI
+                    models.
+                  </p>
+                </li>
+              </ul>
+
+              <div className="flex items-center space-x-2">
+                <ShieldCheck className="h-5 w-5 text-medhive-500" />
                 <div>
-                  <h3 className="font-medium">
-                    HIPAA Compliant & ISO 27001 Certified
+                  <h3 className="text-base text-white font-['Poppins']">
+                    HIPAA Compliant & ISO 27001 Certified
                   </h3>
-                  <p className="text-sm text-gray-500">
-                    Enterprise-grade security for healthcare data
+                  <p className="text-base text-white">
+                    Enterprise‑grade security for healthcare data
                   </p>
                 </div>
               </div>
             </div>
 
+            {/* Right: Image */}
             <div
               className="animate-fade-in"
               style={{ animationDelay: "500ms" }}
@@ -147,22 +172,10 @@ export default function About() {
               >
                 <div className="absolute inset-0 bg-noise opacity-10" />
                 <img
-                  src="https://images.unsplash.com/photo-1581091878591-4f0714c6f36f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/feature1.jpg"
                   alt="Medical AI Team"
                   className="w-full h-full object-cover rounded-xl"
                 />
-
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <BlurContainer className="p-4" intensity="high">
-                    <h3 className="text-lg font-semibold mb-2">
-                      Founded by AI & Medical Experts
-                    </h3>
-                    <p className="text-sm text-gray-700">
-                      Bridging the gap between cutting-edge technology and
-                      healthcare
-                    </p>
-                  </BlurContainer>
-                </div>
               </BlurContainer>
             </div>
           </div>
@@ -170,16 +183,19 @@ export default function About() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16 animate-fade-up">
             <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4">
               Our Principles
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2
+              className="text-4xl md:text-6xl font-['Kagitingan'] mb-6 bg-gradient-to-r 
+              from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent"
+            >
               What Drives Our Innovation
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-white font-['Poppins']">
               At MedHive, we're guided by a set of core principles that shape
               everything we do.
             </p>
@@ -189,125 +205,208 @@ export default function About() {
             {mission.map((item, index) => (
               <BlurContainer
                 key={index}
-                className="p-8 h-full animate-fade-up"
+                intensity="medium"
+                className="
+    relative
+    min-h-[340px]
+    px-6 py-8
+    bg-gray-900 bg-opacity-50
+    border border-cyan-500/30
+    rounded-2xl
+    hover:bg-opacity-70
+    hover:shadow-[0_0_20px_rgba(0,255,231,0.6)]
+    hover:cursor-pointer
+    transition-all duration-300
+    flex flex-col items-center justify-between
+    text-center space-y-4
+    animate-fade-up
+  "
                 style={{ animationDelay: `${index * 100 + 600}ms` }}
                 hoverable
               >
-                <div className="h-16 w-16 rounded-full bg-medhive-100 flex items-center justify-center text-medhive-600 text-xl font-bold mb-6">
-                  {index + 1}
+                {/* Step Number Circle */}
+                <div
+                  className="
+      h-20 w-20
+      flex items-center justify-center
+      rounded-full
+      bg-gray-800 bg-opacity-60
+      border border-cyan-500/40
+      shadow-[0_0_6px_rgba(0,255,231,0.4)]
+    "
+                >
+                  <div
+                    className="
+        h-16 w-16
+        flex items-center justify-center
+        rounded-full
+        bg-gradient-to-r from-blue-600 to-cyan-500
+        text-white text-2xl font-bold
+        border border-cyan-300/20
+      "
+                  >
+                    {index + 1}
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-4">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+
+                {/* Title */}
+                <h3 className="text-2xl md:text-3xl text-cyan-400 font-['Kagitingan']">
+                  {item.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-white text-base leading-snug px-2 font-['Poppins']">
+                  {item.description}
+                </p>
               </BlurContainer>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Team Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-16 animate-fade-up">
-            <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4">
+      <section className="relative z-10 py-24 overflow-hidden">
+        <div className="container mx-auto px-6">
+          {/* Glowing header */}
+          <div className="text-center max-w-4xl mx-auto mb-20 animate-fade-up">
+            <span className="inline-block bg-cyan-400/10 border border-cyan-400/20 text-cyan-300 px-4 py-1 rounded-full tracking-widest text-sm uppercase shadow-md">
               Our Team
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Meet the Experts Behind MedHive
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white mt-6 mb-4 tracking-tight neon-text-glow">
+              The Visionaries Powering MedHive <br></br>(Eta remove kore dis
+              lmaooo)
             </h2>
-            <p className="text-lg text-gray-600">
-              We've assembled a team of leaders in AI, medicine, and data
-              security to build the future of healthcare collaboration.
+            <p className="text-gray-400 text-lg">
+              Experts in AI, data privacy, and medical innovation. Together,
+              we're building the next era of federated healthcare intelligence.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {team.map((member, index) => (
-              <BlurContainer
+              <div
                 key={index}
-                className="p-0 overflow-hidden animate-fade-up"
-                style={{ animationDelay: `${index * 100 + 700}ms` }}
-                hoverable
+                className="relative group bg-white/5 border border-cyan-500/10 rounded-2xl shadow-[0_0_30px_rgba(0,255,255,0.05)] backdrop-blur-lg overflow-hidden hover:shadow-[0_0_40px_rgba(0,255,255,0.3)] transition-all duration-300 animate-fade-up hover:-translate-y-2"
+                style={{ animationDelay: `${index * 100 + 800}ms` }}
               >
-                <div className="aspect-square overflow-hidden">
+                <div className="relative aspect-square overflow-hidden">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
+                  {/* Overlay glow */}
+                  <div className="absolute inset-0 bg-cyan-400/10 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
-                  <p className="text-medhive-600 font-medium mb-3">
+
+                <div className="p-6 text-center">
+                  <h3 className="text-xl font-bold text-white mb-1 tracking-wide">
+                    {member.name}
+                  </h3>
+                  <p className="text-cyan-400 uppercase text-xs font-semibold tracking-wider mb-3">
                     {member.role}
                   </p>
-                  <p className="text-gray-600">{member.bio}</p>
+                  <p className="text-gray-400 text-sm">{member.bio}</p>
                 </div>
-              </BlurContainer>
+
+                {/* Glowing border bottom */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent blur-sm opacity-60 group-hover:opacity-100 transition duration-300" />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <BlurContainer
-              className="p-0 overflow-hidden animate-fade-up"
+      <section className="relative py-16 overflow-hidden ">
+        {/* Animated noise + circuit overlay */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0" />
+          <div className="absolute inset-0 opacity-10 mix-blend-overlay animate-pan" />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <div
+              className="relative bg-black/50 backdrop-blur-2xl border border-cyan-400/20 rounded-3xl overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.4)] animate-fade-up"
               style={{ animationDelay: `800ms` }}
             >
+              <div className="absolute inset-0 border-2 border-transparent rounded-3xl animate-[flicker_3s_linear_infinite]" />
               <div className="grid grid-cols-1 lg:grid-cols-2">
-                <div className="p-8 md:p-12">
-                  <h2 className="text-2xl md:text-3xl font-bold mb-6">
+                {/* Left Content */}
+                <div className="p-8 md:p-10 space-y-6">
+                  <h2 className="font-['Kagitingan'] text-2xl md:text-3xl text-white mb-2">
                     Get in Touch
                   </h2>
-                  <p className="text-gray-600 mb-8">
-                    Have questions about MedHive or want to learn more about
-                    joining our federated learning network? Our team is here to
-                    help.
+                  <p className="text-white">
+                    Questions about MedHive? Want to join our federated learning
+                    network? Drop us a line—our team is always listening.
                   </p>
 
-                  <div className="space-y-6 mb-8">
+                  <div className="space-y-4">
                     <div>
-                      <h3 className="font-medium mb-2">Email Us</h3>
+                      <h3 className="font-medium text-white mb-1">Email Us</h3>
                       <a
                         href="mailto:info@medhive.ai"
-                        className="text-medhive-600 flex items-center hover:underline"
+                        className="inline-flex items-center text-cyan-300 hover:text-cyan-100 transition"
                       >
                         <Mail className="h-4 w-4 mr-2" />
                         info@medhive.ai
                       </a>
                     </div>
-
                     <div>
-                      <h3 className="font-medium mb-2">Visit Our Office</h3>
-                      <p className="text-gray-600">
+                      <h3 className="font-medium text-white mb-1">
+                        Visit Our Office
+                      </h3>
+                      <address className="not-italic text-white text-sm leading-relaxed">
                         123 Innovation Drive
                         <br />
                         Suite 400
                         <br />
                         San Francisco, CA 94107
-                      </p>
+                      </address>
                     </div>
                   </div>
 
-                  <Button className="bg-medhive-500 hover:bg-medhive-600">
+                  <Button className="relative inline-flex items-center px-6 py-3 font-['Lilita_One'] text-base bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-black rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.6)] transition-all duration-300">
                     Schedule a Demo
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
 
-                <div className="h-full">
+                {/* Right Image */}
+                <div className="relative h-56 lg:h-auto">
                   <img
                     src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                     alt="MedHive Office"
                     className="w-full h-full object-cover"
                   />
+                  {/* Neon outline */}
+                  <div className="absolute inset-0 pointer-events-none rounded-3xl border-2 border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
               </div>
-            </BlurContainer>
+            </div>
           </div>
         </div>
+
+        <style jsx>{`
+          @keyframes flicker {
+            0%,
+            100% {
+              opacity: 1;
+            }
+            50% {
+              opacity: 0.85;
+            }
+          }
+          @keyframes pan {
+            from {
+              background-position: 0 0;
+            }
+            to {
+              background-position: 100% 100%;
+            }
+          }
+        `}</style>
       </section>
 
       <Footer />
