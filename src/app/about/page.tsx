@@ -40,7 +40,7 @@ export default function About() {
     {
       name: "David Kim",
       role: "Security Officer",
-      bio: "Former cybersecurity expert for major healthcare systems, specializing in HIPAA compliance and data protection.",
+      bio: "Former cybersecurity expert for major healthcare systems, specializing in balh blah blah",
       image:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     },
@@ -182,7 +182,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Mission Section */}
+      {/* TEAM Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16 animate-fade-up">
@@ -206,8 +206,7 @@ export default function About() {
               <BlurContainer
                 key={index}
                 intensity="medium"
-                className="
-    relative
+                className="relative
     min-h-[340px]
     px-6 py-8
     bg-gray-900 bg-opacity-50
@@ -288,7 +287,7 @@ export default function About() {
                 className="relative group bg-white/5 border border-cyan-500/10 rounded-2xl shadow-[0_0_30px_rgba(0,255,255,0.05)] backdrop-blur-lg overflow-hidden hover:shadow-[0_0_40px_rgba(0,255,255,0.3)] transition-all duration-300 animate-fade-up hover:-translate-y-2"
                 style={{ animationDelay: `${index * 100 + 800}ms` }}
               >
-                <div className="relative aspect-square overflow-hidden">
+                <div className="relative aspect-[4/5] overflow-hidden">
                   <img
                     src={member.image}
                     alt={member.name}
@@ -299,13 +298,15 @@ export default function About() {
                 </div>
 
                 <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold text-white mb-1 tracking-wide">
+                  <h3 className="text-2xl font-['Lilita_One'] text-white mb-1 tracking-wide">
                     {member.name}
                   </h3>
-                  <p className="text-cyan-400 uppercase text-xs font-semibold tracking-wider mb-3">
+                  <p className="text-cyan-400 uppercase text-sm font-medium tracking-wider mb-3">
                     {member.role}
                   </p>
-                  <p className="text-gray-400 text-sm">{member.bio}</p>
+                  <p className="text-gray-300 text-base font-['Poppins'] leading-relaxed">
+                    {member.bio}
+                  </p>
                 </div>
 
                 {/* Glowing border bottom */}
