@@ -5,7 +5,6 @@ import { createClient } from '@/utils/supabase/client';
 import { UserRole } from '@/utils/db_types';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Loader2 } from 'lucide-react';
-import { BlurContainer } from '@/components/ui/BlurContainer';
 
 export default function SetupPage() {
   const router = useRouter();
@@ -75,16 +74,16 @@ export default function SetupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <BlurContainer className="w-full max-w-md p-8 space-y-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+    <div className="flex items-center justify-center min-h-screen relative z-10">
+      <div className="w-full max-w-md p-8 space-y-6 rounded-lg shadow-2xl bg-zinc-900 relative z-20">
+          <div className="text-center">
+          <h1 className="text-2xl font-bold text-white mx-auto">
             Complete Your Profile
           </h1>
-          <p className="text-zinc-600 dark:text-zinc-300 mt-2">
+          <p className="text-center text-zinc-300 mt-2">
             Please provide some additional information to get started
           </p>
-        </div>
+          </div>
 
         {formSubmitted ? (
           <div className="text-center py-8">
@@ -99,7 +98,7 @@ export default function SetupPage() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-300">
                 Full Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -108,42 +107,42 @@ export default function SetupPage() {
                 value={formData.full_name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-teal-500 dark:bg-zinc-700 dark:text-white"
+                className="w-full px-4 py-2 mt-1 border rounded-2xl focus:ring focus:ring-teal-500 bg-zinc-700 text-white"
                 placeholder="Enter your full name"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Phone Number
+              <label className="block text-sm font-medium text-gray-300">
+                Phone Number <span className="text-red-500">*</span>
               </label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-teal-500 dark:bg-zinc-700 dark:text-white"
+                required
+                className="w-full px-4 py-2 mt-1 border rounded-2xl focus:ring focus:ring-teal-500 bg-zinc-700 text-white"
                 placeholder="Enter your phone number"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Organization <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-300">
+                Organization 
               </label>
               <input
                 type="text"
                 name="organization"
                 value={formData.organization}
                 onChange={handleChange}
-                required
-                className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-teal-500 dark:bg-zinc-700 dark:text-white"
+                className="w-full px-4 py-2 mt-1 border rounded-2xl focus:ring focus:ring-teal-500 bg-zinc-700 text-white"
                 placeholder="Enter your organization name"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-300">
                 Your Role <span className="text-red-500">*</span>
               </label>
               <select
@@ -151,7 +150,7 @@ export default function SetupPage() {
                 value={formData.role}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-teal-500 dark:bg-zinc-700 dark:text-white"
+                className="w-full px-4 py-2 mt-1 border rounded-2xl focus:ring focus:ring-teal-500 bg-zinc-700 text-white"
               >
                 <option value="" disabled>Select your role</option>
                 <option value="admin">Administrator</option>
@@ -164,7 +163,7 @@ export default function SetupPage() {
             <div className="pt-4">
               <Button 
                 type="submit" 
-                className="w-full bg-medhive-600 hover:bg-medhive-700"
+                className="w-full py-2 font-semibold text-white bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:to-pink-600 rounded-full shadow-md"
                 disabled={loading}
               >
                 {loading ? (
@@ -178,15 +177,15 @@ export default function SetupPage() {
           </form>
         )}
 
-        <div className="text-center text-sm text-gray-500 dark:text-gray-400">
+        <div className="text-center text-sm text-gray-400">
           <button 
             onClick={() => router.push('/')} 
-            className="flex items-center justify-center mx-auto text-medhive-600 hover:text-medhive-700"
+            className="flex items-center justify-center mx-auto text-md text-teal-500 hover:underline"
           >
             <ArrowLeft className="h-4 w-4 mr-1" /> Back to Home
           </button>
         </div>
-      </BlurContainer>
+      </div>
     </div>
   );
 }
