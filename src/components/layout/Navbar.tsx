@@ -6,6 +6,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Image from "next/image";
+import {
   motion,
   AnimatePresence,
   useScroll,
@@ -13,12 +20,17 @@ import {
 } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
+import { useContext } from "react";
+import { SessionContext } from "@/utils/supabase/usercontext";
+import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(false);
+  const sessionData = useContext(SessionContext);
+
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setVisible(latest > 100);
@@ -34,6 +46,8 @@ export function Navbar() {
     { name: "CONTRIBUTE", path: "/contribute" },
     { name: "ABOUT", path: "/about" },
   ];
+
+  const avatarUrl = sessionData?.sessionData?.session?.user?.user_metadata?.avatar_url ||"/user.png";
 
   return (
     <motion.div className="sticky isolate inset-x-0 top-0 z-50 w-full pt-2 font-['Lilita_One']">
@@ -89,17 +103,49 @@ export function Navbar() {
           ))}
         </motion.div>
 
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            className="border-medhive-500 text-medhive-600 hover:bg-medhive-50"
-          >
-            SIGN IN
-          </Button>
-          <Button className="bg-medhive-500 hover:bg-medhive-600">
-            SIGN UP
-          </Button>
-        </div>
+  {!sessionData.isLoading && (sessionData.sessionData.session ? (
+  <DropdownMenu>
+    <DropdownMenuTrigger className=" relative z-50 rounded-full">
+      <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-medhive-500">
+        <Image
+          src={avatarUrl}
+          alt="Profile"
+          width={40}
+          height={40}
+          className="h-full w-full object-cover"
+        />
+      </div>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent 
+    className="w-56 z-[100]"
+    align="end"
+    sideOffset={8}>
+      <DropdownMenuItem>
+        <Link href="/profile">Profile</Link>
+      </DropdownMenuItem>
+      <DropdownMenuSeparator/>
+      <DropdownMenuItem>
+        <Link href="/signout">Sign Out</Link>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+) : (
+  <div className="flex items-center space-x-2">
+    <Link href="/login">
+      <Button
+        variant="outline"
+        className="border-medhive-500 text-medhive-600 hover:bg-medhive-50"
+      >
+        SIGN IN
+      </Button>
+    </Link>
+    <Link href="/login">
+      <Button className="bg-medhive-500 hover:bg-medhive-600">
+        SIGN UP
+      </Button>
+    </Link>
+  </div>
+))}
       </motion.div>
 
       {/* Mobile Navbar */}
@@ -161,23 +207,49 @@ export function Navbar() {
                       pathname === link.path
                         ? "bg-medhive-100/20 text-medhive-400"
                         : "text-gray-300 hover:bg-gray-800"
-                    )}
-                  >
+                    )}>
                     {link.name}
                   </Link>
                 ))}
 
-                <div className="mt-4 flex flex-col space-y-2">
-                  <Button
+                {!sessionData.isLoading && (sessionData.sessionData.session ? (
+  <div className="mt-4">
+    <div className="flex items-center space-x-3 px-4 py-2">
+      <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-medhive-500">
+        <Image
+          src={avatarUrl}
+          alt="Profile"
+          width={40}
+          height={40}
+          className="h-full w-full object-cover"
+        />
+      </div>
+      <div className="flex flex-col">
+        <span className="text-sm font-medium text-medhive-400">
+          {sessionData.sessionData.userprofile?.full_name || 'User'}
+        </span>
+        <Link href="/signout" className="text-sm text-gray-400 hover:text-medhive-400">
+          Sign Out
+        </Link>
+      </div>
+    </div>
+  </div>
+) : (<div className="mt-4 flex flex-col space-y-2">
+                      <Link href="/login">
+                      <Button
                     variant="outline"
                     className="border-medhive-500 text-medhive-400"
                   >
                     Sign In
                   </Button>
+                  </Link>
+                  <Link href="/login">
                   <Button className="bg-medhive-500 hover:bg-medhive-600">
                     Sign Up
                   </Button>
+                  </Link>
                 </div>
+                ))}
               </div>
             </motion.div>
           )}
