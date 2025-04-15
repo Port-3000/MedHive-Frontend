@@ -5,12 +5,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import {
   motion,
@@ -22,10 +16,10 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { SessionContext } from "@/utils/supabase/usercontext";
-import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const pathname = usePathname();
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(false);
@@ -38,6 +32,18 @@ export function Navbar() {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.profile-menu')) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const navLinks = [
     { name: "HOME", path: "/" },
@@ -104,8 +110,11 @@ export function Navbar() {
 
         {!sessionData.isLoading &&
           (sessionData.sessionData.session ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="relative z-50 rounded-full">
+            <div className="relative profile-menu">
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="relative z-50 rounded-full"
+              >
                 <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-medhive-500">
                   <Image
                     src={avatarUrl}
@@ -115,26 +124,30 @@ export function Navbar() {
                     className="h-full w-full object-cover"
                   />
                 </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-56 z-[200] bg-black/90 border border-gray-700 text-white backdrop-blur-md"
-                align="end"
-                forceMount
-                sideOffset={8}
-                >
-                <DropdownMenuItem className="hover:bg-blue-400 focus:bg-blue-400 cursor-pointer">
-                  <Link href="/profile" className="w-full">
-                    Profile
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-gray-700" />
-                <DropdownMenuItem className="hover:bg-blue-400 focus:bg-blue-400 cursor-pointer">
-                  <Link href="/signout" className="w-full">
-                    Sign Out
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </button>
+              
+              {isProfileOpen && (
+                <div className="absolute right-0 mt-2 w-48 rounded-lg bg-black/90 border border-gray-700 text-white shadow-lg backdrop-blur-md z-[200]">
+                  <div className="py-1">
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 text-sm hover:bg-blue-400 cursor-pointer"
+                      onClick={() => setIsProfileOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <div className="border-t border-gray-700 my-1" />
+                    <Link
+                      href="/signout"
+                      className="block px-4 py-2 text-sm hover:bg-blue-400 cursor-pointer"
+                      onClick={() => setIsProfileOpen(false)}
+                    >
+                      Sign Out
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="flex items-center space-x-2">
               <Link href="/login">
@@ -233,16 +246,23 @@ export function Navbar() {
                           />
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-medhive-400">
+                          <div className="flex flex-col gap-2 mt-2">
+                            <Link
+                              href="/profile"
+                              className="text-sm text-medhive-500 hover:text-medhive-400"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
                             {sessionData.sessionData.userprofile?.full_name ||
                               "User"}
-                          </span>
-                          <Link
-                            href="/signout"
-                            className="text-sm text-gray-400 hover:text-medhive-400"
-                          >
-                            Sign Out
-                          </Link>
+                            </Link>
+                            <Link
+                              href="/signout"
+                              className="text-sm text-gray-400 hover:text-medhive-400"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              Sign Out
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
