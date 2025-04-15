@@ -188,7 +188,7 @@ from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent"
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16 animate-fade-up">
-            <span className="inline-block px-3 py-1 bg-medhive-100 text-medhive-700 rounded-full text-sm font-medium mb-4">
+            <span className="inline-block px-3 py-1 bg-cyan-400/10 border border-cyan-400/20 text-white rounded-full text-sm font-['Lilita_One'] mb-4">
               Our Principles
             </span>
             <h2
@@ -268,7 +268,7 @@ border border-cyan-300/20
         <div className="container mx-auto px-6">
           {/* Glowing header */}
           <div className="text-center max-w-4xl mx-auto mb-20 animate-fade-up">
-            <span className="inline-block bg-cyan-400/10 border border-cyan-400/20 text-cyan-300 px-4 py-1 rounded-full tracking-widest text-sm uppercase shadow-md">
+            <span className="inline-block bg-cyan-400/10 border border-cyan-400/20 text-cyan-300 px-4 py-1 rounded-full tracking-widest font-['Lilita_One'] text-sm uppercase shadow-md">
               Our Team
             </span>
             <h2 className="text-4xl md:text-5xl font-extrabold text-white mt-6 mb-4 tracking-tight neon-text-glow">
@@ -295,7 +295,6 @@ border border-cyan-300/20
                     alt={member.name}
                     className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
-                  {/* Overlay glow */}
                   <div className="absolute inset-0 bg-cyan-400/10 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
                 </div>
 
@@ -311,7 +310,6 @@ border border-cyan-300/20
                   </p>
                 </div>
 
-                {/* Glowing border bottom */}
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent blur-sm opacity-60 group-hover:opacity-100 transition duration-300" />
               </div>
             ))}
@@ -319,9 +317,7 @@ border border-cyan-300/20
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="relative py-16 overflow-hidden ">
-        {/* Animated noise + circuit overlay */}
+      <section className="relative py-16 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0" />
           <div className="absolute inset-0 opacity-10 mix-blend-overlay animate-pan" />
@@ -330,7 +326,7 @@ border border-cyan-300/20
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
             <div
-              className="relative bg-black/50 backdrop-blur-2xl border border-cyan-400/20 rounded-3xl overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.4)] animate-fade-up"
+              className="relative bg-black/50 backdrop-blur-2xl border border-cyan-400/20 rounded-3xl overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.4)] animate-fade-up transition-transform duration-300 ease-in-out transform hover:scale-105"
               style={{ animationDelay: `800ms` }}
             >
               <div className="absolute inset-0 border-2 border-transparent rounded-3xl animate-[flicker_3s_linear_infinite]" />
@@ -340,14 +336,16 @@ border border-cyan-300/20
                   <h2 className="font-['Kagitingan'] text-2xl md:text-3xl text-white mb-2">
                     Get in Touch
                   </h2>
-                  <p className="text-white">
+                  <p className="text-white font-['Poppins']">
                     Questions about MedHive? Want to join our federated learning
                     network? Drop us a line—our team is always listening.
                   </p>
 
                   <div className="space-y-4">
                     <div>
-                      <h3 className="font-medium text-white mb-1">Email Us</h3>
+                      <h3 className="font-medium text-white mb-1 font-['Poppins']">
+                        Email Us
+                      </h3>
                       <a
                         href="mailto:info@medhive.ai"
                         className="inline-flex items-center text-cyan-300 hover:text-cyan-100 transition"
@@ -357,7 +355,7 @@ border border-cyan-300/20
                       </a>
                     </div>
                     <div>
-                      <h3 className="font-medium text-white mb-1">
+                      <h3 className="font-medium text-white mb-1 font-['Poppins']">
                         Visit Our Office
                       </h3>
                       <address className="not-italic text-white text-sm leading-relaxed">
@@ -376,14 +374,12 @@ border border-cyan-300/20
                   </Button>
                 </div>
 
-                {/* Right Image */}
                 <div className="relative h-56 lg:h-auto">
                   <img
                     src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                     alt="MedHive Office"
                     className="w-full h-full object-cover"
                   />
-                  {/* Neon outline */}
                   <div className="absolute inset-0 pointer-events-none rounded-3xl border-2 border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
               </div>
