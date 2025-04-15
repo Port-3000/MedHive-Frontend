@@ -1,30 +1,32 @@
 import Link from "next/link";
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
-import Dock from '../Dock';
+import Dock from "../Dock";
+import TrueFocus from "../ui/true-focus";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const socialItems = [
-    { 
-      icon: <Twitter size={20} />, 
-      label: 'Twitter', 
-      onClick: () => window.open('https://twitter.com/yourhandle', '_blank')
+    {
+      icon: <Twitter size={20} />,
+      label: "Twitter",
+      onClick: () => window.open("https://twitter.com/yourhandle", "_blank"),
     },
-    { 
-      icon: <Github size={20} />, 
-      label: 'GitHub', 
-      onClick: () => window.open('https://github.com/Port-3000', '_blank')
+    {
+      icon: <Github size={20} />,
+      label: "GitHub",
+      onClick: () => window.open("https://github.com/Port-3000", "_blank"),
     },
-    { 
-      icon: <Linkedin size={20} />, 
-      label: 'LinkedIn', 
-      onClick: () => window.open('https://linkedin.com/company/yourcompany', '_blank')
+    {
+      icon: <Linkedin size={20} />,
+      label: "LinkedIn",
+      onClick: () =>
+        window.open("https://linkedin.com/company/yourcompany", "_blank"),
     },
-    { 
-      icon: <Mail size={20} />, 
-      label: 'Contact', 
-      onClick: () => window.open('mailto:contact@medhive.com')
+    {
+      icon: <Mail size={20} />,
+      label: "Contact",
+      onClick: () => window.open("mailto:contact@medhive.com"),
     },
   ];
 
@@ -64,10 +66,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <span className="bg-medhive-500 text-white font-['Lilita_One'] p-2 rounded-md">
-                MH
-              </span>
-              <span className="font-['Lilita_One'] text-xl text-white">MedHive</span>
+              <TrueFocus
+                sentence="MH MedHive"
+                manualMode={false}
+                blurAmount={5}
+                borderColor="cyan"
+                glowColor="rgba(0, 255, 255, 0.6)"
+                animationDuration={2.0}
+                pauseBetweenAnimations={0.5}
+              />
             </Link>
             <p className="text-gray-400 mb-6 max-w-md font-['Poppins']">
               A secure federated learning platform that enables hospitals to
@@ -75,7 +82,7 @@ export function Footer() {
               privacy.
             </p>
 
-            <Dock 
+            <Dock
               items={socialItems}
               panelHeight={64}
               baseItemSize={40}
@@ -86,7 +93,9 @@ export function Footer() {
 
           {linkGroups.map((group) => (
             <div key={group.title}>
-              <h3 className="font-['Lilita_One'] text-white mb-4">{group.title}</h3>
+              <h3 className="font-['Lilita_One'] text-white mb-4">
+                {group.title}
+              </h3>
               <ul className="space-y-3">
                 {group.links.map((link) => (
                   <li key={link.name}>

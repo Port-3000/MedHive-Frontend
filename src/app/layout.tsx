@@ -6,6 +6,7 @@ import "./globals.css";
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
 import { SessionProvider } from "../utils/supabase/usercontext";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
