@@ -61,11 +61,11 @@ export function Footer() {
   ];
 
   return (
-    <footer className="py-12 mt-20">
+    <footer className="py-8 mt-15">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
+            <Link href="/" className="flex items-center space-x-2 mb-1">
               <TrueFocus
                 sentence="MH MedHive"
                 manualMode={false}
@@ -112,7 +112,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-200">
+        <div className="mt-8 pt-5 border-t border-gray-200">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <p className="text-gray-500 text-sm font-['Poppins']">
               © {currentYear} MedHive. All rights reserved.
