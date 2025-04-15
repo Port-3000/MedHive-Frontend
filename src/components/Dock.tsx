@@ -48,7 +48,7 @@ export default function Dock({
                 height: isHovered ? magnification : baseItemSize,
               }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="flex items-center justify-center rounded-full bg-medhive-500 group-hover:bg-green-600 transition-colors"
+              className="flex items-center justify-center rounded-full bg-medhive-500 group-hover:bg-pink-500 transition-colors"
             >
               {item.icon}
             </motion.div>

@@ -1,3 +1,5 @@
+//src/app/page.tsx
+
 "use client";
 import { useState, useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
@@ -128,31 +130,44 @@ export default function Index() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.98, filter: "blur(20px)" }}
+          initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
           animate={{
             opacity: 1,
             scale: 1,
             filter: "blur(0px)",
             transition: {
-              duration: shouldReduceMotion ? 0 : 0.8,
-              ease: "easeOut",
+              duration: shouldReduceMotion ? 0 : 1,
+              ease: "easeInOut",
+              scale: { type: "spring", stiffness: 100, damping: 20 },
             },
           }}
           className="relative z-10"
+          style={{ willChange: "opacity, transform, filter" }}
         ></motion.div>
 
         <div className="relative z-10">
           {/* Hero Section */}
-          <AnimateOnView stagger={0.03} delay={0.02} distance={5}>
+          <AnimateOnView stagger={0.05} delay={0.1} distance={10}>
             <section
               ref={heroSectionRef}
               className="relative md:pt-16 md:pb-28 lg:pt-20 lg:pb-28 overflow-hidden"
             >
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0" />
-                <div className="absolute inset-0" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-20" />
               </div>
-              <motion.div className="container mx-auto px-6 relative z-10">
+              <motion.div
+                className="container mx-auto px-6 relative z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 1.2,
+                    ease: "easeOut",
+                  },
+                }}
+                style={{ willChange: "opacity, transform" }}
+              >
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12 xl:gap-20 text-white">
                   <div className="lg:w-7/12 text-center lg:text-left">
                     <div className="flex flex-wrap justify-center sm:justify-start gap-3 mb-6">
@@ -192,9 +207,9 @@ export default function Index() {
                           loop
                           cursor
                           cursorStyle="|"
-                          typeSpeed={80}
-                          deleteSpeed={50}
-                          delaySpeed={2000}
+                          typeSpeed={70}
+                          deleteSpeed={40}
+                          delaySpeed={1500}
                         />
                       </span>
                     </h1>
@@ -425,7 +440,8 @@ export default function Index() {
                     </span>
                     <br className="mt-4" />
                     <span className="inline-block mt-4 text-gray-300/80 font-['Lilita_One']">
-                      MedHive's quantum-secure infrastructure enables collaborative AI evolution
+                      MedHive's quantum-secure infrastructure enables
+                      collaborative AI evolution
                     </span>
                   </p>
                   <div className="flex flex-col sm:flex-row justify-center gap-8">
