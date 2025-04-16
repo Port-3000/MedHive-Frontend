@@ -46,6 +46,7 @@ type FormValues = {
   concavity_worst: number;
   concave_points_worst: number;
   symmetry_worst: number;
+  fractal_dimension_worst: number;
 };
 
 export default function BreastCancerPredictionPage() {
@@ -88,13 +89,14 @@ export default function BreastCancerPredictionPage() {
       concavity_worst: 0,
       concave_points_worst: 0,
       symmetry_worst: 0,
+      fractal_dimension_worst: 0,
     }
   });
 
   async function onSubmit(values: FormValues) {
     try {
       setError(null);
-      const response = await fetch("/api/v1/predict", {
+      const response = await fetch("https://nthander2002-medhive-breastcancer.hf.space/api/v1/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -109,6 +111,8 @@ export default function BreastCancerPredictionPage() {
 
       const data = await response.json();
       setPrediction(data);
+      console.log(data)
+
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     }
@@ -246,7 +250,9 @@ export default function BreastCancerPredictionPage() {
               <AlertDescription className="text-gray-200">
                 <div className="mt-2">
                   <p>Diagnosis: {prediction.diagnosis}</p>
-                  <p>Probability: {(prediction.probability * 100).toFixed(2)}%</p>
+                  <p>Probability: {prediction.probability < 0.01
+                    ? "< 0.01%"
+                    : prediction.probability.toFixed(2) + "%"}%</p>
                   <p>Timestamp: {new Date(prediction.timestamp).toLocaleString()}</p>
                 </div>
               </AlertDescription>
