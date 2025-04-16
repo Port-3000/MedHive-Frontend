@@ -3,6 +3,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -16,6 +17,8 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { SessionContext } from "@/utils/supabase/usercontext";
+import { useRouter } from "next/navigation";
+import { createPortal } from 'react-dom';
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,12 +27,17 @@ export function Navbar() {
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(false);
   const sessionData = useContext(SessionContext);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const supabase = createClient();
+  const router = useRouter();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setVisible(latest > 100);
   });
 
   useEffect(() => {
+    setMounted(true);
     setIsMenuOpen(false);
   }, [pathname]);
 
@@ -52,7 +60,25 @@ export function Navbar() {
     { name: "ABOUT", path: "/about" },
   ];
 
-  const avatarUrl = sessionData?.sessionData?.session?.user?.user_metadata?.avatar_url ||"/user.png";
+  const handleSignOut = async () => {
+    // Prevent layout shifts during transition
+    document.documentElement.style.pointerEvents = "none";
+
+    const { error } = await supabase.auth.signOut();
+
+    // Wait for next animation frame
+    await new Promise(requestAnimationFrame);
+
+    document.documentElement.style.pointerEvents = "";
+
+    if (error) {
+      alert(error.message);
+    } else {
+      router.push("/");
+    }
+  };
+
+  const avatarUrl = sessionData?.sessionData?.session?.user?.user_metadata?.avatar_url || "/user.png";
 
   return (
     <motion.div className="sticky isolate inset-x-0 top-0 z-[100] w-full pt-2 font-['Lilita_One']">
@@ -125,27 +151,58 @@ export function Navbar() {
                   />
                 </div>
               </button>
-              
+
               {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-lg bg-black/90 border border-gray-700 text-white shadow-lg backdrop-blur-md z-[200]">
+                <div className="absolute right-0 mt-2 w-40 rounded-lg bg-black/90 border border-gray-700 text-white shadow-lg backdrop-blur-md z-[200]">
                   <div className="py-1">
                     <Link
                       href="/profile"
-                      className="block px-4 py-2 text-sm hover:bg-blue-400 cursor-pointer"
+                      className="block text-center px-2 py-2 text-sm hover:bg-blue-400 cursor-pointer"
                       onClick={() => setIsProfileOpen(false)}
                     >
                       Profile
                     </Link>
                     <div className="border-t border-gray-700 my-1" />
-                    <Link
-                      href="/signout"
-                      className="block px-4 py-2 text-sm hover:bg-blue-400 cursor-pointer"
-                      onClick={() => setIsProfileOpen(false)}
+                    <button
+                      className="block w-full px-2 py-2 text-sm hover:bg-blue-400 cursor-pointer"
+                      onClick={() => {
+                        setIsProfileOpen(false),
+                        setModalOpen(true)
+                      }
+                      }
                     >
                       Sign Out
-                    </Link>
+                    </button>
                   </div>
                 </div>
+              )}
+              {mounted && modalOpen && createPortal(
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+                  <div
+                    className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                    onClick={() => setModalOpen(false)}
+                  />
+
+                  <div className="relative bg-gray-900 text-white rounded-lg p-6 shadow-xl w-[95%] max-w-md mx-4">
+                    <h2 className="text-2xl text-center font-semibold mb-4">Confirm Sign Out</h2>
+                    <p className="text-center text-lg mb-6">Are you sure you want to sign out?</p>
+                    <div className="flex justify-end space-x-4">
+                      <button
+                        onClick={() => setModalOpen(false)}
+                        className="px-4 py-2 bg-gray-600 rounded-lg hover:bg-gray-500 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleSignOut}
+                        className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                </div>,
+                document.body
               )}
             </div>
           ) : (
@@ -252,16 +309,18 @@ export function Navbar() {
                               className="text-sm text-medhive-500 hover:text-medhive-400"
                               onClick={() => setIsMenuOpen(false)}
                             >
-                            {sessionData.sessionData.userprofile?.full_name ||
-                              "User"}
+                              {sessionData.sessionData.userprofile?.full_name ||
+                                "User"}
                             </Link>
-                            <Link
-                              href="/signout"
+                            <button
                               className="text-sm text-gray-400 hover:text-medhive-400"
-                              onClick={() => setIsMenuOpen(false)}
+                              onClick={() => {
+                                setIsMenuOpen(false),
+                                setModalOpen(true)
+                              }}
                             >
                               Sign Out
-                            </Link>
+                            </button>
                           </div>
                         </div>
                       </div>
