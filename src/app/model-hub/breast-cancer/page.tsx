@@ -12,9 +12,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 
 type FormValues = {
   radius_mean: number;
@@ -90,19 +96,24 @@ export default function BreastCancerPredictionPage() {
       concave_points_worst: 0,
       symmetry_worst: 0,
       fractal_dimension_worst: 0,
-    }
+    },
   });
 
   async function onSubmit(values: FormValues) {
     try {
       setError(null);
-      const response = await fetch("https://nthander2002-medhive-breastcancer.hf.space/api/v1/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      setPrediction(null);
+
+      const response = await fetch(
+        "https://nthander2002-medhive-breastcancer.hf.space/api/v1/predict",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -111,133 +122,97 @@ export default function BreastCancerPredictionPage() {
 
       const data = await response.json();
       setPrediction(data);
-      console.log(data)
-
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     }
   }
 
   return (
-    <div className="container mx-auto py-10">
-      <Card className="bg-black/50 border-cyan-400/30">
+    <div className="container mx-auto py-12 px-4">
+      <Card className="bg-gradient-to-br from-zinc-900/60 to-black/80 border border-cyan-500/20 shadow-lg backdrop-blur-lg rounded-3xl">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-white">Breast Cancer Prediction</CardTitle>
-          <CardDescription className="text-gray-400">
-            Enter the tumor characteristics to get a prediction
+          <CardTitle className="text-4xl font-['Poppins'] text-cyan-400 drop-shadow-md">
+            Breast Cancer Prediction
+          </CardTitle>
+          <CardDescription className="text-gray-400 mt-1 font-['Poppins']">
+            Enter the tumor characteristics to get a prediction.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+
+        <CardContent className="mt-2">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Mean Values */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-cyan-400">Mean Values</h3>
-                  {Object.entries(form.getValues())
-                    .filter(([key]) => key.endsWith("_mean"))
-                    .map(([key]) => (
-                      <FormField
-                        key={key}
-                        control={form.control}
-                        name={key as keyof FormValues}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-gray-200">
-                              {key.replace(/_/g, " ").replace("mean", "").trim()}
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                step="0.0001"
-                                className="bg-zinc-900 border-cyan-400/30 text-white"
-                                {...field}
-                                onChange={e => field.onChange(parseFloat(e.target.value))}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ))}
-                </div>
-
-                {/* Standard Error Values */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-cyan-400">Standard Error Values</h3>
-                  {Object.entries(form.getValues())
-                    .filter(([key]) => key.endsWith("_se"))
-                    .map(([key]) => (
-                      <FormField
-                        key={key}
-                        control={form.control}
-                        name={key as keyof FormValues}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-gray-200">
-                              {key.replace(/_/g, " ").replace("se", "").trim()}
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                step="0.0001"
-                                className="bg-zinc-900 border-cyan-400/30 text-white"
-                                {...field}
-                                onChange={e => field.onChange(parseFloat(e.target.value))}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ))}
-                </div>
-
-                {/* Worst Values */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-cyan-400">Worst Values</h3>
-                  {Object.entries(form.getValues())
-                    .filter(([key]) => key.endsWith("_worst"))
-                    .map(([key]) => (
-                      <FormField
-                        key={key}
-                        control={form.control}
-                        name={key as keyof FormValues}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-gray-200">
-                              {key.replace(/_/g, " ").replace("worst", "").trim()}
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                step="0.0001"
-                                className="bg-zinc-900 border-cyan-400/30 text-white"
-                                {...field}
-                                onChange={e => field.onChange(parseFloat(e.target.value))}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ))}
-                </div>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {["mean", "se", "worst"].map((section) => (
+                  <div
+                    key={section}
+                    className="space-y-4 p-4 bg-zinc-800/40 rounded-xl border border-cyan-400/10 shadow-inner backdrop-blur-md"
+                  >
+                    <h3 className="text-xl font-['Poppins'] text-cyan-300 drop-shadow-sm border-b border-cyan-400/20 pb-2">
+                      {section === "mean"
+                        ? "Mean Values"
+                        : section === "se"
+                        ? "Standard Error Values"
+                        : "Worst Values"}
+                    </h3>
+                    {Object.entries(form.getValues())
+                      .filter(([key]) => key.endsWith(`_${section}`))
+                      .map(([key]) => (
+                        <FormField
+                          key={key}
+                          control={form.control}
+                          name={key as keyof FormValues}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-gray-300 text-sm font-['Poppins']">
+                                {key
+                                  .replace(/_/g, " ")
+                                  .replace(section, "")
+                                  .trim()}
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  step="0.0001"
+                                  className="bg-zinc-900 border-cyan-400/20 text-white placeholder:text-gray-500 focus:ring-2 focus:ring-cyan-500/50 transition-all duration-200"
+                                  {...field}
+                                  onChange={(e) =>
+                                    field.onChange(parseFloat(e.target.value))
+                                  }
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                  </div>
+                ))}
               </div>
 
-              <Button 
-                type="submit" 
-                className="w-full bg-cyan-500 hover:bg-cyan-600 text-white"
+              <Button
+                type="submit"
+                className="w-full bg-cyan-500 hover:bg-cyan-600 transition-all duration-200 text-white font-['Poppins'] text-lg py-3 rounded-xl shadow-md hover:shadow-cyan-500/30 flex items-center justify-center gap-2"
                 disabled={form.formState.isSubmitting}
               >
-                Get Prediction
+                {form.formState.isSubmitting ? (
+                  <>
+                    <Loader2 className="animate-spin h-5 w-5" />
+                    Predicting...
+                  </>
+                ) : (
+                  "Get Prediction"
+                )}
               </Button>
             </form>
           </Form>
 
           {error && (
-            <Alert variant="destructive" className="mt-6">
-              <AlertCircle className="h-4 w-4" />
+            <Alert
+              variant="destructive"
+              className="mt-8 border border-red-500/30 bg-red-500/10 text-red-200 backdrop-blur-md"
+            >
+              <AlertCircle className="h-5 w-5" />
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
@@ -245,15 +220,25 @@ export default function BreastCancerPredictionPage() {
 
           {prediction && (
             <Alert className="mt-6 bg-cyan-500/20 border-cyan-400/30">
-              <CheckCircle2 className="h-4 w-4 text-cyan-400" />
-              <AlertTitle className="text-cyan-400">Prediction Result</AlertTitle>
+              <CheckCircle2 className="h-5 w-5 !text-white" />
+              <AlertTitle className="text-cyan-400 font-['Poppins'] underline">
+                PREDICTION RESULT
+              </AlertTitle>
               <AlertDescription className="text-gray-200">
-                <div className="mt-2">
-                  <p>Diagnosis: {prediction.diagnosis}</p>
-                  <p>Probability: {prediction.probability < 0.01
-                    ? "< 0.01%"
-                    : prediction.probability.toFixed(2) + "%"}%</p>
-                  <p>Timestamp: {new Date(prediction.timestamp).toLocaleString()}</p>
+                <div className="mt-2 text-gray-200 space-y-1 font-['Poppins']">
+                  <p>
+                    <strong>Diagnosis:</strong> {prediction.diagnosis}
+                  </p>
+                  <p>
+                    <strong>Probability:</strong>{" "}
+                    {prediction.probability < 0.01
+                      ? "< 0.01%"
+                      : prediction.probability.toFixed(2) + "%"}
+                  </p>
+                  <p>
+                    <strong>Timestamp:</strong>{" "}
+                    {new Date(prediction.timestamp).toLocaleString()}
+                  </p>
                 </div>
               </AlertDescription>
             </Alert>
