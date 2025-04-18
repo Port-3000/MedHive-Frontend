@@ -14,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+//import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 
 type Model = {
@@ -24,10 +25,11 @@ type Model = {
   f1_score?: number;
   precision_score?: number;
   recall_score?: number;
-  lastTrained?: string;
+  updated_at: string;
 };
 
 export default function Models() {
+    //const supabase = createClient();
   const [models, setModels] = useState<Model[]>(() => ([
     {
       id: "1",
@@ -37,7 +39,7 @@ export default function Models() {
       f1_score: 0.94,
       precision_score: 0.93,
       recall_score: 0.96,
-      lastTrained: "4/19/2025, 2:30:00 PM"
+      updated_at: "4/19/2025, 2:30:00 PM"
     },
     {
       id: "2",
@@ -47,7 +49,7 @@ export default function Models() {
       f1_score: 0.91,
       precision_score: 0.90,
       recall_score: 0.93,
-      lastTrained: "4/16/2025, 3:20:00 PM"
+      updated_at: "4/16/2025, 3:20:00 PM"
     },
     {
       id: "3",
@@ -57,7 +59,7 @@ export default function Models() {
       f1_score: 0.88,
       precision_score: 0.87,
       recall_score: 0.90,
-      lastTrained: "4/18/2025, 11:45:00 AM"
+      updated_at: "4/18/2025, 11:45:00 AM"
     },
     {
       id: "4",
@@ -67,7 +69,7 @@ export default function Models() {
       f1_score: 0.93,
       precision_score: 0.95,
       recall_score: 0.92,
-      lastTrained: "4/17/2025, 9:15:00 AM"
+      updated_at: "4/17/2025, 9:15:00 AM"
     },
     {
       id: "5",
@@ -77,7 +79,7 @@ export default function Models() {
       f1_score: 0.90,
       precision_score: 0.92,
       recall_score: 0.89,
-      lastTrained: "4/16/2025, 3:20:00 PM"
+      updated_at: "4/16/2025, 3:20:00 PM"
     },
     {
       id: "6",
@@ -87,9 +89,23 @@ export default function Models() {
       f1_score: 0.85,
       precision_score: 0.87,
       recall_score: 0.84,
-      lastTrained: "4/16/2025, 3:20:00 PM"
+      updated_at: "4/16/2025, 3:20:00 PM"
     }
   ]));
+
+  /*  useEffect(() => {
+      const fetchModels = async () => {
+        const { data, error } = await supabase.from("ml_models").select("*");
+        if (error) {
+          toast.error("Failed to fetch models");
+          console.error(error);
+          return;
+        }
+        setModels(data as Model[]);
+      };
+      fetchModels();
+    }, []);
+    */
 
   const handleApprove = (modelName: string) => {
     toast.success("Model Approved", {
@@ -108,19 +124,35 @@ export default function Models() {
       return newModels;
     });
 
-    toast.loading(`Retraining ${modelName}...`,{duration:3000});
+    const toastId = toast.loading(`Retraining ${modelName}...`,{duration:3000});
 
     setTimeout(() => {
+        /*(async () => {
+      const newDateTime = new Date().toISOString(); // "2025-04-16T06:16:26.035Z"
+  
+      // Update Supabase
+      const { error } = await supabase
+        .from("ml_models")
+        .update({ lastTrained: newDateTime, status: "trained" })
+        .eq("id", modelId);
+  
+      if (error) {
+        toast.error(`Failed to update ${modelName}`, {
+          description: error.message,
+          duration: 3000,
+        });
+      } else { */
       setModels(prevModels => {
         const currentDateTime = new Date().toLocaleString();
         const newModels = prevModels.map(model =>
           model.id === modelId 
-            ? { ...model, status: "trained" as const, lastTrained: currentDateTime } 
+            ? { ...model, status: "trained" as const, updated_at: currentDateTime } 
             : model
         );
         // Keep training models at the top
         return newModels.sort((a, b) => (a.status === 'training' ? -1 : b.status === 'training' ? 1 : 0));
       });
+      toast.dismiss(toastId);
       toast.success(`${modelName} has been retrained`, {
         description: "Model training completed successfully.",
         duration: 3000,
@@ -190,7 +222,7 @@ export default function Models() {
                     </div>
                   </TableCell>
                   <TableCell className="text-gray-300">
-                    {model.lastTrained || "Not trained yet"}
+                    {model.updated_at || "Not trained yet"}
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
