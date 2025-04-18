@@ -233,11 +233,7 @@ export default function BreastCancerPredictionPage() {
                     <strong>Probability:</strong>{" "}
                     {prediction.probability < 0.01
                       ? "< 0.01%"
-                      : prediction.probability.toFixed(2) + "%"}
-                  </p>
-                  <p>
-                    <strong>Timestamp:</strong>{" "}
-                    {new Date(prediction.timestamp).toLocaleString()}
+                      : (prediction.probability*100).toFixed(2) + "%"}
                   </p>
                 </div>
               </AlertDescription>
