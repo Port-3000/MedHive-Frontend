@@ -19,6 +19,7 @@ import { useContext } from "react";
 import { SessionContext } from "@/utils/supabase/usercontext";
 import { useRouter } from "next/navigation";
 import { createPortal } from 'react-dom';
+import Chat from "@/components/Chat";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -81,6 +82,7 @@ export function Navbar() {
   const avatarUrl = sessionData?.sessionData?.session?.user?.user_metadata?.avatar_url || "/user.png";
 
   return (
+    <>      <Chat/>
     <motion.div className="sticky isolate inset-x-0 top-0 z-[100] w-full pt-2 font-['Lilita_One']">
       {/* Desktop Navbar */}
       <motion.div
@@ -348,5 +350,6 @@ export function Navbar() {
         </AnimatePresence>
       </motion.div>
     </motion.div>
+    </>
   );
 }
