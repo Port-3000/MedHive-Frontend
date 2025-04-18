@@ -202,14 +202,14 @@ export default function Models() {
                         className={`h-3 w-3 fill-current ${
                           model.status === "training" 
                           ? "text-emerald-400 animate-pulse" 
-                          : model.status === "pending"? "text-gray-600":"text-blue-600"
+                          : model.status === "pending"? "text-yellow-600":"text-blue-600"
                         }`}
                       />
                       <span
                         className={
                           model.status === "training"
                             ? "text-emerald-400"
-                            : model.status === "pending"? "text-gray-300":"text-blue-300"
+                            : model.status === "pending"? "text-yellow-300":"text-blue-300"
                         }
                       >
                         {model.status}
