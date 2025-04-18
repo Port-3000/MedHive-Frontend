@@ -14,7 +14,12 @@ interface Message {
 }
 
 const Chat: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      content: "Hello! I'm Dr.Med_Liv. I can help you with medical information, including answering questions about symptoms, and provide general health advice. How can I assist you today?"
+    }
+  ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState("default");
@@ -247,7 +252,7 @@ const Chat: React.FC = () => {
                   setInputValue(e.target.value)
                 }
                 onKeyPress={handleKeyPress}
-                placeholder="Ask MedHive AI..."
+                placeholder="Ask Dr. MedLiv..."
                 rows={1}
                 className="flex-1 p-2 bg-gray-800/60 border border-gray-700 rounded-xl resize-none text-gray-300 placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all scrollbar-thin scrollbar-track-gray-900/50 scrollbar-thumb-cyan-400/30"
               />
