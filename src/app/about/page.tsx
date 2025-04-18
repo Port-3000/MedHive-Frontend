@@ -68,9 +68,8 @@ export default function About() {
 
   return (
     <main
-      className={`min-h-screen ${
-        isLoaded ? "opacity-100" : "opacity-0"
-      } transition-opacity duration-500`}
+      className={`min-h-screen ${isLoaded ? "opacity-100" : "opacity-0"
+        } transition-opacity duration-500`}
     >
       <Navbar />
 
