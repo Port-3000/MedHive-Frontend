@@ -198,7 +198,7 @@ export default {
         },
       },
       fontFamily: {
-        kagitingan: ["Kagitingan", "sans-serif"],
+        kagitingan: ['"Kagitingan"', "sans-serif"],
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

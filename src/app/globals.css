@@ -271,7 +271,19 @@ canvas {
 
 @font-face {
   font-family: "Kagitingan";
-  src: url("/fonts/Kagitingan-Bold.otf") format("opentype");
+  src: url("/fonts/Kagitingan-Bold.woff2") format("woff2"),
+    url("/fonts/Kagitingan-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+  ascent-override: 95%; /* Add these metrics */
+  descent-override: 20%;
+  line-gap-override: 2%;
+}
+
+@font-face {
+  font-family: "Kagitingan";
+  src: url("/fonts/Kagitingan-Bold.woff2") format("woff2"),
+    url("/fonts/Kagitingan-Bold.otf") format("opentype");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
