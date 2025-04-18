@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 type Model = {
   id: string;
   name: string;
-  status: "trained" | "training";
+  status: "trained" | "training" | "pending";
   accuracy?: number;
   f1_score?: number;
   precision_score?: number;
@@ -30,7 +30,7 @@ type Model = {
 
 export default function Models() {
     //const supabase = createClient();
-  const [models, setModels] = useState<Model[]>(() => ([
+  const [models, setModels] = useState<Model[]>([
     {
       id: "1",
       name: "Breast Cancer Detection",
@@ -44,7 +44,7 @@ export default function Models() {
     {
       id: "2",
       name: "Pneumonia X-Ray Detection",
-      status: "trained" as const,
+      status: "pending" as const,
       accuracy: 0.92,
       f1_score: 0.91,
       precision_score: 0.90,
@@ -54,7 +54,7 @@ export default function Models() {
     {
       id: "3",
       name: "ECG Curve Analysis",
-      status: "trained" as const,
+      status: "training" as const,
       accuracy: 0.89,
       f1_score: 0.88,
       precision_score: 0.87,
@@ -64,7 +64,7 @@ export default function Models() {
     {
       id: "4",
       name: "LLM Symptoms Analysis",
-      status: "trained" as const,
+      status: "training" as const,
       accuracy: 0.93,
       f1_score: 0.93,
       precision_score: 0.95,
@@ -74,7 +74,7 @@ export default function Models() {
     {
       id: "5",
       name: "Glaucoma Fundus Analysis",
-      status: "trained" as const,
+      status: "pending" as const,
       accuracy: 0.91,
       f1_score: 0.90,
       precision_score: 0.92,
@@ -91,7 +91,13 @@ export default function Models() {
       recall_score: 0.84,
       updated_at: "4/16/2025, 3:20:00 PM"
     }
-  ]));
+  ].sort((a, b) => {
+    if (a.status === 'training') return -1;
+    if (b.status === 'training') return 1;
+    if (a.status === 'pending') return -1;
+    if (b.status === 'pending') return 1;
+    return 0;
+  }));
 
   /*  useEffect(() => {
       const fetchModels = async () => {
@@ -104,8 +110,7 @@ export default function Models() {
         setModels(data as Model[]);
       };
       fetchModels();
-    }, []);
-    */
+    }, []); */
 
   const handleApprove = (modelName: string) => {
     toast.success("Model Approved", {
@@ -118,19 +123,28 @@ export default function Models() {
     setModels(prevModels => {
       const newModels = prevModels.map(model =>
         model.id === modelId 
-          ? { ...model, status: "training" as const } 
+          ? { ...model, status: "pending" as const } 
           : model
-      ).sort((a, b) => (a.status === 'training' ? -1 : b.status === 'training' ? 1 : 0));
+      ).sort((a, b) => {
+        if (a.status === 'training') return -1;
+        if (b.status === 'training') return 1;
+        if (a.status === 'pending') return -1;
+        if (b.status === 'pending') return 1;
+        return 0;
+      });
       return newModels;
     });
 
-    const toastId = toast.loading(`Retraining ${modelName}...`,{duration:3000});
+    setTimeout(() => {toast.success(`${modelName} will be retrained shortly`, {
+        description: "Model set to retrain successfully."
+    }),3000
+    });
 
-    setTimeout(() => {
-        /*(async () => {
-      const newDateTime = new Date().toISOString(); // "2025-04-16T06:16:26.035Z"
+    /*setTimeout(() => {
+
+        (async () => {
+      const newDateTime = new Date().toISOString(); 
   
-      // Update Supabase
       const { error } = await supabase
         .from("ml_models")
         .update({ lastTrained: newDateTime, status: "trained" })
@@ -141,7 +155,8 @@ export default function Models() {
           description: error.message,
           duration: 3000,
         });
-      } else { */
+      } else { 
+
       setModels(prevModels => {
         const currentDateTime = new Date().toLocaleString();
         const newModels = prevModels.map(model =>
@@ -149,15 +164,12 @@ export default function Models() {
             ? { ...model, status: "trained" as const, updated_at: currentDateTime } 
             : model
         );
-        // Keep training models at the top
         return newModels.sort((a, b) => (a.status === 'training' ? -1 : b.status === 'training' ? 1 : 0));
       });
-      toast.dismiss(toastId);
       toast.success(`${modelName} has been retrained`, {
-        description: "Model training completed successfully.",
-        duration: 3000,
+        description: "Model training completed successfully."
       });
-    }, 5000);
+    }, 5000); */
   };
 
   return (
@@ -190,17 +202,17 @@ export default function Models() {
                         className={`h-3 w-3 fill-current ${
                           model.status === "training" 
                           ? "text-emerald-400 animate-pulse" 
-                          : "text-gray-600"
+                          : model.status === "pending"? "text-gray-600":"text-blue-600"
                         }`}
                       />
                       <span
                         className={
                           model.status === "training"
                             ? "text-emerald-400"
-                            : "text-gray-300"
+                            : model.status === "pending"? "text-gray-300":"text-blue-300"
                         }
                       >
-                        {model.status === "training" ? "Training" : "Trained"}
+                        {model.status}
                       </span>
                     </div>
                   </TableCell>
