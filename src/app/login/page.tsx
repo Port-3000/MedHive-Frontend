@@ -73,7 +73,10 @@ export default function AuthPage() {
         if (!profile?.full_name || !profile?.role) {
           router.push("/setup");
         } else {
-          router.push("/");
+          if (profile.role==="admin") router.push('/admin/dashboard')
+            //else if (profile.role==="data_provider") router.push('/dataprovider/dashboard')
+            //else if (profile.role==="contributor") router.push('/contributor/dashboard')
+            else router.push('/')
         }
       }
     }
