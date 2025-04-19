@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Circle } from "lucide-react";
 import { toast } from "sonner";
-import { BlurContainer } from "@/components/ui/BlurContainer";
-
+import { motion } from "framer-motion";
+import { CircuitBoard, Database } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -13,9 +13,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-//import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Dataset = {
   id: string;
@@ -29,6 +30,10 @@ type Dataset = {
   status: "pending" | "approved";
   updated_at: string;
 };
+
+const CyberCard = ({ className, ...props }: any) => (
+  <Card className={`bg-black/50 border ${className}`} {...props} />
+);
 
 export default function Datasets() {
   const [datasets, setDatasets] = useState<Dataset[]>([
@@ -86,6 +91,8 @@ export default function Datasets() {
     return 0;
   }));
 
+  const [selectedTab, setSelectedTab] = useState("all");
+
   const handleDisapprove = (datasetId: string, datasetName: string) => {
     setDatasets(prevDatasets => prevDatasets.filter(dataset => dataset.id !== datasetId));
     toast.success("Data removed successfully");
@@ -102,16 +109,44 @@ export default function Datasets() {
     toast.success("Dataset has been approved");
   };
 
+  const filteredDatasets = selectedTab === "all" 
+    ? datasets 
+    : datasets.filter(d => d.status === selectedTab);
+
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold text-white mb-6">Datasets Dashboard</h1>
-      <BlurContainer 
-        variant="dark" 
-        intensity="medium" 
-        hoverable 
-        className="p-6"
+    <div className="min-h-screen bg-black p-4 sm:p-6 lg:p-8 font-mono space-y-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
       >
-        <div className="rounded-md">
+        <div className="flex items-center gap-4">
+          <Database className="w-10 h-10 text-cyan-400 animate-pulse" />
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            DATASETS DASHBOARD
+          </h1>
+        </div>
+
+        <Tabs value={selectedTab} onValueChange={setSelectedTab}>
+          <TabsList className="grid grid-cols-3 bg-black/50 border border-cyan-500/30">
+            <TabsTrigger value="all" className="data-[state=active]:bg-cyan-500">
+              All
+            </TabsTrigger>
+            <TabsTrigger value="pending" className="data-[state=active]:bg-yellow-500">
+              Pending
+            </TabsTrigger>
+            <TabsTrigger value="approved" className="data-[state=active]:bg-green-500">
+              Approved
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </motion.div>
+
+      <CyberCard className="border-cyan-500/30">
+        <CardHeader>
+          <CardTitle className="text-cyan-400">Available Datasets</CardTitle>
+        </CardHeader>
+        <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
@@ -125,8 +160,8 @@ export default function Datasets() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {datasets.map((dataset) => (
-                <TableRow key={dataset.id}>
+              {filteredDatasets.map((dataset) => (
+                <TableRow key={dataset.id} className="hover:bg-cyan-500/5">
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Circle
@@ -154,14 +189,18 @@ export default function Datasets() {
                   </TableCell>
                   <TableCell>
                     <div className="space-y-1">
-                      <p className="text-gray-200 font-medium">{dataset.name}</p>
+                      <p className="text-cyan-300 font-medium">{dataset.name}</p>
                       <p className="text-gray-400 text-sm">{dataset.description}</p>
                     </div>
                   </TableCell>
-                  <TableCell className="text-gray-300">{dataset.data_type}</TableCell>
-                  <TableCell className="text-gray-300">{(dataset.size_bytes / 1000000000).toFixed(1)}GB</TableCell>
-                  <TableCell className="text-gray-300">{dataset.num_samples.toLocaleString()}</TableCell>
-                  <TableCell className="text-gray-300">{dataset.updated_at}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className="border-cyan-500/30 text-cyan-400">
+                      {dataset.data_type}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-cyan-300">{(dataset.size_bytes / 1000000000).toFixed(1)}GB</TableCell>
+                  <TableCell className="text-cyan-300">{dataset.num_samples.toLocaleString()}</TableCell>
+                  <TableCell className="text-cyan-300">{dataset.updated_at}</TableCell>
                   <TableCell>
                     <div className="flex gap-2">
                       <Button
@@ -186,8 +225,8 @@ export default function Datasets() {
               ))}
             </TableBody>
           </Table>
-        </div>
-      </BlurContainer>
+        </CardContent>
+      </CyberCard>
     </div>
   );
 }

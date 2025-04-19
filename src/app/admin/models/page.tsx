@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from "react";
-import { Circle } from "lucide-react";
+import { Circle, BrainCircuit } from "lucide-react";
 import { toast } from "sonner";
-import { BlurContainer } from "@/components/ui/BlurContainer";
-
+import { motion } from "framer-motion";
 import {
   Table,
   TableBody,
@@ -13,9 +12,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-//import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Navbar } from "@/components/layout/Navbar";
 
 type Model = {
   id: string;
@@ -28,8 +29,11 @@ type Model = {
   updated_at: string;
 };
 
+const CyberCard = ({ className, ...props }: any) => (
+  <Card className={`bg-black/50 border ${className}`} {...props} />
+);
+
 export default function Models() {
-    //const supabase = createClient();
   const [models, setModels] = useState<Model[]>([
     {
       id: "1",
@@ -64,7 +68,7 @@ export default function Models() {
     {
       id: "4",
       name: "LLM Symptoms Analysis",
-      status: "training" as const,
+      status: "trained" as const,
       accuracy: 0.93,
       f1_score: 0.93,
       precision_score: 0.95,
@@ -74,7 +78,7 @@ export default function Models() {
     {
       id: "5",
       name: "Glaucoma Fundus Analysis",
-      status: "pending" as const,
+      status: "trained" as const,
       accuracy: 0.91,
       f1_score: 0.90,
       precision_score: 0.92,
@@ -99,18 +103,7 @@ export default function Models() {
     return 0;
   }));
 
-  /*  useEffect(() => {
-      const fetchModels = async () => {
-        const { data, error } = await supabase.from("ml_models").select("*");
-        if (error) {
-          toast.error("Failed to fetch models");
-          console.error(error);
-          return;
-        }
-        setModels(data as Model[]);
-      };
-      fetchModels();
-    }, []); */
+  const [selectedTab, setSelectedTab] = useState("all");
 
   const handleApprove = (modelName: string) => {
     toast.success("Model Approved", {
@@ -123,7 +116,7 @@ export default function Models() {
     setModels(prevModels => {
       const newModels = prevModels.map(model =>
         model.id === modelId 
-          ? { ...model, status: "pending" as const } 
+          ? { ...model, status: "training" as const } 
           : model
       ).sort((a, b) => {
         if (a.status === 'training') return -1;
@@ -135,53 +128,53 @@ export default function Models() {
       return newModels;
     });
 
-    setTimeout(() => {toast.success(`${modelName} will be retrained shortly`, {
-        description: "Model set to retrain successfully."
-    }),3000
+    toast.success(`${modelName} will be retrained shortly`, {
+      description: "Model set to retrain successfully."
     });
-
-    /*setTimeout(() => {
-
-        (async () => {
-      const newDateTime = new Date().toISOString(); 
-  
-      const { error } = await supabase
-        .from("ml_models")
-        .update({ lastTrained: newDateTime, status: "trained" })
-        .eq("id", modelId);
-  
-      if (error) {
-        toast.error(`Failed to update ${modelName}`, {
-          description: error.message,
-          duration: 3000,
-        });
-      } else { 
-
-      setModels(prevModels => {
-        const currentDateTime = new Date().toLocaleString();
-        const newModels = prevModels.map(model =>
-          model.id === modelId 
-            ? { ...model, status: "trained" as const, updated_at: currentDateTime } 
-            : model
-        );
-        return newModels.sort((a, b) => (a.status === 'training' ? -1 : b.status === 'training' ? 1 : 0));
-      });
-      toast.success(`${modelName} has been retrained`, {
-        description: "Model training completed successfully."
-      });
-    }, 5000); */
   };
 
+  const filteredModels = selectedTab === "all" 
+    ? models 
+    : models.filter(m => m.status === selectedTab);
+
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold text-white mb-6">ML Models Dashboard</h1>
-      <BlurContainer 
-        variant="dark" 
-        intensity="medium" 
-        hoverable 
-        className="p-6"
+    <div className="min-h-screen bg-black p-4 sm:p-6 lg:p-8 font-mono space-y-8">
+      <Navbar/>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
       >
-        <div className="rounded-md">
+        <div className="flex items-center gap-4">
+          <BrainCircuit className="w-10 h-10 text-cyan-400 animate-pulse" />
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            ML MODELS DASHBOARD
+          </h1>
+        </div>
+
+        <Tabs value={selectedTab} onValueChange={setSelectedTab}>
+          <TabsList className="grid grid-cols-4 bg-black/50 border border-cyan-500/30">
+            <TabsTrigger value="all" className="data-[state=active]:bg-cyan-500">
+              All
+            </TabsTrigger>
+            <TabsTrigger value="training" className="data-[state=active]:bg-emerald-500">
+              Training
+            </TabsTrigger>
+            <TabsTrigger value="pending" className="data-[state=active]:bg-yellow-500">
+              Pending
+            </TabsTrigger>
+            <TabsTrigger value="trained" className="data-[state=active]:bg-purple-500">
+              Trained
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </motion.div>
+
+      <CyberCard className="border-cyan-500/30">
+        <CardHeader>
+          <CardTitle className="text-cyan-400">ML Models</CardTitle>
+        </CardHeader>
+        <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
@@ -193,8 +186,8 @@ export default function Models() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {models.map((model) => (
-                <TableRow key={model.id}>
+              {filteredModels.map((model) => (
+                <TableRow key={model.id} className="hover:bg-cyan-500/5">
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Circle
@@ -202,38 +195,46 @@ export default function Models() {
                         className={`h-3 w-3 fill-current ${
                           model.status === "training" 
                           ? "text-emerald-400 animate-pulse" 
-                          : model.status === "pending"? "text-yellow-600":"text-blue-600"
+                          : model.status === "pending"
+                          ? "text-yellow-400"
+                          : "text-cyan-400"
                         }`}
                       />
                       <span
                         className={
                           model.status === "training"
                             ? "text-emerald-400"
-                            : model.status === "pending"? "text-yellow-300":"text-blue-300"
+                            : model.status === "pending"
+                            ? "text-yellow-400"
+                            : "text-cyan-400"
                         }
                       >
                         {model.status}
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="text-gray-300">{model.name}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className="border-cyan-500/30 text-cyan-300">
+                      {model.name}
+                    </Badge>
+                  </TableCell>
                   <TableCell>
                     <div className="space-y-1 text-xs">
                       {model.accuracy && (
-                        <p>Accuracy: {model.accuracy.toFixed(3)}</p>
+                        <p className="text-emerald-400">Accuracy: {(model.accuracy * 100).toFixed(1)}%</p>
                       )}
                       {model.f1_score && (
-                        <p>F1 Score: {model.f1_score.toFixed(3)}</p>
+                        <p className="text-cyan-400">F1 Score: {(model.f1_score * 100).toFixed(1)}%</p>
                       )}
                       {model.precision_score && (
-                        <p>Precision: {model.precision_score.toFixed(3)}</p>
+                        <p className="text-purple-400">Precision: {(model.precision_score * 100).toFixed(1)}%</p>
                       )}
                       {model.recall_score && (
-                        <p>Recall: {model.recall_score.toFixed(3)}</p>
+                        <p className="text-blue-400">Recall: {(model.recall_score * 100).toFixed(1)}%</p>
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className="text-gray-300">
+                  <TableCell className="text-cyan-300">
                     {model.updated_at || "Not trained yet"}
                   </TableCell>
                   <TableCell>
@@ -241,7 +242,7 @@ export default function Models() {
                       <Button
                         variant="outline"
                         onClick={() => handleApprove(model.name)}
-                        disabled={model.status === "training"}
+                        disabled={model.status === "training" || model.status === "pending"}
                         className="border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300"
                       >
                         Approve
@@ -249,8 +250,8 @@ export default function Models() {
                       <Button
                         variant="outline"
                         onClick={() => handleRetrain(model.id, model.name)}
-                        disabled={model.status === "training"}
-                        className="border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300"
+                        disabled={model.status === "training" || model.status === "pending"}
+                        className="border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300"
                       >
                         Retrain
                       </Button>
@@ -260,8 +261,8 @@ export default function Models() {
               ))}
             </TableBody>
           </Table>
-        </div>
-      </BlurContainer>
+        </CardContent>
+      </CyberCard>
     </div>
   );
 }
