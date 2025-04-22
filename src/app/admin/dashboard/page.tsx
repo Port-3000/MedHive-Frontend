@@ -1,7 +1,6 @@
-// src/app/admin/dashboard/page.tsx
-
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   LineChart,
@@ -20,6 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Navbar } from "@/components/layout/Navbar";
 import {
   BrainCircuit,
   CircuitBoard,
@@ -34,6 +34,7 @@ import { DataTable } from "./components/data-table";
 import { columns } from "./components/columns";
 import { ClusterMap } from "./components/cluster-map";
 import { AnimatedNumber } from "./components/animated-number";
+import { SessionContext } from "@/utils/supabase/usercontext";
 
 const CYBER_COLORS = ["#00f2fe", "#4facfe", "#8e44ad", "#ff6b6b", "#1dd1a1"];
 const GLOW_STYLES = { boxShadow: "0 0 15px rgba(0, 242, 254, 0.3)" };
@@ -69,10 +70,11 @@ const generateNodeStatus = (count: number): NodeStatus[] =>
   }));
 
 export default function AdminDashboard() {
-  const [experimentRuns] = useState<ExperimentRun[]>(
-    generateExperimentRuns(15)
-  );
-  const [nodeStatus] = useState<NodeStatus[]>(generateNodeStatus(12));
+  const [experimentRuns, setExperimentRuns] = useState<ExperimentRun[]>([]);
+  const [nodes, setNodes] = useState<NodeStatus[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const sessionData = useContext(SessionContext);
+  const router = useRouter();
   const [selectedTab, setSelectedTab] = useState("overview");
   const [aggregationStatus, setAggregationStatus] = useState<
     "idle" | "aggregating" | "completed"
@@ -140,7 +142,19 @@ export default function AdminDashboard() {
     setTimeout(() => setAggregationStatus("idle"), 5000);
   };
 
+  useEffect(() => {
+    setIsLoaded(true);
+    setExperimentRuns(generateExperimentRuns(10));
+    setNodes(generateNodeStatus(8));
+  }, []);
+
   return (
+    <main
+    className={`min-h-screen ${
+      isLoaded ? "opacity-100" : "opacity-0"
+    } transition-opacity duration-500`}
+  >
+    <Navbar />
     <div className="min-h-screen bg-black p-4 sm:p-6 lg:p-8 font-mono space-y-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -335,16 +349,15 @@ export default function AdminDashboard() {
                     aggregationStatus === "idle"
                       ? 0
                       : aggregationStatus === "aggregating"
-                      ? 50
-                      : 100
+                        ? 50
+                        : 100
                   }
-                  className={`h-2 bg-black/50 ${
-                    aggregationStatus === "aggregating"
-                      ? "animate-pulse bg-cyan-500"
-                      : aggregationStatus === "completed"
+                  className={`h-2 bg-black/50 ${aggregationStatus === "aggregating"
+                    ? "animate-pulse bg-cyan-500"
+                    : aggregationStatus === "completed"
                       ? "bg-green-500"
                       : "bg-black/50"
-                  }`}
+                    }`}
                 />
               </div>
               <Button
@@ -356,8 +369,8 @@ export default function AdminDashboard() {
                 {aggregationStatus === "idle"
                   ? "Initialize Aggregation"
                   : aggregationStatus === "aggregating"
-                  ? "Aggregating..."
-                  : "Completed"}
+                    ? "Aggregating..."
+                    : "Completed"}
               </Button>
             </CardContent>
           </CyberCard>
@@ -371,10 +384,11 @@ export default function AdminDashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent className="h-96">
-          <ClusterMap nodes={nodeStatus} />
+          <ClusterMap nodes={nodes} />
         </CardContent>
       </CyberCard>
     </div>
+    </main>
   );
 }
 
