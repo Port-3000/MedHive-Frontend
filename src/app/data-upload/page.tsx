@@ -14,7 +14,6 @@ const [fileName, setFileName] = useState<string | null>(null);
 const [dropActive, setDropActive] = useState(false);
 const fileInputRef = useRef<HTMLInputElement>(null);
 
-
 const processFile = (file: File) => {
 setFileName(file.name);
 const reader = new FileReader();
