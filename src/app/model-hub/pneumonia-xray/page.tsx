@@ -42,7 +42,7 @@ export default function PneumoniaXrayPredictionPage() {
       setPrediction(null);
 
       const formData = new FormData();
-      formData.append("file", values.image[0]);  
+      formData.append("file", values.image[0]);
 
       const response = await fetch(
         "https://nthander2002-medhive-pneumonia.hf.space/api/v1/predict",

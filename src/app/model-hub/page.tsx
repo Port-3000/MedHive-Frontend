@@ -55,19 +55,6 @@ export default function ModelHub() {
         lastUpdated: "2 days ago",
       },
       {
-        id: "ecg-analysis",
-        title: "ECG Curve Analysis",
-        description:
-          "Detects abnormalities in heart rhythm from ECG readouts, identifying patterns associated with arrhythmias, myocardial infarction, and other cardiac conditions.",
-        image:
-          "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-        category: "diagnostic",
-        icon: <Heart className="h-6 w-6 text-pink-400" />,
-        accuracy: "94%",
-        contributors: 28,
-        lastUpdated: "1 week ago",
-      },
-      {
         id: "pneumonia-xray",
         title: "Pneumonia X‑Ray Detection",
         description:
@@ -84,10 +71,10 @@ export default function ModelHub() {
         id: "breast-cancer",
         title: "Breast Cancer Detection",
         description:
-          "Analyzes mammography images to detect early signs of breast cancer, identifying suspicious masses and calcifications.",
+          "Analyzes details of the tumor to detect early signs of breast cancer, identifying calcifications.",
         image:
           "https://images.unsplash.com/photo-1579154341098-e4e158cc7f55?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-        category: "imaging",
+        category: "diagnostic",
         icon: <Microscope className="h-6 w-6 text-purple-400" />,
         accuracy: "91%",
         contributors: 37,
@@ -104,6 +91,19 @@ export default function ModelHub() {
         icon: <Image className="h-6 w-6 text-green-400" />,
         accuracy: "88%",
         contributors: 23,
+        lastUpdated: "1 week ago",
+      },
+      {
+        id: "ecg-analysis",
+        title: "ECG Curve Analysis",
+        description:
+          "Detects abnormalities in heart rhythm from ECG readouts, identifying patterns associated with arrhythmias, myocardial infarction, and other cardiac conditions.",
+        image:
+          "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        category: "diagnostic",
+        icon: <Heart className="h-6 w-6 text-pink-400" />,
+        accuracy: "94%",
+        contributors: 28,
         lastUpdated: "1 week ago",
       },
       {
