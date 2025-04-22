@@ -44,6 +44,17 @@
     --chart-3: 197, 37%, 24%;
     --chart-4: 43, 74%, 66%;
     --chart-5: 27, 87%, 67%;
+    --copilot-kit-primary-color: #000000;
+    --copilot-kit-contrast-color: #ffffff;
+    --copilot-kit-secondary-color: #ffffff;
+    --copilot-kit-secondary-contrast-color: #000000;
+    --copilot-kit-background-color: #ffffff;
+    --copilot-kit-input-background-color: #f0f0f0;
+    --copilot-kit-muted-color: rgb(106 106 106);
+    --copilot-kit-separator-color: rgba(0, 0, 0, 0.1);
+    --copilot-kit-scrollbar-color: rgba(0, 0, 0, 0.2);
+    --copilot-kit-response-button-color: #333;
+    --copilot-kit-response-button-background-color: #fff;
   }
 
   .dark {
@@ -80,6 +91,17 @@
     --chart-3: 30, 80%, 55%;
     --chart-4: 280, 65%, 60%;
     --chart-5: 340, 75%, 55%;
+    --copilot-kit-primary-color: #ffffff;
+    --copilot-kit-contrast-color: #000000;
+    --copilot-kit-secondary-color: #000000;
+    --copilot-kit-secondary-contrast-color: #ffffff;
+    --copilot-kit-background-color: rgb(39 39 42);
+    --copilot-kit-input-background-color: #1a1a1a;
+    --copilot-kit-muted-color: rgb(106 106 106);
+    --copilot-kit-separator-color: rgba(255, 255, 255, 0.1);
+    --copilot-kit-scrollbar-color: rgba(221, 203, 203, 0.2);
+    --copilot-kit-response-button-color: #ffffff;
+    --copilot-kit-response-button-background-color: rgb(39 39 42);
   }
 }
 
@@ -290,16 +312,25 @@ canvas {
 }
 
 @keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
 .animate-scanline {
   animation: scanline 3s linear infinite;
 }
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .animate-pulse {
@@ -336,14 +367,25 @@ canvas {
 }
 
 @keyframes cyber-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes node-glow {
-  0% { filter: drop-shadow(0 0 5px #00f2fe); }
-  50% { filter: drop-shadow(0 0 15px #00f2fe); }
-  100% { filter: drop-shadow(0 0 5px #00f2fe); }
+  0% {
+    filter: drop-shadow(0 0 5px #00f2fe);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px #00f2fe);
+  }
+  100% {
+    filter: drop-shadow(0 0 5px #00f2fe);
+  }
 }
 
 .cyber-pulse {
@@ -355,8 +397,13 @@ canvas {
 }
 
 @keyframes neon-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .neon-text {
