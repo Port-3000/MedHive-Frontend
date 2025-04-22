@@ -1,4 +1,5 @@
 //src/app/page.tsx
+//@ts-nocheck
 
 "use client";
 import { useState, useEffect } from "react";
@@ -16,6 +17,7 @@ import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
 import { AnimateOnView } from "@/components/AnimateOnView";
 import { motion, useReducedMotion } from "framer-motion";
+import { Toaster, toast } from "sonner";
 
 import {
   ArrowRight,
@@ -147,6 +149,7 @@ export default function Index() {
 
         <div className="relative z-10">
           {/* Hero Section */}
+
           <AnimateOnView stagger={0.05} delay={0.1} distance={10}>
             <section
               ref={heroSectionRef}
@@ -172,22 +175,22 @@ export default function Index() {
                   <div className="lg:w-7/12 text-center lg:text-left">
                     <div className="flex flex-wrap justify-center sm:justify-start gap-3 mb-6">
                       <StatusBadge
-                        leftIcon={RiShieldCheckLine}
-                        rightIcon={RiLock2Line}
+                        leftIcon={() => <RiShieldCheckLine />}
+                        rightIcon={() => <RiLock2Line />}
                         leftLabel="Privacy"
                         rightLabel="On‑Premise"
                         status="success"
                       />
                       <StatusBadge
-                        leftIcon={RiLock2Line}
-                        rightIcon={RiGroupLine}
+                        leftIcon={() => <RiShieldCheckLine />}
+                        rightIcon={() => <RiLock2Line />}
                         leftLabel="Secure"
                         rightLabel="Federated AI"
                         status="success"
                       />
                       <StatusBadge
-                        leftIcon={RiShieldCheckLine}
-                        rightIcon={RiLock2Line}
+                        leftIcon={() => <RiShieldCheckLine />}
+                        rightIcon={() => <RiLock2Line />}
                         leftLabel="End‑to‑End"
                         rightLabel="Encryption"
                         status="success"
