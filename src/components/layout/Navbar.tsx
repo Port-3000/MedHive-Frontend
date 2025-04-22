@@ -19,7 +19,6 @@ import { useContext } from "react";
 import { SessionContext } from "@/utils/supabase/usercontext";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
-import Chat from "@/components/Chat";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -56,6 +55,9 @@ export function Navbar() {
 
   const navLinks = [
     { name: "HOME", path: "/" },
+    ...(sessionData.sessionData.userprofile?.role === "admin"
+      ? [{ name: "DASHBOARD", path: "/admin/dashboard" }]
+      : []),
     { name: "MODEL HUB", path: "/model-hub" },
     { name: "CONTRIBUTE", path: "/contribute" },
     { name: "ABOUT", path: "/about" },
@@ -85,8 +87,6 @@ export function Navbar() {
 
   return (
     <>
-      {" "}
-      <Chat />
       <motion.div className="sticky isolate inset-x-0 top-0 z-[100] w-full pt-2 font-['Lilita_One']">
         {/* Desktop Navbar */}
         <motion.div
