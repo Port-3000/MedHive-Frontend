@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { Sparkles, Network } from "lucide-react";
+import { PricingSection } from "@/components/pricing-section";
 
 export default function About() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -17,18 +18,77 @@ export default function About() {
     setIsLoaded(true);
   }, []);
 
+  const PAYMENT_FREQUENCIES = ["monthly", "yearly"];
+
+  const TIERS = [
+    {
+      id: "free",
+      name: "Free Tier",
+      price: {
+        monthly: "$0",
+        yearly: "$0",
+      },
+      description: "For students, clinics, and hobby projects",
+      features: [
+        "2 models (e.g., Symptom Checker)",
+        "100 predictions/month",
+        "Basic analytics",
+        "3-minute checks",
+        "Community support",
+      ],
+      cta: "Get started",
+    },
+    {
+      id: "payg",
+      name: "Pay-As-You-Go",
+      price: {
+        monthly: 90,
+        yearly: 75,
+      },
+      description: "For researchers & growing clinics",
+      features: [
+        "All MedHive models",
+        "Predictions billed per use",
+        "15-second checks",
+        "Advanced analytics",
+        "Priority support",
+        "Up to 10 seats",
+      ],
+      cta: "Start scaling",
+      popular: true, 
+    },
+    {
+      id: "enterprise",
+      name: "Enterprise",
+      price: {
+        monthly: "Custom",
+        yearly: "Custom",
+      },
+      description: "For healthtech companies & hospitals",
+      features: [
+        "Dedicated API integration",
+        "Revenue sharing for contributors",
+        "Unlimited predictions",
+        "24/7 SLAs & support",
+        "200+ integrations",
+      ],
+      cta: "Contact Us",
+      highlighted: true, 
+    },
+  ];
+
   const pricing = [
     {
       title: "Free Tier",
-      description: "One or two models can be used for a limited time",
+      description: "Explore 1-2 models with capped monthly usage",
     },
     {
-      title: "Standard Tier",
-      description: "Pay as you go, with a monthly fee for each model",
+      title: "Pay-As-You-Go",
+      description: "Usage-based billing (API calls, compute, predictions)",
     },
     {
-      title: "Enterprise Tier",
-      description: "Custom pricing for large institutions with multiple models",
+      title: "Enterprise",
+      description: "Custom workflows, SLAs, and revenue sharing",
     },
   ];
 
@@ -146,7 +206,6 @@ from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent"
               </div>
             </div>
 
-            {/* Right: Image */}
             <div
               className="animate-fade-in"
               style={{ animationDelay: "500ms" }}
@@ -248,11 +307,11 @@ border border-cyan-300/20
           </div>
         </div>
       </section>
-      <section className="relative z-10 py-24 overflow-hidden">
+      <section className="relative z-10 py-24 overflow-hidden text-white">
         <div className="container mx-auto px-6">
           {/* Glowing header */}
-          <div className="text-center max-w-4xl mx-auto mb-20 animate-fade-up">
-            <span className="inline-block px-3 py-1 bg-cyan-400/10 border border-cyan-400/20 text-white rounded-full text-sm font-['Lilita_One'] mb-4">
+          <div className="text-center max-w-4xl mx-auto mb-5 animate-fade-up">
+            <span className="inline-block px-3 py-1 border border-cyan-400/20 text-white rounded-full text-sm font-['Lilita_One'] mb-4">
               Our Pricing Models
             </span>
             <h2 className="text-4xl md:text-6xl font-['Kagitingan'] mb-6 bg-gradient-to-r from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent">
@@ -265,65 +324,12 @@ border border-cyan-300/20
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {pricing.map((item, index) => (
-              <BlurContainer
-                key={index}
-                intensity="medium"
-                className="relative
-min-h-[340px]
-px-6 py-8
-bg-gray-900 bg-opacity-50
-border border-cyan-500/30
-rounded-2xl
-hover:bg-opacity-70
-hover:shadow-[0_0_20px_rgba(0,255,231,0.6)]
-hover:cursor-pointer
-transition-all duration-300
-flex flex-col items-center justify-between
-text-center space-y-4
-animate-fade-up
-"
-                style={{ animationDelay: `${index * 100 + 600}ms` }}
-                hoverable
-              >
-                {/* Step Number Circle */}
-                <div
-                  className="
-h-20 w-20
-flex items-center justify-center
-rounded-full
-bg-gray-800 bg-opacity-60
-border border-cyan-500/40
-shadow-[0_0_6px_rgba(0,255,231,0.4)]
-"
-                >
-                  <div
-                    className="
-h-16 w-16
-flex items-center justify-center
-rounded-full
-bg-gradient-to-r from-blue-600 to-cyan-500
-text-white text-2xl font-bold
-border border-cyan-300/20
-"
-                  >
-                    {index + 1}
-                  </div>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-2xl md:text-5xl text-pink-400 font-['Kagitingan']">
-                  {item.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-white  text-xl leading-snug px-2 font-['Poppins']">
-                  {item.description}
-                </p>
-              </BlurContainer>
-            ))}
-          </div>
+          <PricingSection
+            title="Simple Pricing"
+            subtitle="Choose the best plan for your needs"
+            frequencies={PAYMENT_FREQUENCIES}
+            tiers={TIERS}
+          />
         </div>
       </section>
 
