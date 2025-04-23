@@ -152,7 +152,7 @@ export default function Index() {
       description:
         "X-ray image analysis for pneumonia diagnosis with high sensitivity and specificity.",
       image: "/feature3.jpg",
-      path: "/model-hub/pneumonia-detection",
+      path: "/model-hub/pneumonia-xray",
     },
   ];
 
