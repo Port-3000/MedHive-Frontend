@@ -31,6 +31,36 @@ import {
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
 import { RiShieldCheckLine, RiLock2Line, RiGroupLine } from "@remixicon/react";
 
+// Add WebGL Error Boundary component
+const WebGLErrorBoundary = ({ children }: { children: React.ReactNode }) => {
+  const [webglSupported, setWebglSupported] = useState(true);
+
+  useEffect(() => {
+    try {
+      const canvas = document.createElement("canvas");
+      const gl =
+        canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      setWebglSupported(!!gl);
+    } catch (e) {
+      setWebglSupported(false);
+    }
+  }, []);
+
+  if (!webglSupported) {
+    return (
+      <div className="bg-red-900/20 p-6 rounded-xl border border-red-400/30 text-center">
+        <h3 className="text-red-300 mb-2">3D Visualization Unavailable</h3>
+        <p className="text-red-400/80 text-sm">
+          Your device/browser does not support required graphics capabilities.
+          View in latest Chrome/Firefox or try another device.
+        </p>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+};
+
 export default function Index() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
@@ -44,7 +74,17 @@ export default function Index() {
   useEffect(() => {
     setIsLoaded(true);
     setHasMounted(true);
-    // Optional badge animations
+    // Check WebGL support
+    const canvas = document.createElement("canvas");
+    const gl =
+      canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+    if (!gl) {
+      toast.error(
+        "3D features unavailable - Update graphics drivers or use modern browser"
+      );
+    }
+
+    // Badge animations
     const badges = document.querySelectorAll(".grid-cols-3.gap-3 > *");
     badges.forEach((badge, index) => {
       setTimeout(() => {
@@ -97,24 +137,21 @@ export default function Index() {
       title: "Symptom Analysis",
       description:
         "LLM-powered medical symptom analysis with RAG for accurate preliminary diagnostics.",
-      image:
-        "https://images.unsplash.com/photo-1631815588090-d1bcbe9a8c33?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      image: "/feature1.jpg",
       path: "/model-hub/symptom-analysis",
     },
     {
       title: "ECG Analysis",
       description:
         "Heart rhythm abnormality detection from ECG curves with advanced neural networks.",
-      image:
-        "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      image: "/feature2.jpg",
       path: "/model-hub/ecg-analysis",
     },
     {
       title: "Pneumonia Detection",
       description:
         "X-ray image analysis for pneumonia diagnosis with high sensitivity and specificity.",
-      image:
-        "https://images.unsplash.com/photo-1576089073624-b5f8bada6bf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      image: "/feature3.jpg",
       path: "/model-hub/pneumonia-detection",
     },
   ];
@@ -149,7 +186,6 @@ export default function Index() {
 
         <div className="relative z-10">
           {/* Hero Section */}
-
           <AnimateOnView stagger={0.05} delay={0.1} distance={10}>
             <section
               ref={heroSectionRef}
@@ -257,10 +293,16 @@ export default function Index() {
                         size={300}
                       />
                       <div className="relative z-10 w-full h-full">
-                        <SplineScene
-                          scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                          className="w-full h-full"
-                        />
+                        <WebGLErrorBoundary>
+                          <SplineScene
+                            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                            className="w-full h-full"
+                            onError={(error) => {
+                              console.error("Spline Error:", error);
+                              toast.error("3D visualization failed to load");
+                            }}
+                          />
+                        </WebGLErrorBoundary>
                       </div>
                     </div>
                   </div>
@@ -268,7 +310,6 @@ export default function Index() {
               </motion.div>
             </section>
           </AnimateOnView>
-
           {/* Features Section */}
           <AnimateOnView stagger={0.03} delay={0.02}>
             <section
@@ -328,57 +369,43 @@ export default function Index() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 overflow-x-hidden">
-                  {modelShowcase.map((model, idx) => {
-                    const imageSrc =
-                      idx === 0
-                        ? "/feature1.jpg"
-                        : idx === 2
-                        ? "/feature2.jpg"
-                        : model.image;
-                    const paths = [
-                      "/model-hub/symptom-analysis",
-                      "/model-hub/ecg-analysis",
-                      "/model-hub/pneumonia-xray",
-                    ];
-                    const modelPath = paths[idx] || model.path;
-                    return (
-                      <Link
-                        key={idx}
-                        href={modelPath}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group relative overflow-hidden rounded-3xl border border-transparent bg-gradient-to-br from-gray-900 via-black to-gray-800 shadow-[0_10px_30px_rgba(0,255,255,0.2)] hover:shadow-[0_20px_40px_rgba(0,255,255,0.4)] transition-shadow duration-300 cursor-pointer"
-                      >
-                        <div className="absolute inset-0 pointer-events-none rounded-3xl border-2 border-transparent group-hover:border-cyan-400 transition-colors duration-300 animate-[flicker_3s_linear_infinite]" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-300 mix-blend-screen" />
-                        <div className="h-56 overflow-hidden rounded-t-3xl">
-                          <img
-                            src={imageSrc}
-                            alt={model.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
+                  {modelShowcase.map((model, idx) => (
+                    <Link
+                      key={idx}
+                      href={model.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative overflow-hidden rounded-3xl border border-transparent bg-gradient-to-br from-gray-900 via-black to-gray-800 shadow-[0_10px_30px_rgba(0,255,255,0.2)] hover:shadow-[0_20px_40px_rgba(0,255,255,0.4)] transition-shadow duration-300 cursor-pointer"
+                    >
+                      <div className="absolute inset-0 pointer-events-none rounded-3xl border-2 border-transparent group-hover:border-cyan-400 transition-colors duration-300 animate-[flicker_3s_linear_infinite]" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-300 mix-blend-screen" />
+                      <div className="h-56 overflow-hidden rounded-t-3xl">
+                        <img
+                          src={model.image}
+                          alt={model.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="p-6 flex flex-col justify-between min-h-[200px]">
+                        <div>
+                          <h3 className="text-2xl font-bold text-white mb-2 transition-colors group-hover:text-cyan-300">
+                            {model.title}
+                          </h3>
+                          <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                            {model.description}
+                          </p>
                         </div>
-                        <div className="p-6 flex flex-col justify-between min-h-[200px]">
-                          <div>
-                            <h3 className="text-2xl font-bold text-white mb-2 transition-colors group-hover:text-cyan-300">
-                              {model.title}
-                            </h3>
-                            <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                              {model.description}
-                            </p>
-                          </div>
-                          <div className="mt-4">
-                            <span className="inline-flex items-center justify-center gap-2 text-sm font-medium text-cyan-300 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(0,255,255,0.4)] transition-colors duration-300">
-                              Learn more
-                              <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500/10 group-hover:bg-cyan-400/20 transition-colors duration-300">
-                                <ArrowRight className="h-4 w-4 stroke-current group-hover:translate-x-1 transition-transform duration-300" />
-                              </span>
+                        <div className="mt-4">
+                          <span className="inline-flex items-center justify-center gap-2 text-sm font-medium text-cyan-300 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(0,255,255,0.4)] transition-colors duration-300">
+                            Learn more
+                            <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500/10 group-hover:bg-cyan-400/20 transition-colors duration-300">
+                              <ArrowRight className="h-4 w-4 stroke-current group-hover:translate-x-1 transition-transform duration-300" />
                             </span>
-                          </div>
+                          </span>
                         </div>
-                      </Link>
-                    );
-                  })}
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
               <style jsx>{`
