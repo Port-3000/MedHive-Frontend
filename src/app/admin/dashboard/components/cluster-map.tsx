@@ -11,7 +11,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-export function ClusterMap({ nodes }: { nodes: NodeStatus[] }) {
+export default function ClusterMap({ nodes }: { nodes: NodeStatus[] }) {
   return (
     <MapContainer
       center={[51.505, -0.09]}
