@@ -141,11 +141,11 @@ export default function Index() {
       path: "/model-hub/symptom-analysis",
     },
     {
-      title: "ECG Analysis",
+      title: "Breast Cancer Detection",
       description:
-        "Heart rhythm abnormality detection from ECG curves with advanced neural networks.",
+        "Tumor details analysis for diagnosis of possible cancer and malignancy.",
       image: "/feature2.jpg",
-      path: "/model-hub/ecg-analysis",
+      path: "/model-hub/breast-cancer",
     },
     {
       title: "Pneumonia Detection",
