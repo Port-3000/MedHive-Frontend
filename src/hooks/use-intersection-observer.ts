@@ -41,5 +41,5 @@ export function useIntersectionObserver<T extends HTMLElement>({
     };
   }, [onIntersect, threshold, rootMargin]);
 
-  return elementRef;
+  return elementRef as RefObject<T>;
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, ComponentType } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -32,9 +32,13 @@ import { cn } from "@/lib/utils";
 import { ExperimentRun, ModelVersion, NodeStatus } from "@/types";
 import { DataTable } from "./components/data-table";
 import { columns } from "./components/columns";
-import { ClusterMap } from "./components/cluster-map";
 import { AnimatedNumber } from "./components/animated-number";
 import { SessionContext } from "@/utils/supabase/usercontext";
+import dynamic from "next/dynamic";
+
+const ClusterMap = dynamic(() => import("./components/cluster-map") as unknown as Promise<{ default: ComponentType<any> }>, {
+  ssr: false,
+});
 
 const CYBER_COLORS = ["#00f2fe", "#4facfe", "#8e44ad", "#ff6b6b", "#1dd1a1"];
 const GLOW_STYLES = { boxShadow: "0 0 15px rgba(0, 242, 254, 0.3)" };
@@ -79,6 +83,8 @@ export default function AdminDashboard() {
   const [aggregationStatus, setAggregationStatus] = useState<
     "idle" | "aggregating" | "completed"
   >("idle");
+
+
 
   const modelVersions: ModelVersion[] = [
     {
@@ -146,6 +152,10 @@ export default function AdminDashboard() {
     setIsLoaded(true);
     setExperimentRuns(generateExperimentRuns(10));
     setNodes(generateNodeStatus(8));
+  }, []);
+
+  useEffect(() => {
+    console.log("Running in browser?", typeof window !== "undefined");
   }, []);
 
   return (
