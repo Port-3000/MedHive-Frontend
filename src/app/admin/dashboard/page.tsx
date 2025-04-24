@@ -36,7 +36,7 @@ import { AnimatedNumber } from "./components/animated-number";
 import { SessionContext } from "@/utils/supabase/usercontext";
 import dynamic from "next/dynamic";
 
-const ClusterMap = dynamic(() => import("./components/cluster-map") as unknown as Promise<{ default: ComponentType<any> }>, {
+const ClusterMap = dynamic(() => import("./components/cluster-map").then(mod => mod.default), {
   ssr: false,
 });
 
