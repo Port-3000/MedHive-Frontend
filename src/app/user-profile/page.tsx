@@ -19,7 +19,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { SessionContext } from "@/utils/supabase/usercontext";
+import { UserProfile as UserProfileType } from "@/utils/db_types";
 
 import {
   User,
@@ -39,29 +42,82 @@ import { CyberCard } from "@/components/cyber-card";
 
 const COLORS = ["#00f2fe", "#4facfe", "#8e44ad", "#ff6b6b", "#1dd1a1"];
 
-const mockUser = {
-  id: "USR-0425",
-  uuid: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-  role: "Medical Researcher",
-  created_at: new Date("2024-01-15"),
-  full_name: "Dr. Sarah Connors",
-  phone: "+1 (555) 321-9876",
-  organization: "NeuroGen Institute",
+// Hardcoded credits data
+const CREDITS_DATA = {
   credits: 1425,
-  total_credits: 2000,
-  model_usage: [
-    { model: "LLM Symptom", uses: 45 },
-    { model: "ECG Analysis", uses: 32 },
-    { model: "X-Ray Detection", uses: 28 },
-    { model: "Cancer Screening", uses: 19 },
-  ],
-  security_status: "verified",
+  total_credits: 2000
 };
 
+// Hardcoded model usage data
+const MODEL_USAGE_DATA = [
+  { model: "LLM Symptom", uses: 45 },
+  { model: "ECG Analysis", uses: 32 },
+  { model: "X-Ray Detection", uses: 28 },
+  { model: "Cancer Screening", uses: 19 },
+];
+
+interface ModelUsage {
+  model: string;
+  uses: number;
+}
+
+interface ExtendedUserProfile extends UserProfileType {
+  uuid: string;
+  security_status: string;
+  credits: number;
+  total_credits: number;
+  model_usage: ModelUsage[];
+}
+
 export default function UserProfile() {
-  const [hoveredBar, setHoveredBar] = useState<number | null>(null); // <-- Move here
-  const creditPercentage = (mockUser.credits / mockUser.total_credits) * 100;
-  const usageData = mockUser.model_usage.sort((a, b) => b.uses - a.uses);
+  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
+  const [userData, setUserData] = useState<ExtendedUserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { sessionData } = useContext(SessionContext);
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function fetchUserData() {
+      if (!sessionData.session?.user) return;
+
+      try {
+        // Fetch user profile data
+        const { data: profile, error: profileError } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .eq('id', sessionData.session.user.id)
+          .single();
+
+        if (profileError) throw profileError;
+
+        // Combine profile data with hardcoded data
+        setUserData({
+          ...profile,
+          ...CREDITS_DATA,
+          model_usage: MODEL_USAGE_DATA,
+          uuid: sessionData.session.user.id,
+          security_status: profile.role === 'admin' ? 'verified' : 'standard'
+        });
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUserData();
+  }, [sessionData.session, supabase]);
+
+  if (loading || !userData) {
+    return (
+      <div className="min-h-screen bg-black p-4 sm:p-6 lg:p-8 font-mono flex items-center justify-center">
+        <div className="text-cyan-400">Loading...</div>
+      </div>
+    );
+  }
+
+  const creditPercentage = (userData.credits / userData.total_credits) * 100;
+  const usageData = userData.model_usage;
 
   return (
     <div className="min-h-screen bg-black p-4 sm:p-6 lg:p-8 font-mono space-y-8">
@@ -88,20 +144,20 @@ export default function UserProfile() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              {mockUser.full_name}
+              {userData.full_name}
             </motion.h1>
             <p className="text-purple-400 text-lg font-semibold">
-              {mockUser.role}
+              {userData.role}
             </p>
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <Key className="w-4 h-4 text-cyan-400" />
-              <span className="font-mono">{mockUser.uuid}</span>
+              <span className="font-mono">{userData.uuid}</span>
             </div>
           </div>
 
           <Badge className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
             <Shield className="w-4 h-4 mr-2" />
-            {mockUser.security_status.toUpperCase()}
+            {userData.security_status.toUpperCase()}
           </Badge>
         </div>
       </CyberCard>
@@ -116,17 +172,17 @@ export default function UserProfile() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <InfoRow icon={<User />} label="User ID" value={mockUser.id} />
+            <InfoRow icon={<User />} label="User ID" value={userData.id || 'N/A'} />
             <InfoRow
               icon={<Clock />}
               label="Member Since"
-              value={mockUser.created_at.toLocaleDateString()}
+              value={userData.created_at ? new Date(userData.created_at).toLocaleDateString() : 'N/A'}
             />
-            <InfoRow icon={<Phone />} label="Contact" value={mockUser.phone} />
+            <InfoRow icon={<Phone />} label="Contact" value={userData.phone || 'N/A'} />
             <InfoRow
               icon={<Building />}
               label="Organization"
-              value={mockUser.organization}
+              value={userData.organization || 'N/A'}
             />
           </CardContent>
         </CyberCard>
@@ -142,10 +198,10 @@ export default function UserProfile() {
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <div className="text-2xl font-bold text-cyan-400">
-                  <AnimatedNumber value={mockUser.credits} />
+                  <AnimatedNumber value={userData.credits} />
                 </div>
                 <div className="text-sm text-purple-400">
-                  of {mockUser.total_credits} total credits
+                  of {userData.total_credits} total credits
                 </div>
               </div>
               <div className="relative">
@@ -317,7 +373,7 @@ const InfoRow = ({
 }: {
   icon: any;
   label: string;
-  value: string;
+  value: string | null | undefined;
 }) => (
   <motion.div
     className="flex items-center gap-4 p-3 bg-black/20 rounded-lg border border-cyan-500/20 hover:bg-cyan-500/10 transition-colors"
@@ -328,12 +384,17 @@ const InfoRow = ({
     </div>
     <div className="flex-1">
       <div className="text-sm text-cyan-400 font-semibold">{label}</div>
-      <div className="text-gray-300 font-mono">{value}</div>
+      <div className="text-gray-300 font-mono">{value || 'N/A'}</div>
     </div>
   </motion.div>
 );
 
-const CustomTooltip = ({ active, payload }: any) => {
+interface TooltipProps {
+  active?: boolean;
+  payload?: any[];
+}
+
+const CustomTooltip = ({ active, payload }: TooltipProps) => {
   if (!active || !payload) return null;
 
   return (
@@ -351,7 +412,7 @@ const CustomTooltip = ({ active, payload }: any) => {
   );
 };
 
-const PieTooltip = ({ active, payload }: any) => {
+const PieTooltip = ({ active, payload }: TooltipProps) => {
   if (!active || !payload) return null;
 
   return (
