@@ -259,7 +259,7 @@ export default function Index() {
                       learning for healthcare.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4 mb-10 pt-2">
-                      <Link href="/login?new=true">
+                      <Link href="/login?new=user">
                         <InteractiveHoverButton />
                       </Link>
                       <Button
@@ -476,7 +476,7 @@ export default function Index() {
                   </p>
                   <div className="flex flex-col sm:flex-row justify-center gap-8">
                     <Link
-                      href="/login?new=true"
+                      href="/login?new=user"
                       className="relative group transform hover:scale-105 transition-transform duration-300"
                     >
                       <div className="absolute -inset-1 bg-cyan-500/20 blur-2xl group-hover:bg-cyan-500/30 transition-all duration-300 rounded-2xl" />
