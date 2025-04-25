@@ -330,7 +330,7 @@ export default function Contribute() {
                       if (sessionData.session) {
                         router.push("/data-upload");
                       } else {
-                        router.push("/login/data-provider");
+                        router.push("/login?new=data-provider");
                       }
                     }}
                   >
@@ -650,7 +650,7 @@ export default function Contribute() {
               <div className="flex flex-col sm:flex-row justify-center gap-6 max-w-xl mx-auto">
                 <Button
                   size="lg"
-                  onClick={()=>router.push("/login/data-provider")}
+                  onClick={()=>router.push("/login?new=data-provider")}
                   className="flex items-center justify-center px-8 py-6 text-lg font-['Poppins'] rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-400 hover:to-blue-400 text-black shadow-[0_0_6px_rgba(0,255,231,0.4)] border border-cyan-500/30 transition-all duration-300"
                 >
                   Register as Hospital
