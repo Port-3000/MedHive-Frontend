@@ -63,6 +63,7 @@ export default function BreastCancerPredictionPage() {
     timestamp: number;
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -158,7 +159,89 @@ export default function BreastCancerPredictionPage() {
   }
 
   return (
-    <div className="container mx-auto py-12 px-4">
+    <div className="container mx-auto py-12 px-4 space-y-8">
+      {/* Toggleable Information Section */}
+      <Card className="bg-gradient-to-br from-zinc-900/60 to-black/80 border border-cyan-500/20 shadow-lg backdrop-blur-lg rounded-3xl overflow-hidden transition-all duration-500">
+        <div
+          onClick={() => setIsInfoOpen(!isInfoOpen)}
+          className="cursor-pointer group"
+        >
+          <CardHeader className="flex flex-row items-center justify-between py-6">
+            <CardTitle className="text-3xl font-['Poppins'] text-cyan-400 drop-shadow-md flex items-center gap-3">
+              Understanding Breast Cancer Detection
+              <span className={`transition-transform duration-300 ease-in-out transform ${isInfoOpen ? 'rotate-180' : 'rotate-0'}`}>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current text-cyan-400 group-hover:text-cyan-300"
+                >
+                  <path
+                    d="M18 15L12 9L6 15"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </CardTitle>
+          </CardHeader>
+        </div>
+
+        <div
+          className={`transition-all duration-500 ease-in-out ${
+            isInfoOpen
+              ? 'opacity-100 max-h-[2000px]'
+              : 'opacity-0 max-h-0 overflow-hidden'
+          }`}
+        >
+          <CardContent>
+            <div className="space-y-6 text-gray-300">
+              <div className="space-y-2">
+                <h3 className="text-xl text-cyan-400 font-['Poppins']">What is Breast Cancer? 🔬</h3>
+                <p className="leading-relaxed">
+                  Breast cancer occurs when cells in the breast tissue grow uncontrollably, typically forming a tumor that can be seen on an x-ray or felt as a lump. Early detection through various screening methods significantly increases the chances of successful treatment.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-xl text-cyan-400 font-['Poppins']">How Our AI Analysis Works 🤖</h3>
+                <p className="leading-relaxed">
+                  Our advanced machine learning model analyzes various characteristics of breast mass tissue to determine if it's benign (non-cancerous) or malignant (cancerous). The model examines key features including:
+                </p>
+                <ul className="list-disc list-inside pl-4 space-y-1">
+                  <li>Cell size and shape uniformity</li>
+                  <li>Margin characteristics and texture</li>
+                  <li>Cell distribution patterns</li>
+                  <li>Nuclear features and symmetry</li>
+                </ul>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-xl text-cyan-400 font-['Poppins']">Understanding the Measurements 📊</h3>
+                <p className="leading-relaxed">
+                  The model analyzes three sets of measurements for each feature:
+                </p>
+                <ul className="list-disc list-inside pl-4 space-y-2">
+                  <li><span className="text-cyan-400">Mean Values:</span> Average measurements of the tumor characteristics</li>
+                  <li><span className="text-cyan-400">Standard Error:</span> Variation in measurements, indicating consistency</li>
+                  <li><span className="text-cyan-400">Worst Values:</span> The most extreme measurements found in the sample</li>
+                </ul>
+              </div>
+
+              <div className="mt-6 p-4 bg-cyan-500/10 rounded-lg border border-cyan-400/20">
+                <p className="text-sm italic">
+                  ⚡ Important Note: This AI model serves as a supportive tool for medical professionals and should not be used as a replacement for professional medical diagnosis. Always consult with healthcare providers for proper medical advice and diagnosis.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </div>
+      </Card>
+
+      {/* Prediction Form Section */}
       <Card className="bg-gradient-to-br from-zinc-900/60 to-black/80 border border-cyan-500/20 shadow-lg backdrop-blur-lg rounded-3xl">
         <CardHeader>
           <div className="flex items-center justify-between">
