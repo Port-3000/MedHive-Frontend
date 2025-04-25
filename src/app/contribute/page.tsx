@@ -1,7 +1,8 @@
 //src/app/contribute/page.tsx
 
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { SessionContext } from "@/utils/supabase/usercontext";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BlurContainer } from "@/components/ui/BlurContainer";
@@ -30,6 +31,7 @@ import { useRouter } from "next/navigation";
 export default function Contribute() {
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
+  const { sessionData } = useContext(SessionContext);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -323,11 +325,17 @@ export default function Contribute() {
                   </div>
 
                   <Button
-                    className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-3 py-3 rounded-lg font-semibold shadow-glow-sm border border-cyan-500/30 text-base font-['Poppins'] transition-all duration-300"
-                    onClick={() => router.push("/data-upload")}
+                    className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-400 hover:to-blue-400 text-black px-3 py-3 rounded-lg font-semibold shadow-glow-sm border border-cyan-500/30 text-base font-['Poppins'] transition-all duration-300"
+                    onClick={() => {
+                      if (sessionData.session) {
+                        router.push("/data-upload");
+                      } else {
+                        router.push("/login/data-provider");
+                      }
+                    }}
                   >
                     Proceed to provide data
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </motion.div>
                 <BlurContainer
@@ -642,6 +650,7 @@ export default function Contribute() {
               <div className="flex flex-col sm:flex-row justify-center gap-6 max-w-xl mx-auto">
                 <Button
                   size="lg"
+                  onClick={()=>router.push("/login/data-provider")}
                   className="flex items-center justify-center px-8 py-6 text-lg font-['Poppins'] rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-400 hover:to-blue-400 text-black shadow-[0_0_6px_rgba(0,255,231,0.4)] border border-cyan-500/30 transition-all duration-300"
                 >
                   Register as Hospital

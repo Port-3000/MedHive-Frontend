@@ -16,7 +16,7 @@ export default function SetupPage() {
     full_name: '',
     phone: '',
     organization: '',
-    role: '' as UserRole
+    role: ''
   });
 
   // Check if user is authenticated
@@ -56,7 +56,7 @@ export default function SetupPage() {
           full_name: formData.full_name,
           phone: formData.phone,
           organization: formData.organization,
-          role: formData.role as UserRole,
+          role: "user",
         });
       
       if (error) throw error;
@@ -67,7 +67,7 @@ export default function SetupPage() {
         if (formData.role==="admin") router.push('/admin/dashboard')
         //else if (formData.role==="data_provider") router.push('/dataprovider/dashboard')
         //else if (formData.role==="contributor") router.push('/contributor/dashboard')
-        else router.push('/')}, 1500);
+        else router.push('/user-profile')}, 1500);
       
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -143,25 +143,6 @@ export default function SetupPage() {
                 className="w-full px-4 py-2 mt-1 border rounded-2xl focus:ring focus:ring-teal-500 bg-zinc-700 text-white"
                 placeholder="Enter your organization name"
               />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-300">
-                Your Role <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 mt-1 border rounded-2xl focus:ring focus:ring-teal-500 bg-zinc-700 text-white"
-              >
-                <option value="" disabled>Select your role</option>
-                <option value="admin">Administrator</option>
-                <option value="data_provider">Data Provider</option>
-                <option value="contributor">Contributor</option>
-                <option value="user">User</option>
-              </select>
             </div>
             
             <div className="pt-4">

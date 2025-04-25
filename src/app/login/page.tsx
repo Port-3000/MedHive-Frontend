@@ -74,9 +74,7 @@ export default function AuthPage() {
           router.push("/setup");
         } else {
           if (profile.role==="admin") router.push('/admin/dashboard')
-            //else if (profile.role==="data_provider") router.push('/dataprovider/dashboard')
-            //else if (profile.role==="contributor") router.push('/contributor/dashboard')
-            else router.push('/')
+            else router.push('/user-profile')
         }
       }
     }
@@ -94,7 +92,7 @@ export default function AuthPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen relative z-10">
-      <div className="w-full max-w-sm p-8 space-y-6 rounded-lg shadow-2xl bg-zinc-900 relative z-20">
+      <div className="w-full max-w-md p-8 space-y-6 rounded-lg shadow-2xl bg-zinc-900 relative z-20">
         <div className="flex items-center">
           <Link
             href="/"
@@ -106,9 +104,20 @@ export default function AuthPage() {
             {form.isSignUp ? "Create an Account" : "Sign in to your account"}
           </h1>
         </div>
+        <div className="relative p-3 mt-2 mb-4">
+          <div className="flex flex-col items-center justify-center space-y-1 p-3 rounded-xl bg-gradient-to-br from-zinc-900/50 to-zinc-800/30 border border-zinc-700/50 backdrop-blur-sm">
+            <p className="text-sm text-zinc-400 font-medium">Want to contribute data?</p>
+            <button
+              onClick={() => router.push("/login/data-provider")}
+              className="text-base font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300 transition-all duration-300"
+            >
+              Sign in as Data Provider
+            </button>
+          </div>
+        </div>
         <form onSubmit={handleAuth} className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-zinc-300">
+            <label className="block text-sm font-medium text-zinc-300 mb-1.5">
               Email Address <span className="text-red-500">*</span>
             </label>
             <input
