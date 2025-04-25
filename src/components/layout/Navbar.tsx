@@ -167,7 +167,8 @@ export function Navbar() {
                   <div className="absolute right-0 mt-3 w-48 rounded-xl bg-gray-900 border border-gray-700 shadow-2xl backdrop-blur-xl z-[2000] overflow-hidden">
                     <div className="flex flex-col space-y-1 p-1.5">
                       <Link
-                        href="/profile"
+                        href="/user-profile"
+                        target="_blank"
                         className="flex items-center gap-2 px-3 py-2.5 text-sm text-white hover:bg-gray-800/80 transition-all duration-200 rounded-lg group"
                         onClick={() => setIsProfileOpen(false)}
                       >
