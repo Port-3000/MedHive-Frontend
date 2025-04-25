@@ -52,10 +52,24 @@ export async function POST(req: NextRequest,) {
       }
     });
 
+    // Define the redirect tool with an execute function
+    const redirect = tool({
+      description: 'redirect the user to a page.',
+      parameters: z.object({
+        page_name: z.string().describe('The page to redirect the user to.'),
+      }),
+      execute: async ({ page_name }) => {
+        console.log("Redirecting to page:", page_name); 
+        // This just returns the page to redirect to, the actual redirection happens client-side
+        return { redirectTo: page_name };
+      }
+    });
+
     const result = streamText({
       model: groq("meta-llama/llama-4-scout-17b-16e-instruct"),
       tools: {
-        predictDisease
+        predictDisease,
+        redirect
       },
       maxSteps: 5,
       system: `# MedHive System Prompt for Dr. Med_Liv
@@ -129,11 +143,11 @@ export async function POST(req: NextRequest,) {
     });
 
     const response = await result.toDataStreamResponse();
-    console.log(
-      "Response headers:",
-      Object.fromEntries(response.headers.entries())
-    );
-    console.log("Response type:", response.type);
+    //console.log(
+    //  "Response headers:",
+    //  Object.fromEntries(response.headers.entries())
+    //);
+    //console.log("Response type:", response.type);
     return response;
   } catch (error) {
     console.error("Error handling POST request:", error);

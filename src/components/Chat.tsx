@@ -1,24 +1,64 @@
 'use client';
-
-import React, {
-  useEffect,
-  useRef,
-  ChangeEvent,
-  KeyboardEvent,
-} from "react";
 import { useChat } from '@ai-sdk/react';
-// import Image from 'next/image'; // Uncomment if Image is needed later
+import { useState, useEffect, useRef, KeyboardEvent } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { SendIcon, User, Bot, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation";
 
-const Chat: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+export default function Chat() {
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const toggleChat = () => setIsOpen((open) => !open);
+  const { messages, input, handleInputChange, handleSubmit, isLoading,
+    error, reload, stop } = useChat({
+      maxSteps: 5,
 
-  // Initialize useChat
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+      // run client-side tools that are automatically executed:
+      async onToolCall({ toolCall }) {
+        if (toolCall.toolName === 'redirect') {
+          // Handle redirect tool call
+          const { page_name } = toolCall.args as { page_name: string };
+          
+          // Fix: Check if page_name starts with a slash, if not add one
+          const path = page_name.startsWith('/') ? page_name : `/${page_name}`;
+          
+          // Use absolute path for router.push to avoid path doubling
+          router.push(path);
+        }
+      },
+    });
 
   const chatRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  // Handle enter key press
+  const renderMessageContent = (content: string | null | undefined) => {
+    if (!content) return null;
+    try {
+      return (
+        <div className="prose prose-sm dark:prose-invert max-w-none break-words"> {/* Added prose styling + break-words */}
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{ // Customize rendering if needed
+              // Example: open links in new tab
+              a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />,
+            }}
+          >
+            {content}
+          </ReactMarkdown>
+        </div>
+      );
+    } catch (error) {
+      console.error("Failed to parse message content:", error);
+      return (
+        <div className="text-destructive">
+          <p>Error parsing message content. Please try again later.</p>
+        </div>
+      );
+    }
+  };
+
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -33,8 +73,8 @@ const Chat: React.FC = () => {
     // Keep scroll logic, might need adjustment based on how useChat updates messages
     const messageEls = container.querySelectorAll<HTMLElement>(".message-item"); // Use a common class for all messages if needed
     if (messageEls.length > 0) {
-        const last = messageEls[messageEls.length - 1];
-        last.scrollIntoView({ behavior: "smooth", block: "end" });
+      const last = messageEls[messageEls.length - 1];
+      last.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, [messages]); // Trigger scroll on messages update
 
@@ -48,8 +88,6 @@ const Chat: React.FC = () => {
       }, 50);
     }
   }, [isOpen]);
-
-  const toggleChat = () => setIsOpen((open) => !open);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -72,21 +110,6 @@ const Chat: React.FC = () => {
           {/* Header */}
           <div className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-4 flex justify-between items-center border-b border-cyan-400/20">
             <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
-                <svg
-                  className="w-6 h-6 text-cyan-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                  />
-                </svg>
-              </div>
               <h1 className="text-xl font-['Poppins'] text-cyan-300">
                 MedHive AI
               </h1>
@@ -118,54 +141,84 @@ const Chat: React.FC = () => {
           <div
             ref={messagesContainerRef}
             className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-gray-900/80 to-gray-900/20 font-medium"
+          > 
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex items-start gap-3 ${
+              message.role === "user" ? "justify-end" : "justify-start"
+            }`}
           >
-            {messages.length === 0 && (
-              <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
-                <div className="p-3 rounded-full bg-cyan-400/10 border border-cyan-400/30">
-                  <svg
-                    className="w-10 h-10 text-cyan-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
-                </div>
-                <h2 className="text-2xl font-['Poppins'] text-gray-100">
-                  MedHive Assistant
-                </h2>
-                <p className="text-gray-400 font-['Poppins']">
-                  Ask me about medical information, symptoms, or health advice
-                </p>
+            {/* Avatar/Icon */}
+            {message.role === "assistant" && (
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                <Bot size={20} className="text-muted-foreground" />
               </div>
             )}
 
-            {/* Update message mapping */}
-            {messages.map((m) => (
-              <div
-                key={m.id} // Use message id as key
-                className={`relative max-w-[85%] p-4 rounded-xl transition-all message-item ${ // Add message-item class
-                  m.role === "user"
-                    ? "ml-auto bg-gradient-to-br from-cyan-600/70 to-cyan-500/70 text-white shadow-cyan-lg font-['Poppins']"
-                    : m.role === "system" // Handle system role if needed, or remove if useChat doesn't use it
-                    ? "mx-auto bg-red-500/10 border border-red-400/30 text-red-300"
-                    : "mr-auto bg-gray-800/60 border border-gray-700 text-gray-300 hover:border-cyan-400/30 assistant-message" // Keep assistant-message class if needed by scroll logic
-                }`}
-              >
-                {m.content}
-                {m.role === "user" && (
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-400/50 clip-path-triangle" />
-                )}
-                {/* Add image rendering if needed, based on m.experimental_attachments */}
-                {/* <div> ... Image rendering logic ... </div> */}
+            {/* Message Bubble */}
+            <div
+              className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                message.role === "user"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {renderMessageContent(message.content)}
+            </div>
+
+             {/* Avatar/Icon */}
+             {message.role === "user" && (
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                <User size={20} className="text-primary-foreground" />
               </div>
-            ))}
+            )}
           </div>
+        ))}
+
+        {/* Loading Indicator */}
+        {isLoading && (
+          <div className="flex items-start gap-3 justify-start">
+             <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                <Bot size={20} className="text-muted-foreground" />
+              </div>
+            <div className="max-w-[80%] rounded-lg px-4 py-2 bg-muted text-muted-foreground">
+              <div className="flex items-center space-x-2">
+                 <span>Assistant is thinking</span>
+                <div
+                  className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+                  style={{ animationDelay: "0ms" }}
+                ></div>
+                <div
+                  className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+                  style={{ animationDelay: "150ms" }}
+                ></div>
+                <div
+                  className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+                  style={{ animationDelay: "300ms" }}
+                ></div>
+                 {/* Optional: Add stop button during generation */}
+                 <Button variant="ghost" size="sm" onClick={stop} className="ml-4 text-xs">Stop</Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+         {/* Error Display */}
+         {error && (
+            <div className="flex items-center gap-3 justify-center text-destructive p-3 bg-destructive/10 rounded-lg border border-destructive/30">
+                 <AlertTriangle size={20} />
+                 <div className="flex-1">
+                    <p className="font-semibold">An error occurred:</p>
+                    <p className="text-sm">{error.message || 'Please try again.'}</p>
+                    {/* Provide a retry mechanism */}
+                    <Button variant="destructive" size="sm" onClick={() => reload()} className="mt-2">
+                        Retry Last Message
+                    </Button>
+                 </div>
+            </div>
+        )}
+      </div>
 
           {/* Input form */}
           <form onSubmit={handleSubmit} className="p-3 border-t border-cyan-400/10 bg-gray-900/50">
@@ -224,6 +277,4 @@ const Chat: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default Chat;
+}
