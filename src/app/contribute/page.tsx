@@ -140,7 +140,6 @@ export default function Contribute() {
     },
   ];
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -168,7 +167,6 @@ export default function Contribute() {
         isLoaded ? "opacity-100" : "opacity-0"
       } transition-opacity duration-500`}
     >
-      {/* Cyber background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full opacity-20 bg-grid-pattern"></div>
         <div className="absolute top-1/4 -left-64 w-96 h-96 rounded-full bg-blue-500 opacity-10 blur-3xl"></div>
@@ -223,7 +221,7 @@ export default function Contribute() {
       </section>
 
       {/* Tabs Section */}
-      <section className="py-1 relative">
+      <section className="py-0 relative">
         <div className="container mx-auto px-4">
           <Tabs defaultValue="hospitals" className="relative pb-5">
             <TabsList
@@ -287,7 +285,7 @@ export default function Contribute() {
                   initial="hidden"
                   animate="visible"
                 >
-                  <h2 className="text-4xl font-['Lilita_One'] mb-4 bg-gradient-to-r from-green-500 via-purple-500 to-blue-500 bg-clip-text text-transparent uppercase tracking-wider">
+                  <h2 className="text-4xl font-['Lilita_One'] mb-4 bg-gradient-to-r from-pink-500 via-cyan-500 to-blue-500 bg-clip-text text-transparent uppercase tracking-wider">
                     JOIN OUR HOSPITAL NETWORK
                   </h2>
                   <p className="mb-8 text-gray-200 text-lg font-['Poppins']">
@@ -523,7 +521,7 @@ export default function Contribute() {
       </section>
 
       {/* Process Section */}
-      <section className="py-24 relative">
+      <section className="py-20 relative">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <motion.span
@@ -567,7 +565,7 @@ export default function Contribute() {
                   <div className="text-cyan-300 text-4xl">{step.icon}</div>
 
                   {/* Title */}
-                  <h3 className="text-2xl md:text-3xl font-bold text-cyan-300 font-['Poppins']">
+                  <h3 className="text-2xl md:text-4xl font-bold text-cyan-300 font-['Lilita_One']">
                     {step.title}
                   </h3>
 
@@ -577,11 +575,10 @@ export default function Contribute() {
                   </p>
                 </BlurContainer>
 
-                {/* Arrow Connector with Animation */}
                 {index < stepsData.length - 1 && (
                   <motion.div
                     className="hidden md:block absolute top-1/2 right-[-32px] transform -translate-y-1/2 z-10"
-                    animate={{ x: [0, 8, 0] }} // Animation for the arrow
+                    animate={{ x: [0, 8, 0] }}
                     transition={{
                       duration: 1.5,
                       repeat: Infinity,
@@ -617,13 +614,11 @@ export default function Contribute() {
             className="relative max-w-5xl mx-auto p-12 text-center bg-gray-900 bg-opacity-50 border border-cyan-500/30 rounded-2xl hover:bg-opacity-70 hover:shadow-[0_0_10px_rgba(0,255,231,0.6)] transition-all duration-300 overflow-hidden"
             intensity="high"
           >
-            {/* Decorative borders */}
             <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
             <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
             <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-transparent via-cyan-500 to-transparent"></div>
             <div className="absolute inset-y-0 right-0 w-1 bg-gradient-to-b from-transparent via-blue-500 to-transparent"></div>
 
-            {/* Center glow */}
             <div className="absolute top-1/2 left-1/2 w-96 h-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-radial from-cyan-900/30 to-transparent blur-3xl pointer-events-none"></div>
 
             <div className="relative z-10">
