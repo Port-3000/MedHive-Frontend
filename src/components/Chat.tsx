@@ -1,40 +1,42 @@
-// src/components/Chat.tsx
+'use client';
 
 import React, {
-  useState,
   useEffect,
   useRef,
-  KeyboardEvent,
   ChangeEvent,
+  KeyboardEvent,
 } from "react";
-
-interface Message {
-  role: "user" | "assistant" | "system";
-  content: string;
-}
+import { useChat } from '@ai-sdk/react';
+// import Image from 'next/image'; // Uncomment if Image is needed later
 
 const Chat: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputValue, setInputValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [conversationId, setConversationId] = useState("default");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  // Initialize useChat
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
 
   const chatRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  const CHAT_URL = process.env.NEXT_PUBLIC_CHAT_URL || "";
+  // Handle enter key press
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
 
   useEffect(() => {
     const container = messagesContainerRef.current;
     if (!container) return;
 
-    const assistantEls = container.querySelectorAll<HTMLElement>(".assistant-message");
-    if (assistantEls.length > 0) {
-      const last = assistantEls[assistantEls.length - 1];
-      last.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Keep scroll logic, might need adjustment based on how useChat updates messages
+    const messageEls = container.querySelectorAll<HTMLElement>(".message-item"); // Use a common class for all messages if needed
+    if (messageEls.length > 0) {
+        const last = messageEls[messageEls.length - 1];
+        last.scrollIntoView({ behavior: "smooth", block: "end" });
     }
-  }, [messages]);
+  }, [messages]); // Trigger scroll on messages update
 
   useEffect(() => {
     if (isOpen && messagesContainerRef.current) {
@@ -46,52 +48,6 @@ const Chat: React.FC = () => {
       }, 50);
     }
   }, [isOpen]);
-
-  const handleSend = async () => {
-    if (!inputValue.trim()) return;
-
-    const userMessage: Message = { role: "user", content: inputValue };
-    setMessages((prev) => [...prev, userMessage]);
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(CHAT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          question: inputValue,
-          conversation_id: conversationId,
-        }),
-      });
-      const data = await response.json();
-
-      const botMessage: Message = {
-        role: "assistant",
-        content: data.response,
-      };
-      setMessages((prev) => [...prev, botMessage]);
-      setConversationId(data.conversation_id);
-    } catch (error) {
-      console.error("Error sending message:", error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "system",
-          content: "Error: Could not get response from server.",
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
-      setInputValue("");
-    }
-  };
-
-  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
 
   const toggleChat = () => setIsOpen((open) => !open);
 
@@ -136,27 +92,7 @@ const Chat: React.FC = () => {
               </h1>
             </div>
             <div className="flex items-center gap-2">
-              {/* Clear messages */}
-              <button
-                onClick={() => setMessages([])}
-                className="text-cyan-300 hover:text-cyan-200 transition-colors p-1 rounded-lg hover:bg-cyan-400/10"
-                title="Clear messages"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
-              </button>
-              {/* Close chat */}
+              {/* Close chat button */}
               <button
                 onClick={toggleChat}
                 className="text-cyan-300 hover:text-cyan-200 transition-colors p-1 rounded-lg hover:bg-cyan-400/10"
@@ -209,51 +145,41 @@ const Chat: React.FC = () => {
               </div>
             )}
 
-            {messages.map((message, i) => (
+            {/* Update message mapping */}
+            {messages.map((m) => (
               <div
-                key={i}
-                className={`relative max-w-[85%] p-4 rounded-xl transition-all ${
-                  message.role === "user"
+                key={m.id} // Use message id as key
+                className={`relative max-w-[85%] p-4 rounded-xl transition-all message-item ${ // Add message-item class
+                  m.role === "user"
                     ? "ml-auto bg-gradient-to-br from-cyan-600/70 to-cyan-500/70 text-white shadow-cyan-lg font-['Poppins']"
-                    : message.role === "system"
+                    : m.role === "system" // Handle system role if needed, or remove if useChat doesn't use it
                     ? "mx-auto bg-red-500/10 border border-red-400/30 text-red-300"
-                    : "mr-auto bg-gray-800/60 border border-gray-700 text-gray-300 hover:border-cyan-400/30 assistant-message"
+                    : "mr-auto bg-gray-800/60 border border-gray-700 text-gray-300 hover:border-cyan-400/30 assistant-message" // Keep assistant-message class if needed by scroll logic
                 }`}
               >
-                {message.content}
-                {message.role === "user" && (
+                {m.content}
+                {m.role === "user" && (
                   <div className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-400/50 clip-path-triangle" />
                 )}
+                {/* Add image rendering if needed, based on m.experimental_attachments */}
+                {/* <div> ... Image rendering logic ... </div> */}
               </div>
             ))}
-
-            {isLoading && (
-              <div className="mr-auto max-w-[85%] p-4 rounded-xl bg-gray-800/60 border border-gray-700">
-                <div className="flex space-x-2">
-                  <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                  <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse delay-100" />
-                  <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse delay-200" />
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* Input part...*/}
-          <div className="p-3 border-t border-cyan-400/10 bg-gray-900/50">
+          {/* Input form */}
+          <form onSubmit={handleSubmit} className="p-3 border-t border-cyan-400/10 bg-gray-900/50">
             <div className="flex items-center gap-2 font-['Poppins']">
               <textarea
-                value={inputValue}
-                onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                  setInputValue(e.target.value)
-                }
-                onKeyPress={handleKeyPress}
+                value={input}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
                 placeholder="Ask Dr. MedLiv..."
                 rows={1}
                 className="flex-1 p-2 bg-gray-800/60 border border-gray-700 rounded-xl resize-none text-gray-300 placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all scrollbar-thin scrollbar-track-gray-900/50 scrollbar-thumb-cyan-400/30"
               />
               <button
-                onClick={handleSend}
-                disabled={isLoading}
+                type="submit"
                 className="p-2 bg-cyan-400/10 border border-cyan-400/30 rounded-xl hover:bg-cyan-400/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
@@ -271,14 +197,10 @@ const Chat: React.FC = () => {
                 </svg>
               </button>
             </div>
-          </div>
+          </form>
 
-          {/* Status Indicators */}
-          <div className="absolute top-3 right-4 flex space-x-1.5">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <div className="w-2 h-2 rounded-full bg-gray-600" />
-            <div className="w-2 h-2 rounded-full bg-gray-600" />
-          </div>
+          {/* Status Indicators - Can be removed or adapted if useChat provides connection status */}
+          {/* <div className="absolute top-3 right-4 flex space-x-1.5"> ... </div> */}
         </div>
       ) : (
         <button
