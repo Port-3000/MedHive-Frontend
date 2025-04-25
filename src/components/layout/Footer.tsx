@@ -15,7 +15,7 @@ export function Footer() {
     {
       icon: <Github size={20} />,
       label: "GitHub",
-      onClick: () => window.open("#", "_blank"),
+      onClick: () => window.open("https://github.com/Port-3000", "_blank"),
     },
     {
       icon: <Linkedin size={20} />,

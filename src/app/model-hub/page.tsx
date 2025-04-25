@@ -59,8 +59,7 @@ export default function ModelHub() {
         title: "Pneumonia X‑Ray Detection",
         description:
           "Analyzes chest X‑ray images to detect pneumonia with high sensitivity and specificity, differentiating between bacterial and viral causes.",
-        image:
-          "https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        image: "/feature3.jpg",
         category: "imaging",
         icon: <Image className="h-6 w-6 text-green-400" />,
         accuracy: "92%",
@@ -72,8 +71,7 @@ export default function ModelHub() {
         title: "Breast Cancer Detection",
         description:
           "Analyzes details of the tumor to detect early signs of breast cancer, identifying calcifications.",
-        image:
-          "https://images.unsplash.com/photo-1579154341098-e4e158cc7f55?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        image: "/feature4.svg",
         category: "diagnostic",
         icon: <Microscope className="h-6 w-6 text-purple-400" />,
         accuracy: "91%",
@@ -85,8 +83,7 @@ export default function ModelHub() {
         title: "Glaucoma FUNDUS Analysis",
         description:
           "Detects signs of glaucoma from retinal fundus images by analyzing optic disc changes and identifying neural damage patterns.",
-        image:
-          "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        image: "/feature5.jpg",
         category: "imaging",
         icon: <Image className="h-6 w-6 text-green-400" />,
         accuracy: "88%",
@@ -98,8 +95,7 @@ export default function ModelHub() {
         title: "ECG Curve Analysis",
         description:
           "Detects abnormalities in heart rhythm from ECG readouts, identifying patterns associated with arrhythmias, myocardial infarction, and other cardiac conditions.",
-        image:
-          "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        image: "/feature2.jpg",
         category: "diagnostic",
         icon: <Heart className="h-6 w-6 text-pink-400" />,
         accuracy: "94%",
@@ -111,8 +107,7 @@ export default function ModelHub() {
         title: "Health Outcome Predictor",
         description:
           "Predicts potential health outcomes based on patient history, demographic data, and lifestyle factors using advanced machine learning algorithms.",
-        image:
-          "https://images.unsplash.com/photo-1581595219315-a187dd40c322?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        image: "/feature6.jpg",
         category: "predictive",
         icon: <Brain className="h-6 w-6 text-cyan-400" />,
         accuracy: "85%",
@@ -200,7 +195,6 @@ export default function ModelHub() {
                   setActiveCategory("all");
                 }
               }}
-              className="mb-2"
             />
           </div>
         </div>
