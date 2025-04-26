@@ -55,7 +55,7 @@ export default function About() {
         "Up to 10 seats",
       ],
       cta: "Start scaling",
-      popular: true, 
+      popular: true,
     },
     {
       id: "enterprise",
@@ -73,7 +73,7 @@ export default function About() {
         "200+ integrations",
       ],
       cta: "Contact Us",
-      highlighted: true, 
+      highlighted: true,
     },
   ];
 
@@ -268,7 +268,6 @@ animate-fade-up
                 style={{ animationDelay: `${index * 100 + 600}ms` }}
                 hoverable
               >
-                {/* Step Number Circle */}
                 <div
                   className="
 h-20 w-20
@@ -309,7 +308,6 @@ border border-cyan-300/20
       </section>
       <section className="relative z-10 py-24 overflow-hidden text-white">
         <div className="container mx-auto px-6">
-          {/* Glowing header */}
           <div className="text-center max-w-4xl mx-auto mb-5 animate-fade-up">
             <span className="inline-block px-3 py-1 border border-cyan-400/20 text-white rounded-full text-sm font-['Lilita_One'] mb-4">
               Our Pricing Models
@@ -347,7 +345,6 @@ border border-cyan-300/20
             >
               <div className="absolute inset-0 border-2 border-transparent rounded-3xl animate-[flicker_3s_linear_infinite]" />
               <div className="grid grid-cols-1 lg:grid-cols-2">
-                {/* Left Content */}
                 <div className="p-8 md:p-10 space-y-6">
                   <h2 className="font-['Kagitingan'] text-2xl md:text-3xl text-white mb-2">
                     Get in Touch
