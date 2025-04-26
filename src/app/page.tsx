@@ -431,7 +431,7 @@ export default function Index() {
           </AnimateOnView>
 
           {/* Join Section */}
-          <section ref={joinSectionRef} className="relative py-28  ">
+          <section ref={joinSectionRef} className="relative py-20  ">
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute inset-0 bg-[url('/patterns/hexagon-grid.svg')]  animate-pulse-soft" />
               <div className="absolute inset-0 bg-[url('/patterns/circuit-pattern.svg')]  mix-blend-overlay animate-pan" />
