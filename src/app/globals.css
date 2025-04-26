@@ -444,3 +444,10 @@ canvas {
   animation: glitch 1s infinite linear alternate-reverse;
   animation-delay: 0.5s;
 }
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loader {
+  animation: spin 1s linear infinite;
+}

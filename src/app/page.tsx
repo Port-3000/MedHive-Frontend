@@ -192,7 +192,7 @@ export default function Index() {
               className="relative md:pt-16 md:pb-28 lg:pt-20 lg:pb-28 overflow-hidden"
             >
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-20" />
+                <div className="absolute inset-0 " />
               </div>
               <motion.div
                 className="container mx-auto px-6 relative z-10"
@@ -431,22 +431,19 @@ export default function Index() {
           </AnimateOnView>
 
           {/* Join Section */}
-          <section
-            ref={joinSectionRef}
-            className="relative py-28 overflow-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900"
-          >
+          <section ref={joinSectionRef} className="relative py-28  ">
             <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute inset-0 bg-[url('/patterns/hexagon-grid.svg')] opacity-15 animate-pulse-slow" />
-              <div className="absolute inset-0 bg-[url('/patterns/circuit-pattern.svg')] opacity-10 mix-blend-overlay animate-pan" />
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/15 via-transparent to-purple-500/15" />
+              <div className="absolute inset-0 bg-[url('/patterns/hexagon-grid.svg')]  animate-pulse-soft" />
+              <div className="absolute inset-0 bg-[url('/patterns/circuit-pattern.svg')]  mix-blend-overlay animate-pan" />
+              <div className="absolute inset-0 " />
             </div>
 
             {hasMounted && (
               <div className="absolute inset-0">
-                {[...Array(45)].map((_, i) => (
+                {[...Array(20)].map((_, i) => (
                   <div
                     key={`particle-${i}`}
-                    className="absolute w-0.5 h-0.5 bg-cyan-400 rounded-full blur-[1px] animate-float"
+                    className="absolute w-1 h-1 bg-cyan-400 rounded-full blur-[1px] animate-float"
                     style={{
                       top: `${Math.random() * 100}%`,
                       left: `${Math.random() * 100}%`,

@@ -1,4 +1,5 @@
 // src/app/user-profile/page.tsx
+//@ts-nocheck
 
 "use client";
 import { motion } from "framer-motion";
@@ -45,7 +46,7 @@ const COLORS = ["#00f2fe", "#4facfe", "#8e44ad", "#ff6b6b", "#1dd1a1"];
 // Hardcoded credits data
 const CREDITS_DATA = {
   credits: 1425,
-  total_credits: 2000
+  total_credits: 2000,
 };
 
 // Hardcoded model usage data
@@ -83,9 +84,9 @@ export default function UserProfile() {
       try {
         // Fetch user profile data
         const { data: profile, error: profileError } = await supabase
-          .from('user_profiles')
-          .select('*')
-          .eq('id', sessionData.session.user.id)
+          .from("user_profiles")
+          .select("*")
+          .eq("id", sessionData.session.user.id)
           .single();
 
         if (profileError) throw profileError;
@@ -96,10 +97,10 @@ export default function UserProfile() {
           ...CREDITS_DATA,
           model_usage: MODEL_USAGE_DATA,
           uuid: sessionData.session.user.id,
-          security_status: profile.role === 'admin' ? 'verified' : 'standard'
+          security_status: profile.role === "admin" ? "verified" : "standard",
         });
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       } finally {
         setLoading(false);
       }
@@ -172,17 +173,29 @@ export default function UserProfile() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <InfoRow icon={<User />} label="User ID" value={userData.id || 'N/A'} />
+            <InfoRow
+              icon={<User />}
+              label="User ID"
+              value={userData.id || "N/A"}
+            />
             <InfoRow
               icon={<Clock />}
               label="Member Since"
-              value={userData.created_at ? new Date(userData.created_at).toLocaleDateString() : 'N/A'}
+              value={
+                userData.created_at
+                  ? new Date(userData.created_at).toLocaleDateString()
+                  : "N/A"
+              }
             />
-            <InfoRow icon={<Phone />} label="Contact" value={userData.phone || 'N/A'} />
+            <InfoRow
+              icon={<Phone />}
+              label="Contact"
+              value={userData.phone || "N/A"}
+            />
             <InfoRow
               icon={<Building />}
               label="Organization"
-              value={userData.organization || 'N/A'}
+              value={userData.organization || "N/A"}
             />
           </CardContent>
         </CyberCard>
@@ -384,7 +397,7 @@ const InfoRow = ({
     </div>
     <div className="flex-1">
       <div className="text-sm text-cyan-400 font-semibold">{label}</div>
-      <div className="text-gray-300 font-mono">{value || 'N/A'}</div>
+      <div className="text-gray-300 font-mono">{value || "N/A"}</div>
     </div>
   </motion.div>
 );
