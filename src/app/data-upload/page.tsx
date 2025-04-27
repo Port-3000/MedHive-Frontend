@@ -19,26 +19,99 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { toast } from "sonner";
 import {
   RiShieldCheckLine,
   RiLock2Line,
   RiHospitalLine,
 } from "@remixicon/react";
 import { useDropzone } from "react-dropzone";
-import { FileCheck } from "lucide-react";
+import { FileCheck, Loader2 } from "lucide-react";
+
+// Mock encryption function - replace with actual implementation
+async function encryptFile(file: File): Promise<File> {
+  return new Promise((resolve) => {
+    // Add real encryption logic here
+    const encryptedFile = new File([file], `encrypted_${file.name}`, {
+      type: file.type,
+    });
+    resolve(encryptedFile);
+  });
+}
 
 export default function DataProviderPage() {
-  const [activeTab, setActiveTab] = useState(0);//let it be
   const [files, setFiles] = useState<File[]>([]);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (acceptedFiles) => setFiles(acceptedFiles),
-    accept: {
-      "text/csv": [".csv"],
-      "application/json": [".json"],
-      "application/zip": [".zip"],
-    },
-    maxSize: 1024 * 1024 * 10,
-  });
+  const [isUploading, setIsUploading] = useState(false);
+
+  const { getRootProps, getInputProps, isDragActive, fileRejections } =
+    useDropzone({
+      onDrop: async (acceptedFiles) => {
+        try {
+          // Encrypt files before setting state
+          const encryptedFiles = await Promise.all(
+            acceptedFiles.map(async (file) => encryptFile(file))
+          );
+          setFiles(encryptedFiles);
+        } catch (error) {
+          toast.error("Encryption failed");
+        }
+      },
+      accept: {
+        "text/csv": [".csv"],
+        "application/json": [".json"],
+        "application/dicom": [".dcm", ".dicom"],
+        "application/zip": [".zip"],
+      },
+      maxSize: 1024 * 1024 * 1024 * 10, // 10GB
+      multiple: true,
+    });
+
+  const handleUpload = async () => {
+    if (files.length === 0) return;
+
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      files.forEach((file) => formData.append("files", file));
+
+      // Add checksum and metadata
+      formData.append(
+        "metadata",
+        JSON.stringify({
+          encryption: "AES-256",
+          hospitalId: "YOUR_HOSPITAL_ID",
+          timestamp: new Date().toISOString(),
+        })
+      );
+
+      const response = await fetch("/api/secure-upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-Encryption-Key": "YOUR_ENCRYPTION_KEY",
+        },
+      });
+
+      if (!response.ok) throw new Error("Upload failed");
+
+      setFiles([]);
+      toast.success("Files uploaded securely");
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast.error("Upload failed. Please try again.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes >= 1024 ** 3) {
+      // GB
+      return `${(bytes / 1024 ** 3).toFixed(2)}GB`;
+    }
+    return `${(bytes / 1024 ** 2).toFixed(2)}MB`;
+  };
 
   const benefitCards = [
     {
@@ -516,17 +589,39 @@ export default function DataProviderPage() {
                         : "Drag Medical Data Here"}
                     </h3>
                     <p className="text-gray-400 text-sm">
-                      Supported formats: CSV, JSON, DICOM (ZIP)
+                      Supported formats: CSV, JSON, DICOM (DCM), ZIP
                     </p>
                     <Button
                       variant="outline"
                       className="mt-4 hover:bg-cyan-500"
+                      disabled={isUploading}
                     >
-                      Browse Files
+                      {isUploading ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        "Browse Files"
+                      )}
                     </Button>
                   </div>
                 </div>
 
+                {/* File Rejection Errors */}
+                {fileRejections.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="mt-4 p-3 bg-red-900/20 rounded-lg border border-red-400/30"
+                  >
+                    {fileRejections.map(({ file, errors }) => (
+                      <div key={file.name} className="text-red-300 text-sm">
+                        <strong>{file.name}</strong>:{" "}
+                        {errors.map((e) => e.message).join(", ")}
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+
+                {/* Uploaded Files List */}
                 {files.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -545,26 +640,41 @@ export default function DataProviderPage() {
                           </span>
                         </div>
                         <span className="text-xs text-gray-300">
-                          {(file.size / 1024 / 1024).toFixed(2)}MB
+                          {formatFileSize(file.size)}
                         </span>
                       </div>
                     ))}
                   </motion.div>
                 )}
 
-                <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-                  <div className="p-3 bg-gray-900/50 rounded-lg">
-                    <p className="text-sm text-gray-400">Encryption</p>
-                    <p className="text-cyan-400 font-semibold">AES-256</p>
+                {/* Upload Action Section */}
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div className="p-3 bg-gray-900/50 rounded-lg">
+                      <p className="text-sm text-gray-400">Encryption</p>
+                      <p className="text-cyan-400 font-semibold">AES-256</p>
+                    </div>
+                    <div className="p-3 bg-gray-900/50 rounded-lg">
+                      <p className="text-sm text-gray-400">Max Size</p>
+                      <p className="text-cyan-400 font-semibold">10GB</p>
+                    </div>
+                    <div className="p-3 bg-gray-900/50 rounded-lg">
+                      <p className="text-sm text-gray-400">Formats</p>
+                      <p className="text-cyan-400 font-semibold">15+</p>
+                    </div>
                   </div>
-                  <div className="p-3 bg-gray-900/50 rounded-lg">
-                    <p className="text-sm text-gray-400">Max File Size</p>
-                    <p className="text-cyan-400 font-semibold">10GB</p>
-                  </div>
-                  <div className="p-3 bg-gray-900/50 rounded-lg">
-                    <p className="text-sm text-gray-400">Formats</p>
-                    <p className="text-cyan-400 font-semibold">15+</p>
-                  </div>
+
+                  <Button
+                    onClick={handleUpload}
+                    disabled={files.length === 0 || isUploading}
+                    className="h-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 font-['Poppins']"
+                  >
+                    {isUploading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      "Secure Upload"
+                    )}
+                  </Button>
                 </div>
               </motion.div>
             </div>
