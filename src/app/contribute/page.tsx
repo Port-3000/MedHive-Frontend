@@ -573,7 +573,7 @@ export default function Contribute() {
                   <div className="text-cyan-300 text-4xl">{step.icon}</div>
 
                   {/* Title */}
-                  <h3 className="text-2xl md:text-4xl font-bold text-cyan-300 font-['Lilita_One']">
+                  <h3 className="text-2xl md:text-4xl text-cyan-300 font-['Lilita_One']">
                     {step.title}
                   </h3>
 
