@@ -9,19 +9,19 @@ import { Badge } from "@/components/ui/price-badge"
 interface TabProps {
   text: string
   selected: boolean
-  setSelected: (text: string) => void
+  setSelectedAction: (text: string) => void
   discount?: boolean
 }
 
 export function Tab({
   text,
   selected,
-  setSelected,
+  setSelectedAction,
   discount = false,
 }: TabProps) {
   return (
     <button
-      onClick={() => setSelected(text)}
+      onClick={() => setSelectedAction(text)}
       className={cn(
         "relative w-fit px-4 py-2 text-sm font-semibold capitalize",
         "text-foreground transition-colors",

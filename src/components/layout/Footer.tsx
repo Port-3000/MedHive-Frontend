@@ -26,7 +26,7 @@ export function Footer() {
     {
       icon: <Mail size={20} />,
       label: "Contact",
-      onClick: () => window.open("mailto:contact@medhive.com"),
+      onClick: () => window.open("mailto:contact@port3000.com"),
     },
   ];
 
@@ -36,7 +36,7 @@ export function Footer() {
       links: [
         { name: "Model Hub", path: "/model-hub" },
         { name: "Contribute", path: "/contribute" },
-        { name: "Pricing", path: "/pricing" },
+        { name: "Pricing", path: "/about#pricing" },
         { name: "Documentation", path: "/docs" },
       ],
     },

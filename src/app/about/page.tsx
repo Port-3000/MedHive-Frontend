@@ -306,7 +306,7 @@ border border-cyan-300/20
           </div>
         </div>
       </section>
-      <section className="relative z-10 py-24 overflow-hidden text-white">
+      <section id="pricing" className="relative z-10 py-24 overflow-hidden text-white">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto mb-5 animate-fade-up">
             <span className="inline-block px-3 py-1 border border-cyan-400/20 text-white rounded-full text-sm font-['Lilita_One'] mb-4">

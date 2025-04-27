@@ -36,7 +36,7 @@ export function PricingSection({
               key={freq}
               text={freq}
               selected={selectedFrequency === freq}
-              setSelected={setSelectedFrequency}
+              setSelectedAction={setSelectedFrequency}
               discount={freq === "yearly"}
             />
           ))}
