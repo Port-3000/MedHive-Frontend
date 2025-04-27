@@ -29,7 +29,7 @@ import {
   Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ExperimentRun, ModelVersion, NodeStatus } from "@/types";
+import { ExperimentRun, ModelVersion, NodeStatus } from "@/types/index";
 import { DataTable } from "./components/data-table";
 import { columns } from "./components/columns";
 import { AnimatedNumber } from "./components/animated-number";
@@ -178,25 +178,27 @@ export default function AdminDashboard() {
           </h1>
         </div>
 
-        <Tabs value={selectedTab} onValueChange={setSelectedTab}>
+        <Tabs defaultValue="dashboard" onValueChange={(value) => {
+          router.push(`/admin/${value}`);
+        }}>
           <TabsList className="grid grid-cols-3 bg-black/50 border border-cyan-500/30">
             <TabsTrigger
-              value="overview"
+              value="dashboard"
               className="data-[state=active]:bg-cyan-500"
             >
               Overview
+            </TabsTrigger>
+            <TabsTrigger
+              value="datasets"
+              className="data-[state=active]:bg-green-500"
+            >
+              Datasets
             </TabsTrigger>
             <TabsTrigger
               value="models"
               className="data-[state=active]:bg-purple-500"
             >
               Models
-            </TabsTrigger>
-            <TabsTrigger
-              value="nodes"
-              className="data-[state=active]:bg-green-500"
-            >
-              Nodes
             </TabsTrigger>
           </TabsList>
         </Tabs>
