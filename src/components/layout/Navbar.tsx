@@ -32,6 +32,8 @@ export function Navbar() {
   const supabase = createClient();
   const router = useRouter();
 
+  const isDataProvider = sessionData?.sessionData?.userprofile?.role === 'data_provider';
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     setVisible(latest > 100);
   });
@@ -53,15 +55,20 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const navLinks = [
-    { name: "HOME", path: "/" },
-    ...(sessionData.sessionData.userprofile?.role === "admin"
-      ? [{ name: "DASHBOARD", path: "/admin/dashboard" }]
-      : []),
-    { name: "MODEL HUB", path: "/model-hub" },
-    { name: "CONTRIBUTE", path: "/contribute" },
-    { name: "ABOUT", path: "/about" },
-  ];
+  const navLinks: { name: string; path: string; newTab?: boolean; scroll?: boolean }[] = [
+    ...(sessionData.sessionData.userprofile?.role === "data_provider"?
+      [{ name: "HOME", path: "/" },
+      { name: "DATA UPLOAD", path: "/data-upload" },
+      { name: "API KEYS", path: "/api-keys"},
+      { name: "API DOCS", path: "/api-docs"},]:[
+      { name: "HOME", path: "/" },
+      ...(sessionData.sessionData.userprofile?.role === "admin"
+        ? [{ name: "DASHBOARD", path: "/admin/dashboard" }]
+        : []),
+      { name: "MODEL HUB", path: "/model-hub" },
+      { name: "CONTRIBUTE", path: "/contribute" },
+      { name: "ABOUT", path: "/about" },])
+    ];
 
   const handleSignOut = async () => {
     // Prevent layout shifts during transition
@@ -122,18 +129,35 @@ export function Navbar() {
           </div>
 
           <motion.div className="flex-1 flex items-center justify-center space-x-4">
-            {navLinks.map((link) => (
+            {navLinks.map((link) => {console.log("Current Path:", pathname, "Link Path:", link.path);
+return (
               <Link
                 key={link.path}
                 href={link.path}
+                scroll={link.scroll !== false}
+                target={link.newTab ? "_blank" : undefined}
+                rel={link.newTab ? "noopener noreferrer" : undefined}
+                onClick={(e) => {
+                  const targetId = link.path.split("#")[1];
+                  if (targetId && pathname === link.path.split("#")[0]) {
+                    e.preventDefault();
+                    const element = document.getElementById(targetId);
+                    if (element) {
+                      element.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      });
+                    }
+                  }
+                }}
                 className={cn(
                   "relative px-4 py-2 text-sm font-medium transition-colors",
-                  pathname === link.path
-                    ? "text-medhive-400"
+                  pathname.split("?")[0].replace(/\/$/, "") === link.path.replace(/\/$/, "")
+                  ? "text-medhive-400"
                     : "text-white hover:text-medhive-300"
                 )}
               >
-                {pathname === link.path && (
+                {pathname.split("?")[0].replace(/\/$/, "") === link.path.replace(/\/$/, "") && (
                   <motion.div
                     layoutId="active-nav"
                     className="absolute inset-0 h-full w-full rounded-full bg-medhive-100/20"
@@ -142,7 +166,7 @@ export function Navbar() {
                 )}
                 <span className="relative z-20">{link.name}</span>
               </Link>
-            ))}
+            )})}
           </motion.div>
 
           {!sessionData.isLoading &&
@@ -417,8 +441,8 @@ export function Navbar() {
                       href={link.path}
                       className={cn(
                         "rounded-md px-4 py-2 text-sm font-medium",
-                        pathname === link.path
-                          ? "bg-medhive-100/20 text-medhive-400"
+                        pathname.split("?")[0].replace(/\/$/, "") === link.path.replace(/\/$/, "")
+                        ? "bg-medhive-100/20 text-medhive-400"
                           : "text-gray-300 hover:bg-gray-800"
                       )}
                     >
