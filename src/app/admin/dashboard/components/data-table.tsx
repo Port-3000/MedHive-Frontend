@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ExperimentRun } from "@/types";
+import { ExperimentRun } from "@/types/index";
 import { columns } from "./columns";
 
 export function DataTable({ columns, data }: { columns: any; data: ExperimentRun[] }) {

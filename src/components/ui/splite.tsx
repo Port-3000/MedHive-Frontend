@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 
 // Lazy load Spline with built-in loading state
-const Spline = dynamic(() => import('@splinetool/react-spline'), {
+const Spline = dynamic(() => import('@splinetool/react-spline').then(mod => mod.default), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center bg-gray-100/10">
