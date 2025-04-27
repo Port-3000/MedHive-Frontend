@@ -61,13 +61,16 @@ export function Navbar() {
       { name: "DATA UPLOAD", path: "/data-upload" },
       { name: "API KEYS", path: "/api-keys"},
       { name: "API DOCS", path: "/api-docs"},]:[
-      { name: "HOME", path: "/" },
-      ...(sessionData.sessionData.userprofile?.role === "admin"
-        ? [{ name: "DASHBOARD", path: "/admin/dashboard" }]
-        : []),
-      { name: "MODEL HUB", path: "/model-hub" },
-      { name: "CONTRIBUTE", path: "/contribute" },
-      { name: "ABOUT", path: "/about" },])
+      ...(sessionData.sessionData.userprofile?.role === "admin"?
+        [{ name: "HOME", path: "/" },
+          { name: "DASHBOARD", path: "/admin/dashboard" },
+          { name: "DATASETS", path: "/admin/datasets" },
+          { name: "MODELS", path: "/admin/models" },]:
+        [{ name: "HOME", path: "/" },
+          { name: "MODEL HUB", path: "/model-hub" },
+          { name: "CONTRIBUTE", path: "/contribute" },
+          { name: "ABOUT", path: "/about" },])
+        ])
     ];
 
   const handleSignOut = async () => {
@@ -129,8 +132,7 @@ export function Navbar() {
           </div>
 
           <motion.div className="flex-1 flex items-center justify-center space-x-4">
-            {navLinks.map((link) => {console.log("Current Path:", pathname, "Link Path:", link.path);
-return (
+            {navLinks.map((link) => (
               <Link
                 key={link.path}
                 href={link.path}
@@ -166,7 +168,7 @@ return (
                 )}
                 <span className="relative z-20">{link.name}</span>
               </Link>
-            )})}
+            ))}
           </motion.div>
 
           {!sessionData.isLoading &&

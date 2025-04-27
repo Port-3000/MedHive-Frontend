@@ -62,7 +62,7 @@ const CREDIT_PACKAGES = [
 interface ModelUsage {
   model: string;
   uses: number;
-  cost: number; // Add this
+  cost: number; 
 }
 
 interface Transaction {
@@ -134,10 +134,9 @@ export default function UserProfile() {
           credits: 1425,
           total_credits: 2000,
           model_usage: [
-            { model: "LLM Symptom", uses: 45, cost: 225 },
-            { model: "ECG Analysis", uses: 32, cost: 480 },
-            { model: "X-Ray Detection", uses: 28, cost: 700 },
-            { model: "Cancer Screening", uses: 19, cost: 950 },
+            { model: "LLM Symptom Analysis", uses: 45, cost: 200 },
+            { model: "Pneumonia Detection", uses: 28, cost: 500 },
+            { model: "Breast Cancer Screening", uses: 19, cost: 350 },
           ],
           uuid: sessionData.session.user.id,
           security_status: profile.role === "admin" ? "verified" : "standard",

@@ -96,14 +96,6 @@ export default function AdminDashboard() {
       lastUpdated: "2h ago",
     },
     {
-      version: "ECG-v1.4",
-      name: "ECG Analysis",
-      type: "Time Series",
-      accuracy: 94.1,
-      params: "GraphRAG-CNN",
-      lastUpdated: "4h ago",
-    },
-    {
       version: "XRAY-v3.2",
       name: "Pneumonia X-Ray",
       type: "CV",
@@ -120,12 +112,12 @@ export default function AdminDashboard() {
       lastUpdated: "8h ago",
     },
     {
-      version: "EYE-v2.5",
-      name: "Glaucoma FUNDUS",
-      type: "Ophthalmology",
-      accuracy: 89.5,
-      params: "FUNDUS-Net",
-      lastUpdated: "10h ago",
+      version: "ECG-v1.4",
+      name: "ECG Analysis",
+      type: "Time Series",
+      accuracy: 94.1,
+      params: "GraphRAG-CNN",
+      lastUpdated: "4h ago",
     },
   ];
 
@@ -178,27 +170,25 @@ export default function AdminDashboard() {
           </h1>
         </div>
 
-        <Tabs defaultValue="dashboard" onValueChange={(value) => {
-          router.push(`/admin/${value}`);
-        }}>
+        <Tabs value={selectedTab} onValueChange={setSelectedTab}>
           <TabsList className="grid grid-cols-3 bg-black/50 border border-cyan-500/30">
             <TabsTrigger
-              value="dashboard"
+              value="overview"
               className="data-[state=active]:bg-cyan-500"
             >
               Overview
-            </TabsTrigger>
-            <TabsTrigger
-              value="datasets"
-              className="data-[state=active]:bg-green-500"
-            >
-              Datasets
             </TabsTrigger>
             <TabsTrigger
               value="models"
               className="data-[state=active]:bg-purple-500"
             >
               Models
+            </TabsTrigger>
+            <TabsTrigger
+              value="nodes"
+              className="data-[state=active]:bg-green-500"
+            >
+              Nodes
             </TabsTrigger>
           </TabsList>
         </Tabs>

@@ -53,7 +53,7 @@ export default function Models() {
     {
       id: "2",
       name: "Pneumonia X-Ray Detection",
-      status: "pending" as const,
+      status: "trained" as const,
       accuracy: 0.92,
       f1_score: 0.91,
       precision_score: 0.90,
@@ -83,7 +83,7 @@ export default function Models() {
     {
       id: "5",
       name: "Glaucoma Fundus Analysis",
-      status: "trained" as const,
+      status: "training" as const,
       accuracy: 0.91,
       f1_score: 0.90,
       precision_score: 0.92,
@@ -93,7 +93,7 @@ export default function Models() {
     {
       id: "6",
       name: "Health Outcome Predictor",
-      status: "trained" as const,
+      status: "pending" as const,
       accuracy: 0.86,
       f1_score: 0.85,
       precision_score: 0.87,
