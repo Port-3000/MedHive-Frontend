@@ -328,7 +328,7 @@ export default function Contribute() {
                     className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-400 hover:to-blue-400 text-black px-3 py-3 rounded-lg font-semibold shadow-glow-sm border border-cyan-500/30 text-base font-['Poppins'] transition-all duration-300"
                     onClick={() => {
                       if (sessionData.session) {
-                        router.push("/data-upload");
+                        router.push("/provider-landing");
                       } else {
                         router.push("/login?new=data-provider");
                       }

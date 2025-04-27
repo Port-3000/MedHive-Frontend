@@ -91,7 +91,7 @@ export default function AuthPage() {
           }
 
           // Redirect based on user type
-          router.push(form.userType === 'data_provider' ? '/data-upload' : '/setup');
+          router.push(form.userType === 'data_provider' ? '/provider-landing' : '/setup');
         }
       } else {
         // Regular sign in
@@ -113,7 +113,7 @@ export default function AuthPage() {
           .single();
 
         if (profile?.role === "data_provider") {
-          router.push('/data-upload');
+          router.push('/provider-landing');
         } else if (!profile?.full_name) {
           router.push('/setup');
         } else if (profile?.role === "admin") {

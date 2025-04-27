@@ -65,8 +65,6 @@ export default function SetupPage() {
       // Redirect after short delay to show success message
       setTimeout(() => {
         if (formData.role==="admin") router.push('/admin/dashboard')
-        //else if (formData.role==="data_provider") router.push('/dataprovider/dashboard')
-        //else if (formData.role==="contributor") router.push('/contributor/dashboard')
         else router.push('/user-profile')}, 1500);
       
     } catch (error) {
