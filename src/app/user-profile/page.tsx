@@ -37,29 +37,40 @@ import {
   Edit,
   Cpu,
   Database,
+  ShoppingCart,
+  Zap,
+  History,
+  AlertCircle,
 } from "lucide-react";
 import { AnimatedNumber } from "@/components/animated-number";
 import { CyberCard } from "@/components/cyber-card";
+import { CreditPurchaseModal } from "@/components/credit-purchase-modal";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const COLORS = ["#00f2fe", "#4facfe", "#8e44ad", "#ff6b6b", "#1dd1a1"];
 
-// Hardcoded credits data
-const CREDITS_DATA = {
-  credits: 1425,
-  total_credits: 2000,
-};
-
-// Hardcoded model usage data
-const MODEL_USAGE_DATA = [
-  { model: "LLM Symptom", uses: 45 },
-  { model: "ECG Analysis", uses: 32 },
-  { model: "X-Ray Detection", uses: 28 },
-  { model: "Cancer Screening", uses: 19 },
+// Credit packages
+const CREDIT_PACKAGES = [
+  { id: 1, credits: 500, price: 49.99, bonus: 0 },
+  { id: 2, credits: 1000, price: 89.99, bonus: 100 },
+  { id: 3, credits: 2500, price: 199.99, bonus: 500 },
+  { id: 4, credits: 5000, price: 349.99, bonus: 1500 },
 ];
 
 interface ModelUsage {
   model: string;
   uses: number;
+  cost: number; // Add this
+}
+
+interface Transaction {
+  id: string;
+  date: string;
+  type: "purchase" | "usage";
+  amount: number;
+  description: string;
 }
 
 interface ExtendedUserProfile extends UserProfileType {
@@ -68,12 +79,15 @@ interface ExtendedUserProfile extends UserProfileType {
   credits: number;
   total_credits: number;
   model_usage: ModelUsage[];
+  transactions: Transaction[];
+  activity_log?: string[];
 }
 
 export default function UserProfile() {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
   const [userData, setUserData] = useState<ExtendedUserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [purchaseModalOpen, setPurchaseModalOpen] = useState(false);
   const { sessionData } = useContext(SessionContext);
   const supabase = createClient();
 
@@ -82,7 +96,6 @@ export default function UserProfile() {
       if (!sessionData.session?.user) return;
 
       try {
-        // Fetch user profile data
         const { data: profile, error: profileError } = await supabase
           .from("user_profiles")
           .select("*")
@@ -91,16 +104,53 @@ export default function UserProfile() {
 
         if (profileError) throw profileError;
 
-        // Combine profile data with hardcoded data
+        // Mock transactions (replace with actual data from your database)
+        const mockTransactions = [
+          {
+            id: "1",
+            date: "2024-03-15",
+            type: "purchase",
+            amount: 1000,
+            description: "Credit Package Purchase",
+          },
+          {
+            id: "2",
+            date: "2024-03-14",
+            type: "usage",
+            amount: -50,
+            description: "LLM Symptom Analysis",
+          },
+          {
+            id: "3",
+            date: "2024-03-13",
+            type: "usage",
+            amount: -75,
+            description: "ECG Analysis",
+          },
+        ];
+
         setUserData({
           ...profile,
-          ...CREDITS_DATA,
-          model_usage: MODEL_USAGE_DATA,
+          credits: 1425,
+          total_credits: 2000,
+          model_usage: [
+            { model: "LLM Symptom", uses: 45, cost: 225 },
+            { model: "ECG Analysis", uses: 32, cost: 480 },
+            { model: "X-Ray Detection", uses: 28, cost: 700 },
+            { model: "Cancer Screening", uses: 19, cost: 950 },
+          ],
           uuid: sessionData.session.user.id,
           security_status: profile.role === "admin" ? "verified" : "standard",
+          transactions: mockTransactions,
+          activity_log: [
+            "Logged in from New Device - Chrome, Windows",
+            "Updated security settings",
+            "Changed profile picture",
+          ],
         });
       } catch (error) {
         console.error("Error fetching user data:", error);
+        toast.error("Failed to load profile data");
       } finally {
         setLoading(false);
       }
@@ -109,23 +159,65 @@ export default function UserProfile() {
     fetchUserData();
   }, [sessionData.session, supabase]);
 
+  const handleCreditPurchase = async (packageId: number) => {
+    try {
+      const selectedPackage = CREDIT_PACKAGES.find((p) => p.id === packageId);
+      if (!selectedPackage) throw new Error("Invalid package");
+
+      setUserData((prev) =>
+        prev
+          ? {
+              ...prev,
+              credits:
+                prev.credits + selectedPackage.credits + selectedPackage.bonus,
+              transactions: [
+                {
+                  id: Date.now().toString(),
+                  date: new Date().toISOString(),
+                  type: "purchase",
+                  amount: selectedPackage.credits + selectedPackage.bonus,
+                  description: `Credit Purchase (${selectedPackage.credits} + ${selectedPackage.bonus} bonus)`,
+                },
+                ...prev.transactions,
+              ],
+            }
+          : null
+      );
+
+      toast.success(
+        `Successfully purchased ${selectedPackage.credits} credits!`
+      );
+      setPurchaseModalOpen(false);
+    } catch (error) {
+      console.error("Purchase failed:", error);
+      toast.error("Credit purchase failed. Please try again.");
+    }
+  };
+
   if (loading || !userData) {
-    return (
-      <div className="min-h-screen bg-black p-4 sm:p-6 lg:p-8 font-mono flex items-center justify-center">
-        <div className="text-cyan-400">Loading...</div>
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   const creditPercentage = (userData.credits / userData.total_credits) * 100;
   const usageData = userData.model_usage;
 
   return (
-    <div className="min-h-screen bg-black p-4 sm:p-6 lg:p-8 font-mono space-y-8">
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8 font-mono space-y-8 ">
+      <ToastContainer
+        position="bottom-right"
+        theme="dark"
+        toastClassName="font-mono bg-black border border-cyan-500/30"
+        progressClassName="bg-gradient-to-r from-cyan-500 to-purple-500"
+      />
+
+      {/* Profile Header */}
       <CyberCard className="border-cyan-500/30">
         <div className="flex flex-col sm:flex-row items-center gap-6 p-6">
           <div className="relative group">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 p-1 shadow-[0_0_25px_-5px_rgba(0,242,254,0.5)]">
+            <motion.div
+              className="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 p-1 shadow-[0_0_25px_-5px_rgba(0,242,254,0.5)]"
+              whileHover={{ scale: 1.05 }}
+            >
               <div className="bg-black rounded-full p-2">
                 <User className="w-full h-full text-cyan-400" />
               </div>
@@ -135,7 +227,7 @@ export default function UserProfile() {
               >
                 <Edit className="w-4 h-4 text-cyan-400" />
               </Button>
-            </div>
+            </motion.div>
           </div>
 
           <div className="space-y-2 flex-1">
@@ -147,19 +239,23 @@ export default function UserProfile() {
             >
               {userData.full_name}
             </motion.h1>
-            <p className="text-purple-400 text-lg font-semibold">
-              {userData.role}
-            </p>
+            <div className="flex items-center gap-3">
+              <Badge className="bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                <span className="text-sm font-semibold">
+                  {userData.role.charAt(0).toUpperCase() +
+                    userData.role.slice(1)}
+                </span>
+              </Badge>
+              <Badge className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-sm">
+                <Shield className="w-4 h-4 mr-2" />
+                {userData.security_status.toUpperCase()}
+              </Badge>
+            </div>
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <Key className="w-4 h-4 text-cyan-400" />
               <span className="font-mono">{userData.uuid}</span>
             </div>
           </div>
-
-          <Badge className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-            <Shield className="w-4 h-4 mr-2" />
-            {userData.security_status.toUpperCase()}
-          </Badge>
         </div>
       </CyberCard>
 
@@ -199,12 +295,21 @@ export default function UserProfile() {
             />
           </CardContent>
         </CyberCard>
+
         {/* Credits Section */}
         <CyberCard className="border-purple-500/30">
           <CardHeader>
-            <CardTitle className="text-purple-400">
-              <CreditCard className="inline-block w-5 h-5 mr-2" />
+            <CardTitle className="text-purple-400 flex items-center gap-1">
+              <Zap className="w-5 h-5" />
               NEURO CREDITS
+              <Button
+                size="sm"
+                className="ml-auto bg-cyan-500/20 hover:bg-cyan-700 text-sm"
+                onClick={() => setPurchaseModalOpen(true)}
+              >
+                <ShoppingCart className="w-4 h-4 mr-0" />
+                Purchase
+              </Button>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -222,7 +327,6 @@ export default function UserProfile() {
                 <div className="absolute inset-0 bg-purple-500/10 blur-md" />
               </div>
             </div>
-
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-cyan-300">
                 <span>Credit Utilization</span>
@@ -239,18 +343,92 @@ export default function UserProfile() {
               </div>
             </div>
 
-            <div className="flex items-center gap-4 p-3 bg-black/20 rounded-lg border border-cyan-500/20">
-              <QrCode className="w-6 h-6 text-green-400 flex-shrink-0" />
-              <span className="text-gray-400 text-sm">
-                Institutional verification QR code
-              </span>
+            {/* Transaction History */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-sm text-cyan-300">
+                <History className="w-4 h-4" />
+                Recent Transactions
+              </div>
+              <div className="space-y-2 max-h-40 overflow-y-auto">
+                {userData.transactions.map((transaction) => (
+                  <motion.div
+                    key={transaction.id}
+                    className="flex items-center justify-between p-2 bg-black/20 rounded-lg border border-cyan-500/20"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    <div>
+                      <div className="text-sm text-cyan-300">
+                        {transaction.description}
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        {new Date(transaction.date).toLocaleDateString()}
+                      </div>
+                    </div>
+                    <div
+                      className={`text-sm ${
+                        transaction.type === "purchase"
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }`}
+                    >
+                      {transaction.type === "purchase" ? "+" : ""}
+                      {transaction.amount}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </CardContent>
         </CyberCard>
+
+        {/* Enhanced Security & Verification */}
+        <CyberCard className="border-green-500/30 lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="text-cyan-300 flex items-center gap-2">
+              <Shield className="w-5 h-5" />
+              VERIFICATION STATUS
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-black/20 rounded-lg border border-green-500/20">
+              <div className="flex items-center gap-4">
+                <div className="text-green-400">
+                  <QrCode className="w-8 h-8" />
+                </div>
+                <div>
+                  <div className="text-sm text-green-300">
+                    Institutional Verification
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    Scan QR code to verify credentials
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-black/20 rounded-lg border border-cyan-500/20">
+              <div className="flex items-center gap-4">
+                <AlertCircle className="w-8 h-8 text-cyan-400" />
+                <div>
+                  <div className="text-sm text-cyan-300">
+                    Security Recommendations
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    {userData.security_status === "verified"
+                      ? "Your account is fully secured"
+                      : "Enable 2FA for enhanced security"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </CyberCard>
+
         {/* Model Usage Section */}
         <CyberCard className="border-green-500/30 lg:col-span-2">
           <CardHeader>
-            <CardTitle className="text-green-400">
+            <CardTitle className="text-purple-400">
               <Cpu className="inline-block w-5 h-5 mr-2" />
               MODEL USAGE ANALYTICS
             </CardTitle>
@@ -271,26 +449,24 @@ export default function UserProfile() {
                     onMouseLeave={() => setHoveredBar(null)}
                   >
                     <defs>
-                      <defs>
-                        <linearGradient
-                          id="barGradient"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#00f2fe"
-                            stopOpacity={0.8}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#0066ff"
-                            stopOpacity={0.2}
-                          />
-                        </linearGradient>
-                      </defs>
+                      <linearGradient
+                        id="barGradient"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="#00f2fe"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#0066ff"
+                          stopOpacity={0.2}
+                        />
+                      </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#2d3748" />
                     <XAxis
@@ -327,22 +503,21 @@ export default function UserProfile() {
                 <div className="absolute inset-0 bg-gradient-to-b from-green-500/5 to-transparent pointer-events-none" />
               </div>
 
-              {/* Pie Chart */}
               <div className="relative">
-                <ResponsiveContainer width="100%" height="100%">
+                <div className="text-2xl text-yellow-300 mb-2 ">
+                  COST BREAKDOWN
+                </div>
+                <ResponsiveContainer width="100%" height="90%">
                   <PieChart>
                     <Pie
                       data={usageData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={60}
-                      outerRadius={90}
+                      innerRadius={40}
+                      outerRadius={110}
                       paddingAngle={2}
-                      dataKey="uses"
-                      labelLine={false}
-                      label={({ name, percent }) =>
-                        `${name} ${(percent * 100).toFixed(0)}%`
-                      }
+                      dataKey="cost"
+                      nameKey="model"
                     >
                       {usageData.map((_, index) => (
                         <Cell
@@ -361,20 +536,55 @@ export default function UserProfile() {
                       layout="vertical"
                       align="right"
                       verticalAlign="middle"
+                      wrapperStyle={{
+                        paddingLeft: "20px",
+                        width: "40%",
+                      }}
                       formatter={(value) => (
-                        <span className="text-cyan-300 text-sm">{value}</span>
+                        <span className="text-cyan-300 text-xs">{value}</span>
                       )}
-                      iconSize={12}
-                      iconType="circle"
                     />
                   </PieChart>
                 </ResponsiveContainer>
-                <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent pointer-events-none" />
               </div>
             </div>
           </CardContent>
         </CyberCard>
+        {/* Activity Log */}
+        <CyberCard className="border-purple-500/30 lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="text-purple-400 flex items-center gap-2">
+              <History className="w-5 h-5" />
+              RECENT ACTIVITIES
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 max-h-96 overflow-y-auto">
+              {userData.activity_log?.map((activity, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-center gap-4 p-3 bg-black/20 rounded-lg border border-purple-500/20"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                >
+                  <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+                  <div className="text-sm text-cyan-300">{activity}</div>
+                  <div className="text-xs text-gray-400 ml-auto">
+                    {new Date().toLocaleTimeString()}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </CardContent>
+        </CyberCard>
       </div>
+
+      <CreditPurchaseModal
+        isOpen={purchaseModalOpen}
+        onClose={() => setPurchaseModalOpen(false)}
+        packages={CREDIT_PACKAGES}
+        onPurchase={handleCreditPurchase}
+      />
     </div>
   );
 }
@@ -429,20 +639,21 @@ const PieTooltip = ({ active, payload }: TooltipProps) => {
   if (!active || !payload) return null;
 
   return (
-    <div className="bg-black/90 p-3 rounded-lg border border-cyan-500/30 backdrop-blur-xl shadow-2xl">
-      <p className="text-cyan-400 font-bold border-b border-cyan-500/30 pb-2 mb-2">
+    <div className="bg-black/90 p-3 rounded-lg border border-purple-500/30 backdrop-blur-xl">
+      <p className="text-purple-400 font-bold border-b border-purple-500/30 pb-2 mb-2">
         {payload[0].name}
       </p>
-      <div className="flex items-center gap-2">
-        <div
-          className="w-3 h-3 rounded-full"
-          style={{ backgroundColor: payload[0].color }}
-        />
-        <span className="text-purple-300 font-mono">
-          {payload[0].value} uses (
-          {(payload[0].payload.percent * 100).toFixed(1)}%)
-        </span>
-      </div>
+      <div className="text-cyan-300 font-mono">Cost: ${payload[0].value}</div>
     </div>
   );
 };
+const ProfileSkeleton = () => (
+  <div className="min-h-screen p-8 font-mono space-y-8">
+    <Skeleton className="h-32 w-full rounded-lg bg-gray-900" />
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <Skeleton className="h-64 bg-gray-900 rounded-lg" />
+      <Skeleton className="h-64 bg-gray-900 rounded-lg" />
+    </div>
+    <Skeleton className="h-96 bg-gray-900 rounded-lg" />
+  </div>
+);
