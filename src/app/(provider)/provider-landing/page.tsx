@@ -19,14 +19,12 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { toast } from "sonner";
 import {
   RiShieldCheckLine,
   RiLock2Line,
   RiHospitalLine,
 } from "@remixicon/react";
-import { useDropzone } from "react-dropzone";
-import { FileCheck, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Mock encryption function - replace with actual implementation
 async function encryptFile(file: File): Promise<File> {
@@ -40,78 +38,13 @@ async function encryptFile(file: File): Promise<File> {
 }
 
 export default function DataProviderPage() {
-  const [files, setFiles] = useState<File[]>([]);
-  const [isUploading, setIsUploading] = useState(false);
+  const router = useRouter();
 
-  const { getRootProps, getInputProps, isDragActive, fileRejections } =
-    useDropzone({
-      onDrop: async (acceptedFiles) => {
-        try {
-          // Encrypt files before setting state
-          const encryptedFiles = await Promise.all(
-            acceptedFiles.map(async (file) => encryptFile(file))
-          );
-          setFiles(encryptedFiles);
-        } catch (error) {
-          toast.error("Encryption failed");
-        }
-      },
-      accept: {
-        "text/csv": [".csv"],
-        "application/json": [".json"],
-        "application/dicom": [".dcm", ".dicom"],
-        "application/zip": [".zip"],
-      },
-      maxSize: 1024 * 1024 * 1024 * 10, // 10GB
-      multiple: true,
-    });
 
   const handleUpload = async () => {
-    if (files.length === 0) return;
-
-    setIsUploading(true);
-
-    try {
-      const formData = new FormData();
-      files.forEach((file) => formData.append("files", file));
-
-      // Add checksum and metadata
-      formData.append(
-        "metadata",
-        JSON.stringify({
-          encryption: "AES-256",
-          hospitalId: "YOUR_HOSPITAL_ID",
-          timestamp: new Date().toISOString(),
-        })
-      );
-
-      const response = await fetch("/api/secure-upload", {
-        method: "POST",
-        body: formData,
-        headers: {
-          "X-Encryption-Key": "YOUR_ENCRYPTION_KEY",
-        },
-      });
-
-      if (!response.ok) throw new Error("Upload failed");
-
-      setFiles([]);
-      toast.success("Files uploaded securely");
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast.error("Upload failed. Please try again.");
-    } finally {
-      setIsUploading(false);
-    }
+    router.push("/data-upload");
   };
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes >= 1024 ** 3) {
-      // GB
-      return `${(bytes / 1024 ** 3).toFixed(2)}GB`;
-    }
-    return `${(bytes / 1024 ** 2).toFixed(2)}MB`;
-  };
 
   const benefitCards = [
     {
@@ -232,14 +165,42 @@ export default function DataProviderPage() {
                 medical AI advancements.
               </p>
             </motion.div>
+            <motion.div
+                variants={fadeInUp}
+                className="bg-gradient-to-br from-gray-900/50 to-black/80 p-8 rounded-2xl border border-cyan-500/30 backdrop-blur-lg pb-4"
+              >
+                {/* Upload Action Section */}
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div className="p-3 bg-gray-900/50 rounded-lg">
+                      <p className="text-sm text-gray-400">Encryption</p>
+                      <p className="text-cyan-400 font-semibold">AES-256</p>
+                    </div>
+                    <div className="p-3 bg-gray-900/50 rounded-lg">
+                      <p className="text-sm text-gray-400">Max Size</p>
+                      <p className="text-cyan-400 font-semibold">10GB</p>
+                    </div>
+                    <div className="p-3 bg-gray-900/50 rounded-lg">
+                      <p className="text-sm text-gray-400">Formats</p>
+                      <p className="text-cyan-400 font-semibold">15+</p>
+                    </div>
+                  </div>
 
+                  <Button
+                    onClick={handleUpload}
+                    className="h-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 font-['Poppins']"
+                  >
+                      Secure Upload
+                  </Button>
+                </div>
+              </motion.div>
             <motion.div
               className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
               initial="hidden"
               animate="visible"
               variants={staggerContainer}
             >
-              <motion.div variants={fadeInUp} className="relative">
+              <motion.div variants={fadeInUp} className="relative pt-4">
                 <div className="bg-gradient-to-br from-indigo-900/20 via-black/80 to-cyan-900/20 p-8 rounded-2xl border border-cyan-500/20 backdrop-blur-lg ">
                   <h2 className="text-2xl mb-6 text-cyan-400 font-['Lilita_One']">
                     Data Provider Dashboard
@@ -296,7 +257,7 @@ export default function DataProviderPage() {
                 </div>
               </motion.div>
 
-              <motion.div variants={fadeInUp} className="space-y-8">
+              <motion.div variants={fadeInUp} className="space-y-8 pt-4">
                 <div className="bg-gradient-to-br from-purple-900/20 via-black/80 to-indigo-900/20 p-8 rounded-2xl border border-purple-500/20 backdrop-blur-sm shadow-[0_0_30px_rgba(168,85,247,0.15)]">
                   <h2 className="text-2xl mb-6 text-purple-400 font-['Lilita_One']">
                     Why Join as a Data Provider?
@@ -421,6 +382,9 @@ export default function DataProviderPage() {
           </div>
         </section>
 
+
+
+
         {/* Benefits Section */}
         <section className="relative z-10 py-10">
           <div className="container mx-auto px-6">
@@ -443,7 +407,7 @@ export default function DataProviderPage() {
                 data privacy.
               </p>
             </motion.div>
-
+            
             <motion.div
               className="grid grid-cols-1 md:grid-cols-2 gap-6 backdrop-blur-lg font-['Poppins']"
               initial="hidden"
@@ -543,144 +507,6 @@ export default function DataProviderPage() {
             </motion.div>
           </div>
         </section>
-
-        {/* CTA Section */}
-        <section className="relative z-10 py-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900/10" />
-
-          <motion.div
-            className="container mx-auto px-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            id="data-upload-section"
-            variants={fadeInUp}
-          >
-            {/* Title Section */}
-            <div className="text-center mb-10">
-              <h2 className="text-5xl md:text-5xl font-['Kagitingan'] bg-gradient-to-r from-medhive-200 to-medhive-400 bg-clip-text text-transparent mb-4">
-                Secure Data Contribution
-              </h2>
-              <p className="text-gray-300 max-w-xl mx-auto">
-                Upload anonymized medical datasets to participate in federated
-                training
-              </p>
-            </div>
-            <div className="max-w-4xl mx-auto bg-gradient-to-br from-indigo-900/30 via-black/80 to-blue-900/30 rounded-2xl border border-blue-500/30 overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.2)]">
-              {/* Data Upload Section*/}
-              <motion.div
-                variants={fadeInUp}
-                className="bg-gradient-to-br from-gray-900/50 to-black/80 p-8 rounded-2xl border border-cyan-500/30 backdrop-blur-lg"
-              >
-                <div
-                  {...getRootProps()}
-                  className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
-                    isDragActive
-                      ? "border-cyan-500 bg-cyan-500/10"
-                      : "border-gray-700 hover:border-cyan-500"
-                  }`}
-                >
-                  <input {...getInputProps()} />
-                  <div className="space-y-4">
-                    <Upload className="h-12 w-12 mx-auto text-cyan-400" />
-                    <h3 className="text-xl font-semibold text-white">
-                      {isDragActive
-                        ? "Drop to Upload"
-                        : "Drag Medical Data Here"}
-                    </h3>
-                    <p className="text-gray-400 text-sm">
-                      Supported formats: CSV, JSON, DICOM (DCM), ZIP
-                    </p>
-                    <Button
-                      variant="outline"
-                      className="mt-4 hover:bg-cyan-500"
-                      disabled={isUploading}
-                    >
-                      {isUploading ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        "Browse Files"
-                      )}
-                    </Button>
-                  </div>
-                </div>
-
-                {/* File Rejection Errors */}
-                {fileRejections.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="mt-4 p-3 bg-red-900/20 rounded-lg border border-red-400/30"
-                  >
-                    {fileRejections.map(({ file, errors }) => (
-                      <div key={file.name} className="text-red-300 text-sm">
-                        <strong>{file.name}</strong>:{" "}
-                        {errors.map((e) => e.message).join(", ")}
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-
-                {/* Uploaded Files List */}
-                {files.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="mt-6 space-y-2"
-                  >
-                    {files.map((file) => (
-                      <div
-                        key={file.name}
-                        className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg"
-                      >
-                        <div className="flex items-center gap-2">
-                          <FileCheck className="h-5 w-5 text-green-400" />
-                          <span className="text-sm text-white">
-                            {file.name}
-                          </span>
-                        </div>
-                        <span className="text-xs text-gray-300">
-                          {formatFileSize(file.size)}
-                        </span>
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-
-                {/* Upload Action Section */}
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div className="p-3 bg-gray-900/50 rounded-lg">
-                      <p className="text-sm text-gray-400">Encryption</p>
-                      <p className="text-cyan-400 font-semibold">AES-256</p>
-                    </div>
-                    <div className="p-3 bg-gray-900/50 rounded-lg">
-                      <p className="text-sm text-gray-400">Max Size</p>
-                      <p className="text-cyan-400 font-semibold">10GB</p>
-                    </div>
-                    <div className="p-3 bg-gray-900/50 rounded-lg">
-                      <p className="text-sm text-gray-400">Formats</p>
-                      <p className="text-cyan-400 font-semibold">15+</p>
-                    </div>
-                  </div>
-
-                  <Button
-                    onClick={handleUpload}
-                    disabled={files.length === 0 || isUploading}
-                    className="h-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 font-['Poppins']"
-                  >
-                    {isUploading ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      "Secure Upload"
-                    )}
-                  </Button>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </section>
-
         <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/80 to-transparent animate-scanline-fast" />
       </div>
       <Footer />

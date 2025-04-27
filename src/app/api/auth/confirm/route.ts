@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
       redirectTo.pathname = '/setup'
     } else {
       if (profile.role==="admin") redirectTo.pathname = '/admin/dashboard'
-      else if (profile.role==="data_provider") redirectTo.pathname = '/data-upload'
+      else if (profile.role==="data_provider") redirectTo.pathname = '/provider-landing'
         //else if (profile.role==="contributor") redirectTo.pathname = '/contributor/dashboard'
       else redirectTo.pathname = '/'
     }

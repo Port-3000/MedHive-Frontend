@@ -57,7 +57,7 @@ export function Navbar() {
 
   const navLinks: { name: string; path: string; newTab?: boolean; scroll?: boolean }[] = [
     ...(sessionData.sessionData.userprofile?.role === "data_provider"?
-      [{ name: "HOME", path: "/" },
+      [{ name: "HOME", path: "/provider-landing" },
       { name: "DATA UPLOAD", path: "/data-upload" },
       { name: "API KEYS", path: "/api-keys"},
       { name: "API DOCS", path: "/api-docs"},]:[
